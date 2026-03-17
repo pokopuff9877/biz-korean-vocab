@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>セールスオップス 韓国語単語帳</title>
+<meta name="description" content="セールスオップス向け韓国語単語・フレーズ学習アプリ">
+<meta name="theme-color" content="#0d0f14">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="韓国語単語帳">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --bg2: #161922;
+    --bg3: #1e2230;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #e8eaf0;
+    --text2: #8b90a0;
+    --text3: #555a6e;
+    --accent: #4f8ef7;
+    --accent2: #6ee7b7;
+    --accent3: #f7c948;
+    --danger: #f76f6f;
+    --success: #4fd18a;
+    --sf: #00a1e0;
+    --rev: #4fd18a;
+    --ops: #b794f4;
+    --ptc: #f7a035;
+    --font: 'Noto Sans JP', 'Noto Sans KR', sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Header */
+  header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg2);
+  }
+  .logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .logo span { color: var(--text2); }
+
+  /* Nav tabs */
+  .nav-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 0 24px;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-tab {
+    padding: 10px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--text2);
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .nav-tab:hover { color: var(--text); }
+
+  /* Main */
+  main { flex: 1; padding: 24px; max-width: 760px; margin: 0 auto; width: 100%; }
+
+  /* Screen */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* Controls bar */
+  .controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .ctrl-label { font-size: 12px; color: var(--text2); margin-right: 2px; }
+  .ctrl-group {
+    display: flex;
+    gap: 4px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 4px;
+  }
+  .ctrl-btn {
+    padding: 5px 12px;
+    font-size: 12px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    background: transparent;
+    color: var(--text2);
+    font-family: var(--font);
+    transition: all 0.15s;
+  }
+  .ctrl-btn.active { background: var(--accent); color: #fff; }
+  .ctrl-btn:hover:not(.active) { background: var(--border); color: var(--text); }
+
+  .cat-filter {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .cat-btn {
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border2);
+    background: transparent;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: var(--font);
+    color: var(--text2);
+    transition: all 0.15s;
+  }
+  .cat-btn.active-sf  { background: rgba(0,161,224,0.15); border-color: var(--sf); color: var(--sf); }
+  .cat-btn.active-rev { background: rgba(79,209,138,0.15); border-color: var(--rev); color: var(--rev); }
+  .cat-btn.active-ops { background: rgba(183,148,244,0.15); border-color: var(--ops); color: var(--ops); }
+  .cat-btn.active-ptc { background: rgba(247,160,53,0.15); border-color: var(--ptc); color: var(--ptc); }
+  .cat-btn:not([class*="active"]):hover { border-color: var(--border2); color: var(--text); background: var(--bg3); }
+
+  /* Progress bar */
+  .progress-wrap {
+    margin-bottom: 20px;
+  }
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text2);
+    margin-bottom: 6px;
+  }
+  .progress-bar {
+    height: 4px;
+    background: var(--bg3);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  /* Score badges */
+  .score-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .score-badge {
+    flex: 1;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+  }
+  .score-num { font-size: 24px; font-weight: 700; font-family: var(--mono); }
+  .score-label { font-size: 11px; color: var(--text2); margin-top: 2px; }
+  .score-badge.correct .score-num { color: var(--success); }
+  .score-badge.wrong .score-num { color: var(--danger); }
+  .score-badge.total .score-num { color: var(--accent3); }
+
+  /* Flashcard */
+  .card-container {
+    perspective: 1000px;
+    width: 100%;
+    height: 220px;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
+  .card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .card-inner.flipped { transform: rotateY(180deg); }
+  .card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 16px;
+    border: 1px solid var(--border2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    gap: 8px;
+  }
+  .card-front { background: var(--bg2); }
+  .card-back  { background: var(--bg3); transform: rotateY(180deg); }
+  .card-hint {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-size: 11px;
+    color: var(--text3);
+    font-family: var(--mono);
+  }
+  .card-cat {
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-family: var(--mono);
+    letter-spacing: 0.05em;
+  }
+  .card-cat.sf  { background: rgba(0,161,224,0.15); color: var(--sf); }
+  .card-cat.rev { background: rgba(79,209,138,0.15); color: var(--rev); }
+  .card-cat.ops { background: rgba(183,148,244,0.15); color: var(--ops); }
+  .card-cat.ptc { background: rgba(247,160,53,0.15); color: var(--ptc); }
+  .card-word {
+    font-size: 28px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.3;
+  }
+  .card-sub {
+    font-size: 14px;
+    color: var(--text2);
+    text-align: center;
+  }
+  .card-en {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text3);
+    margin-top: 4px;
+  }
+  .card-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    font-size: 14px;
+    font-family: var(--font);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  .btn-correct { background: rgba(79,209,138,0.15); color: var(--success); border: 1px solid rgba(79,209,138,0.3); }
+  .btn-wrong   { background: rgba(247,111,111,0.12); color: var(--danger);  border: 1px solid rgba(247,111,111,0.3); }
+  .btn-next    { background: var(--accent); color: #fff; border: 1px solid transparent; }
+  .btn:hover { filter: brightness(1.15); transform: translateY(-1px); }
+  .btn:active { transform: translateY(0); }
+  .btn-secondary {
+    padding: 9px 18px;
+    border-radius: 8px;
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--text2);
+    font-size: 13px;
+    font-family: var(--font);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-secondary:hover { background: var(--bg3); color: var(--text); }
+
+  /* Quiz */
+  .quiz-question {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 16px;
+    padding: 28px 24px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .quiz-q-label { font-size: 11px; color: var(--text3); font-family: var(--mono); margin-bottom: 12px; letter-spacing: 0.08em; }
+  .quiz-q-word { font-size: 30px; font-weight: 500; margin-bottom: 6px; }
+  .quiz-q-en { font-size: 12px; color: var(--text3); font-family: var(--mono); }
+  .quiz-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .quiz-opt {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 12px;
+    font-size: 15px;
+    cursor: pointer;
+    font-family: var(--font);
+    color: var(--text);
+    text-align: center;
+    transition: all 0.15s;
+    line-height: 1.4;
+  }
+  .quiz-opt:hover:not(:disabled) { border-color: var(--accent); background: rgba(79,142,247,0.08); }
+  .quiz-opt.correct { background: rgba(79,209,138,0.15); border-color: var(--success); color: var(--success); }
+  .quiz-opt.wrong   { background: rgba(247,111,111,0.12); border-color: var(--danger);  color: var(--danger); }
+  .quiz-opt:disabled { cursor: default; }
+
+  /* Wordlist */
+  .word-list { display: flex; flex-direction: column; gap: 6px; }
+  .word-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 80px;
+    gap: 8px;
+    align-items: center;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+  .word-row.weak { border-left: 3px solid var(--danger); }
+  .word-row-header {
+    grid-template-columns: 1fr 1fr 1fr 80px;
+    background: transparent;
+    border-color: transparent;
+    padding: 4px 14px;
+    color: var(--text3);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    font-family: var(--mono);
+  }
+  .word-row .kr { font-size: 14px; }
+  .word-row .en-sm { font-size: 11px; color: var(--text3); font-family: var(--mono); }
+  .stat-pill {
+    display: flex;
+    gap: 4px;
+    font-family: var(--mono);
+    font-size: 11px;
+  }
+  .stat-c { color: var(--success); }
+  .stat-w { color: var(--danger); }
+  .cat-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 3px;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+  .cat-dot.sf  { background: var(--sf); }
+  .cat-dot.rev { background: var(--rev); }
+  .cat-dot.ops { background: var(--ops); }
+  .cat-dot.ptc { background: var(--ptc); }
+
+  /* Feedback flash */
+  .feedback {
+    text-align: center;
+    font-size: 14px;
+    height: 20px;
+    margin-bottom: 8px;
+    font-weight: 500;
+    transition: opacity 0.3s;
+  }
+  .feedback.correct { color: var(--success); }
+  .feedback.wrong   { color: var(--danger); }
+
+  /* Empty state */
+  .empty { text-align: center; padding: 40px; color: var(--text2); font-size: 14px; }
+
+  /* Finish screen */
+  .finish-card {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 20px;
+    padding: 40px 32px;
+    text-align: center;
+  }
+  .finish-emoji { font-size: 48px; margin-bottom: 16px; }
+  .finish-title { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .finish-sub { font-size: 14px; color: var(--text2); margin-bottom: 28px; }
+  .finish-stats {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 28px;
+    justify-content: center;
+  }
+  .finish-stat {
+    background: var(--bg3);
+    border-radius: 12px;
+    padding: 16px 24px;
+    min-width: 100px;
+  }
+  .finish-stat .n { font-size: 28px; font-weight: 700; font-family: var(--mono); }
+  .finish-stat .l { font-size: 11px; color: var(--text2); margin-top: 2px; }
+  .finish-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+  /* TTS button */
+  .tts-btn {
+    background: none;
+    border: 1px solid var(--border2);
+    border-radius: 50%;
+    width: 34px; height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text2);
+    font-size: 16px;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .tts-btn:hover { background: var(--bg3); color: var(--accent2); border-color: var(--accent2); }
+  .tts-btn.speaking { color: var(--accent2); border-color: var(--accent2); background: rgba(110,231,183,0.1); animation: pulse-tts 0.8s ease-in-out infinite; }
+  @keyframes pulse-tts { 0%,100%{opacity:1} 50%{opacity:0.5} }
+  .tts-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 4px; }
+  .tts-label { font-size: 11px; color: var(--text3); font-family: var(--mono); }
+  .word-row .tts-mini {
+    width: 26px; height: 26px;
+    font-size: 13px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: none;
+    cursor: pointer;
+    color: var(--text3);
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .word-row .tts-mini:hover { color: var(--accent2); border-color: var(--accent2); }
+  .tts-warn { font-size: 11px; color: var(--accent3); text-align: center; padding: 6px; display: none; }
+
+  @media (max-width: 500px) {
+    .quiz-options { grid-template-columns: 1fr; }
+    .word-row { grid-template-columns: 1fr 1fr; }
+    .word-row .en-sm, .word-row-header { display: none; }
+    .score-num { font-size: 18px; }
+  }
+
+  /* ---- PHRASE SCREEN ---- */
+  .phrase-cat-filter {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .phrase-search-wrap { margin-bottom: 16px; }
+  .phrase-search {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: var(--text);
+    font-family: var(--font);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .phrase-search:focus { border-color: var(--accent); }
+  .phrase-search::placeholder { color: var(--text3); }
+
+  /* Phrase group heading */
+  .phrase-group-label {
+    font-size: 11px;
+    font-family: var(--mono);
+    color: var(--text3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 12px 0 6px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 8px;
+  }
+
+  /* Phrase card */
+  .phrase-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .phrase-card:hover { border-color: var(--border2); }
+  .phrase-jp {
+    font-size: 14px;
+    color: var(--text2);
+    margin-bottom: 6px;
+    line-height: 1.5;
+  }
+  .phrase-kr {
+    font-size: 17px;
+    color: var(--text);
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 4px;
+  }
+  .phrase-en {
+    font-size: 12px;
+    color: var(--text3);
+    font-family: var(--mono);
+    line-height: 1.4;
+  }
+  .phrase-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    align-items: center;
+  }
+  .phrase-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    border-radius: 7px;
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--text2);
+    font-size: 12px;
+    font-family: var(--font);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .phrase-copy-btn:hover { background: var(--bg3); color: var(--accent2); border-color: var(--accent2); }
+  .phrase-copy-btn.copied { color: var(--success); border-color: var(--success); background: rgba(79,209,138,0.08); }
+  .phrase-del-btn {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: var(--text3);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px 6px;
+    border-radius: 6px;
+    transition: all 0.15s;
+    line-height: 1;
+  }
+  .phrase-del-btn:hover { color: var(--danger); background: rgba(247,111,111,0.1); }
+  .phrase-del-btn[data-builtin] { display: none; }
+
+  /* Add form */
+  .phrase-add-card {
+    background: var(--bg2);
+    border: 1px dashed var(--border2);
+    border-radius: 14px;
+    padding: 18px 16px;
+    margin-top: 20px;
+  }
+  .phrase-add-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .phrase-add-fields { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+  .phrase-field-group { display: flex; flex-direction: column; gap: 4px; }
+  .phrase-field-label { font-size: 11px; color: var(--text3); font-family: var(--mono); }
+  .phrase-input {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 14px;
+    color: var(--text);
+    font-family: var(--font);
+    outline: none;
+    transition: border-color 0.15s;
+    width: 100%;
+  }
+  .phrase-input:focus { border-color: var(--accent); }
+  .phrase-input::placeholder { color: var(--text3); font-size: 13px; }
+  .phrase-cat-select {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .pcat-btn {
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border2);
+    background: transparent;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: var(--font);
+    color: var(--text2);
+    transition: all 0.15s;
+  }
+  .pcat-btn.active { background: rgba(79,142,247,0.15); border-color: var(--accent); color: var(--accent); }
+  .pcat-btn:hover:not(.active) { background: var(--bg3); color: var(--text); }
+  .phrase-add-err { font-size: 12px; color: var(--danger); margin-top: 8px; min-height: 16px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Sales<span>Ops</span> 単語帳</div>
+  <div style="font-size:11px;color:var(--text3);font-family:var(--mono)">JP ⇄ KR</div>
+</header>
+
+<div class="nav-tabs">
+  <div class="nav-tab active" data-tab="flash">🃏 フラッシュカード</div>
+  <div class="nav-tab" data-tab="quiz">🎯 4択クイズ</div>
+  <div class="nav-tab" data-tab="words">📋 単語リスト</div>
+  <div class="nav-tab" data-tab="phrases">💬 フレーズ集</div>
+</div>
+
+<main>
+
+<!-- FLASHCARD -->
+<div class="screen active" id="screen-flash">
+  <div class="controls">
+    <span class="ctrl-label">方向</span>
+    <div class="ctrl-group" id="dir-group-flash">
+      <button class="ctrl-btn active" data-dir="jp2kr">日→韓</button>
+      <button class="ctrl-btn" data-dir="kr2jp">韓→日</button>
+    </div>
+    <div class="ctrl-group" id="weak-group-flash">
+      <button class="ctrl-btn" data-weak="1" id="weak-btn-flash">苦手優先</button>
+    </div>
+  </div>
+  <div class="cat-filter" id="cat-filter-flash"></div>
+  <div class="score-row">
+    <div class="score-badge total"><div class="score-num" id="f-total">0</div><div class="score-label">総問数</div></div>
+    <div class="score-badge correct"><div class="score-num" id="f-correct">0</div><div class="score-label">正解</div></div>
+    <div class="score-badge wrong"><div class="score-num" id="f-wrong">0</div><div class="score-label">不正解</div></div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-meta">
+      <span id="f-prog-text">0 / 0</span>
+      <span id="f-pct">0%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="f-prog-bar" style="width:0%"></div></div>
+  </div>
+
+  <div id="flash-game">
+    <div class="card-container" id="card-container" onclick="flipCard()">
+      <div class="card-inner" id="card-inner">
+        <div class="card-face card-front">
+          <span class="card-cat" id="fc-cat"></span>
+          <span class="card-hint">タップして裏返す</span>
+          <div class="card-word" id="fc-front-word"></div>
+          <div class="card-en" id="fc-front-en"></div>
+          <div class="tts-row" id="fc-front-tts" style="display:none">
+            <button class="tts-btn" id="tts-front-btn" onclick="event.stopPropagation();ttsFront()" title="発音を聞く">🔊</button>
+            <span class="tts-label" id="tts-front-label">韓国語を聞く</span>
+          </div>
+        </div>
+        <div class="card-face card-back">
+          <span class="card-hint">✓ 正解を確認</span>
+          <div class="card-word" id="fc-back-word"></div>
+          <div class="card-sub" id="fc-back-sub"></div>
+          <div class="card-en" id="fc-back-en"></div>
+          <div class="tts-row">
+            <button class="tts-btn" id="tts-back-btn" onclick="event.stopPropagation();ttsBack()" title="発音を聞く">🔊</button>
+            <span class="tts-label" id="tts-back-label">韓国語を聞く</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="feedback" id="f-feedback"></div>
+    <div class="card-actions" id="f-judge-btns" style="display:none">
+      <button class="btn btn-wrong" onclick="judgeCard(false)">✗ 不正解</button>
+      <button class="btn btn-correct" onclick="judgeCard(true)">✓ 正解</button>
+    </div>
+    <div style="text-align:center" id="f-next-btn" style="display:none">
+      <button class="btn btn-next" style="max-width:200px;margin:auto" onclick="nextCard()">次へ →</button>
+    </div>
+  </div>
+  <div class="finish-card" id="flash-finish" style="display:none">
+    <div class="finish-emoji">🎉</div>
+    <div class="finish-title">ラウンド完了！</div>
+    <div class="finish-sub" id="flash-finish-sub"></div>
+    <div class="finish-stats" id="flash-finish-stats"></div>
+    <div class="finish-btns">
+      <button class="btn btn-next" style="padding:10px 24px" onclick="restartFlash()">もう一度</button>
+      <button class="btn-secondary" onclick="restartFlashWeak()">苦手だけやり直す</button>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="screen" id="screen-quiz">
+  <div class="controls">
+    <span class="ctrl-label">方向</span>
+    <div class="ctrl-group" id="dir-group-quiz">
+      <button class="ctrl-btn active" data-dir="jp2kr">日→韓</button>
+      <button class="ctrl-btn" data-dir="kr2jp">韓→日</button>
+    </div>
+    <div class="ctrl-group">
+      <button class="ctrl-btn" data-weak="1" id="weak-btn-quiz">苦手優先</button>
+    </div>
+  </div>
+  <div class="cat-filter" id="cat-filter-quiz"></div>
+  <div class="score-row">
+    <div class="score-badge total"><div class="score-num" id="q-total">0</div><div class="score-label">総問数</div></div>
+    <div class="score-badge correct"><div class="score-num" id="q-correct">0</div><div class="score-label">正解</div></div>
+    <div class="score-badge wrong"><div class="score-num" id="q-wrong">0</div><div class="score-label">不正解</div></div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-meta">
+      <span id="q-prog-text">0 / 0</span>
+      <span id="q-pct">0%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="q-prog-bar" style="width:0%"></div></div>
+  </div>
+
+  <div id="quiz-game">
+    <div class="quiz-question">
+      <div class="quiz-q-label" id="q-label"></div>
+      <div class="quiz-q-word" id="q-word"></div>
+      <div class="quiz-q-en" id="q-en"></div>
+      <div class="tts-row" style="margin-top:10px">
+        <button class="tts-btn" id="tts-quiz-btn" onclick="ttsQuiz()" title="発音を聞く">🔊</button>
+        <span class="tts-label" id="tts-quiz-label">韓国語を聞く</span>
+      </div>
+    </div>
+    <div class="quiz-options" id="q-options"></div>
+    <div class="feedback" id="q-feedback"></div>
+    <div style="text-align:center">
+      <button class="btn btn-next" id="q-next-btn" style="max-width:200px;margin:auto;display:none" onclick="nextQuiz()">次へ →</button>
+    </div>
+  </div>
+  <div class="finish-card" id="quiz-finish" style="display:none">
+    <div class="finish-emoji">🏆</div>
+    <div class="finish-title">クイズ完了！</div>
+    <div class="finish-sub" id="quiz-finish-sub"></div>
+    <div class="finish-stats" id="quiz-finish-stats"></div>
+    <div class="finish-btns">
+      <button class="btn btn-next" style="padding:10px 24px" onclick="restartQuiz()">もう一度</button>
+      <button class="btn-secondary" onclick="restartQuizWeak()">苦手だけやり直す</button>
+    </div>
+  </div>
+</div>
+
+<!-- WORD LIST -->
+<div class="screen" id="screen-words">
+  <div class="cat-filter" id="cat-filter-words"></div>
+  <div class="word-list">
+    <div class="word-row word-row-header">
+      <span>日本語</span><span>한국어</span><span>English</span><span>正誤</span>
+    </div>
+    <div id="word-list-body"></div>
+  </div>
+</div>
+<!-- PHRASES -->
+<div class="screen" id="screen-phrases">
+  <!-- Category filter -->
+  <div class="phrase-cat-filter" id="phrase-cat-filter"></div>
+
+  <!-- Search bar -->
+  <div class="phrase-search-wrap">
+    <input type="text" id="phrase-search" class="phrase-search" placeholder="🔍 フレーズを検索…" oninput="renderPhrases()">
+  </div>
+
+  <!-- Phrase list -->
+  <div id="phrase-list"></div>
+
+  <!-- Add form -->
+  <div class="phrase-add-card" id="phrase-add-card">
+    <div class="phrase-add-title">＋ 新しいフレーズを追加</div>
+    <div class="phrase-add-fields">
+      <div class="phrase-field-group">
+        <label class="phrase-field-label">🇯🇵 日本語</label>
+        <input type="text" id="add-jp" class="phrase-input" placeholder="例：今週のフォーキャストを更新してください">
+      </div>
+      <div class="phrase-field-group">
+        <label class="phrase-field-label">🇰🇷 한국어</label>
+        <input type="text" id="add-kr" class="phrase-input" placeholder="예：이번 주 포캐스트를 업데이트해 주세요">
+      </div>
+      <div class="phrase-field-group">
+        <label class="phrase-field-label">🇺🇸 English</label>
+        <input type="text" id="add-en" class="phrase-input" placeholder="e.g.: Please update this week's forecast">
+      </div>
+      <div class="phrase-field-group">
+        <label class="phrase-field-label">カテゴリ</label>
+        <div class="phrase-cat-select" id="phrase-cat-select">
+          <button class="pcat-btn active" data-pcat="forecast">フォーキャスト</button>
+          <button class="pcat-btn" data-pcat="opportunity">商談進捗</button>
+          <button class="pcat-btn" data-pcat="schedule">日程・スケジュール</button>
+          <button class="pcat-btn" data-pcat="reason">理由・原因</button>
+          <button class="pcat-btn" data-pcat="ptc">PTC製品・提案</button>
+          <button class="pcat-btn" data-pcat="other">その他</button>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-next" style="width:100%;margin-top:4px" onclick="addPhrase()">追加する</button>
+    <div class="phrase-add-err" id="phrase-add-err"></div>
+  </div>
+</div>
+
+</main>
+
+<script>
+const WORDS = [
+  // Salesforce
+  {jp:'リード', kr:'리드', en:'Lead', cat:'sf'},
+  {jp:'商談', kr:'영업 기회', en:'Opportunity', cat:'sf'},
+  {jp:'取引先', kr:'거래처 / 계정', en:'Account', cat:'sf'},
+  {jp:'取引先責任者', kr:'담당자 / 연락처', en:'Contact', cat:'sf'},
+  {jp:'ケース', kr:'케이스 / 문의', en:'Case', cat:'sf'},
+  {jp:'キャンペーン', kr:'캠페인', en:'Campaign', cat:'sf'},
+  {jp:'活動履歴', kr:'활동 내역', en:'Activity / Task', cat:'sf'},
+  {jp:'レポート', kr:'보고서', en:'Report', cat:'sf'},
+  {jp:'ダッシュボード', kr:'대시보드', en:'Dashboard', cat:'sf'},
+  {jp:'ワークフロー', kr:'워크플로우', en:'Workflow / Flow', cat:'sf'},
+  {jp:'パイプライン', kr:'파이프라인', en:'Pipeline', cat:'sf'},
+  {jp:'フォーキャスト', kr:'영업 예측 / 포캐스트', en:'Forecast', cat:'sf'},
+  {jp:'商談ステージ', kr:'영업 단계', en:'Opportunity Stage', cat:'sf'},
+  {jp:'クローズ日', kr:'클로즈 일자', en:'Close Date', cat:'sf'},
+  {jp:'成約確率', kr:'성약 확률', en:'Probability', cat:'sf'},
+  {jp:'商談金額', kr:'거래 금액', en:'Amount', cat:'sf'},
+  // Revenue
+  {jp:'売上高', kr:'매출 / 매출액', en:'Revenue', cat:'rev'},
+  {jp:'粗利益', kr:'매출총이익', en:'Gross Profit', cat:'rev'},
+  {jp:'粗利率', kr:'매출총이익률', en:'Gross Margin', cat:'rev'},
+  {jp:'営業利益', kr:'영업이익', en:'Operating Profit', cat:'rev'},
+  {jp:'純利益', kr:'순이익', en:'Net Profit', cat:'rev'},
+  {jp:'売上原価', kr:'매출원가', en:'COGS', cat:'rev'},
+  {jp:'EBITDA', kr:'에비타 / EBITDA', en:'EBITDA', cat:'rev'},
+  {jp:'目標売上', kr:'매출 목표 / 할당량', en:'Revenue Target / Quota', cat:'rev'},
+  {jp:'達成率', kr:'달성률', en:'Attainment Rate', cat:'rev'},
+  {jp:'年間契約金額', kr:'연간 계약 금액', en:'ACV', cat:'rev'},
+  {jp:'年間経常収益', kr:'연간 반복 수익', en:'ARR', cat:'rev'},
+  {jp:'月次経常収益', kr:'월간 반복 수익', en:'MRR', cat:'rev'},
+  {jp:'顧客生涯価値', kr:'고객 생애 가치', en:'LTV / CLV', cat:'rev'},
+  {jp:'顧客獲得コスト', kr:'고객 획득 비용', en:'CAC', cat:'rev'},
+  {jp:'解約率', kr:'해지율 / 이탈률', en:'Churn Rate', cat:'rev'},
+  {jp:'アップセル', kr:'업셀', en:'Upsell', cat:'rev'},
+  // Ops
+  {jp:'テリトリー管理', kr:'영업 구역 관리', en:'Territory Management', cat:'ops'},
+  {jp:'クォータ設定', kr:'할당량 설정', en:'Quota Setting', cat:'ops'},
+  {jp:'コミッション', kr:'커미션', en:'Commission', cat:'ops'},
+  {jp:'セールスサイクル', kr:'영업 사이클', en:'Sales Cycle', cat:'ops'},
+  {jp:'リードスコアリング', kr:'리드 스코어링', en:'Lead Scoring', cat:'ops'},
+  {jp:'コンバージョン率', kr:'전환율', en:'Conversion Rate', cat:'ops'},
+  {jp:'勝率', kr:'승률', en:'Win Rate', cat:'ops'},
+  {jp:'受注 / クローズ', kr:'수주 / 클로즈', en:'Closed Won', cat:'ops'},
+  {jp:'失注', kr:'실주 / 미수주', en:'Closed Lost', cat:'ops'},
+  {jp:'KPI', kr:'핵심성과지표 (KPI)', en:'KPI', cat:'ops'},
+  {jp:'OKR', kr:'목표 및 핵심 결과 (OKR)', en:'OKR', cat:'ops'},
+  {jp:'データクレンジング', kr:'데이터 정제', en:'Data Cleansing', cat:'ops'},
+  {jp:'CRM', kr:'고객 관계 관리 (CRM)', en:'CRM', cat:'ops'},
+  {jp:'SFA', kr:'영업 자동화 (SFA)', en:'Sales Force Automation', cat:'ops'},
+  {jp:'マーケティングオートメーション', kr:'마케팅 자동화 (MA)', en:'Marketing Automation', cat:'ops'},
+];
+
+  // PTC words from ptc.com/ko
+  {jp:'デジタル変革', kr:'디지털 혁신', en:'Digital Transformation', cat:'ptc'},
+  {jp:'製品ライフサイクル', kr:'제품 수명 주기', en:'Product Lifecycle', cat:'ptc'},
+  {jp:'製品ライフサイクル管理', kr:'제품 수명 주기 관리 (PLM)', en:'PLM', cat:'ptc'},
+  {jp:'デジタルスレッド', kr:'디지털 스레드', en:'Digital Thread', cat:'ptc'},
+  {jp:'エンジニアリング', kr:'엔지니어링', en:'Engineering', cat:'ptc'},
+  {jp:'製造', kr:'제조', en:'Manufacturing', cat:'ptc'},
+  {jp:'製品データ', kr:'제품 데이터', en:'Product Data', cat:'ptc'},
+  {jp:'ワークフロー', kr:'워크플로우', en:'Workflow', cat:'ptc'},
+  {jp:'リリース', kr:'릴리스', en:'Release', cat:'ptc'},
+  {jp:'ソリューション', kr:'솔루션', en:'Solution', cat:'ptc'},
+  {jp:'製品複雑性の管理', kr:'제품 복잡성 관리', en:'Managing Product Complexity', cat:'ptc'},
+  {jp:'コスト削減', kr:'비용 절감', en:'Cost Reduction', cat:'ptc'},
+  {jp:'製品品質向上', kr:'제품 품질 향상', en:'Improving Product Quality', cat:'ptc'},
+  {jp:'成長と革新の促進', kr:'성장과 혁신 촉진', en:'Driving Growth and Innovation', cat:'ptc'},
+  {jp:'顧客体験の変革', kr:'고객 경험 혁신', en:'Transforming Customer Experience', cat:'ptc'},
+  {jp:'サービスライフサイクル管理', kr:'서비스 라이프 사이클 관리 (SLM)', en:'Service Lifecycle Management (SLM)', cat:'ptc'},
+  {jp:'フィールドサービス', kr:'현장 서비스', en:'Field Service', cat:'ptc'},
+  {jp:'インサイト', kr:'인사이트', en:'Insights', cat:'ptc'},
+  {jp:'価値連鎖', kr:'가치 사슬', en:'Value Chain', cat:'ptc'},
+  {jp:'エンタープライズALM', kr:'엔터프라이즈 ALM', en:'Enterprise ALM', cat:'ptc'},
+  {jp:'アプリケーションライフサイクル管理', kr:'애플리케이션 수명 주기 관리', en:'Application Lifecycle Management', cat:'ptc'},
+  {jp:'サービス最適化', kr:'서비스 최적화', en:'Service Optimization', cat:'ptc'},
+  {jp:'製造優秀性', kr:'제조 우수성', en:'Manufacturing Excellence', cat:'ptc'},
+  {jp:'リーダーシップ', kr:'리더십', en:'Leadership', cat:'ptc'},
+  {jp:'パートナー', kr:'파트너', en:'Partner', cat:'ptc'},
+  {jp:'事例研究', kr:'사례 연구', en:'Case Study', cat:'ptc'},
+  {jp:'イノベーションの加速', kr:'혁신 가속화', en:'Accelerating Innovation', cat:'ptc'},
+  {jp:'摩擦と複雑性の最小化', kr:'마찰과 복잡성 최소화', en:'Minimizing Friction and Complexity', cat:'ptc'},
+  {jp:'持続可能性', kr:'지속 가능성', en:'Sustainability', cat:'ptc'},
+  {jp:'同時進行', kr:'동시 진행', en:'Concurrent Work', cat:'ptc'},
+];
+
+const CAT_LABELS = { sf: 'Salesforce', rev: '売上・利益', ops: 'セールスOps', ptc: 'PTC用語' };
+const CAT_COLOR  = { sf: 'sf', rev: 'rev', ops: 'ops', ptc: 'ptc' };
+
+// stats: {correct, wrong} per word index
+let stats = JSON.parse(localStorage.getItem('salesops_stats') || '{}');
+function saveStats() { localStorage.setItem('salesops_stats', JSON.stringify(stats)); }
+function getStats(i) { return stats[i] || {correct:0, wrong:0}; }
+function addStat(i, ok) {
+  if (!stats[i]) stats[i] = {correct:0, wrong:0};
+  ok ? stats[i].correct++ : stats[i].wrong++;
+  saveStats();
+}
+function isWeak(i) {
+  const s = getStats(i);
+  return s.wrong > s.correct && (s.correct + s.wrong) > 0;
+}
+
+// ---- State ----
+let flashDir = 'jp2kr', flashWeak = false, flashCats = new Set(['sf','rev','ops','ptc']);
+let quizDir  = 'jp2kr', quizWeak  = false, quizCats  = new Set(['sf','rev','ops','ptc']);
+let wordsCat = new Set(['sf','rev','ops','ptc']);
+let flashDeck = [], flashIdx = 0, flashFlipped = false, flashAnswered = false;
+let quizDeck  = [], quizIdx  = 0;
+let flashSessionC = 0, flashSessionW = 0;
+let quizSessionC  = 0, quizSessionW  = 0;
+
+// ---- Helpers ----
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i>0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+function getFiltered(cats, weak, dir) {
+  let pool = WORDS.map((w,i) => ({...w, idx:i})).filter(w => cats.has(w.cat));
+  if (weak) {
+    const weakPool = pool.filter(w => isWeak(w.idx));
+    if (weakPool.length > 0) pool = weakPool;
+  }
+  return shuffle(pool);
+}
+
+// ---- Category filter UI ----
+function buildCatFilter(containerId, activeCats, onChange) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = '';
+  ['sf','rev','ops','ptc'].forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'cat-btn ' + (activeCats.has(cat) ? 'active-'+cat : '');
+    btn.innerHTML = `<span class="cat-dot ${cat}"></span>${CAT_LABELS[cat]}`;
+    btn.onclick = () => {
+      if (activeCats.has(cat)) {
+        if (activeCats.size > 1) activeCats.delete(cat);
+      } else {
+        activeCats.add(cat);
+      }
+      buildCatFilter(containerId, activeCats, onChange);
+      onChange();
+    };
+    el.appendChild(btn);
+  });
+}
+
+// ---- TABS ----
+document.querySelectorAll('.nav-tab').forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('screen-'+tab.dataset.tab).classList.add('active');
+    if (tab.dataset.tab === 'words') renderWordList();
+    if (tab.dataset.tab === 'phrases') { buildPhraseCatFilter(); renderPhrases(); }
+  };
+});
+
+// ---- Direction buttons ----
+function bindDirBtns(groupId, callback) {
+  document.querySelectorAll(`#${groupId} .ctrl-btn`).forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll(`#${groupId} .ctrl-btn`).forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      callback(btn.dataset.dir);
+    };
+  });
+}
+
+// ---- FLASH ----
+function initFlash() {
+  buildCatFilter('cat-filter-flash', flashCats, () => { flashDeck = getFiltered(flashCats, flashWeak, flashDir); flashIdx=0; flashSessionC=0; flashSessionW=0; showFlashCard(); });
+  bindDirBtns('dir-group-flash', dir => { flashDir = dir; flashDeck = getFiltered(flashCats,flashWeak,flashDir); flashIdx=0; flashSessionC=0; flashSessionW=0; showFlashCard(); });
+  document.getElementById('weak-btn-flash').onclick = function() {
+    flashWeak = !flashWeak;
+    this.classList.toggle('active', flashWeak);
+    flashDeck = getFiltered(flashCats, flashWeak, flashDir);
+    flashIdx=0; flashSessionC=0; flashSessionW=0;
+    showFlashCard();
+  };
+  flashDeck = getFiltered(flashCats, flashWeak, flashDir);
+  flashIdx = 0; flashSessionC = 0; flashSessionW = 0;
+  showFlashCard();
+}
+
+function showFlashCard() {
+  document.getElementById('flash-game').style.display = 'block';
+  document.getElementById('flash-finish').style.display = 'none';
+  updateFlashProgress();
+  if (flashIdx >= flashDeck.length) { showFlashFinish(); return; }
+  const w = flashDeck[flashIdx];
+  flashFlipped = false; flashAnswered = false;
+  document.getElementById('card-inner').classList.remove('flipped');
+  document.getElementById('f-feedback').textContent = '';
+  document.getElementById('f-feedback').className = 'feedback';
+
+  const catEl = document.getElementById('fc-cat');
+  catEl.textContent = CAT_LABELS[w.cat];
+  catEl.className = 'card-cat ' + w.cat;
+
+  if (flashDir === 'jp2kr') {
+    document.getElementById('fc-front-word').textContent = w.jp;
+    document.getElementById('fc-front-en').textContent = w.en;
+    document.getElementById('fc-back-word').textContent = w.kr;
+    document.getElementById('fc-back-sub').textContent = w.jp;
+    document.getElementById('fc-back-en').textContent = w.en;
+  } else {
+    document.getElementById('fc-front-word').textContent = w.kr;
+    document.getElementById('fc-front-en').textContent = w.en;
+    document.getElementById('fc-back-word').textContent = w.jp;
+    document.getElementById('fc-back-sub').textContent = w.kr;
+    document.getElementById('fc-back-en').textContent = w.en;
+  }
+  document.getElementById('f-judge-btns').style.display = 'none';
+  document.getElementById('f-next-btn').style.display = 'none';
+  updateFlashTTSLabels();
+  // Auto-speak when front is KR
+  if (flashDir === 'kr2jp' && ttsSupported) {
+    setTimeout(() => speakKr(w.kr, 'tts-front-btn'), 300);
+  }
+}
+
+function flipCard() {
+  if (flashAnswered) return;
+  flashFlipped = !flashFlipped;
+  document.getElementById('card-inner').classList.toggle('flipped', flashFlipped);
+  if (flashFlipped) {
+    document.getElementById('f-judge-btns').style.display = 'flex';
+    // Auto-speak KR when revealed
+    if (ttsSupported && flashDeck[flashIdx]) {
+      setTimeout(() => speakKr(flashDeck[flashIdx].kr, 'tts-back-btn'), 300);
+    }
+  }
+}
+
+function judgeCard(ok) {
+  flashAnswered = true;
+  const w = flashDeck[flashIdx];
+  addStat(w.idx, ok);
+  if (ok) { flashSessionC++; } else { flashSessionW++; }
+  const fb = document.getElementById('f-feedback');
+  fb.textContent = ok ? '✓ 正解！' : '✗ 不正解';
+  fb.className = 'feedback ' + (ok ? 'correct' : 'wrong');
+  document.getElementById('f-judge-btns').style.display = 'none';
+  document.getElementById('f-next-btn').style.display = 'block';
+  updateFlashProgress();
+  updateWordList();
+}
+
+function nextCard() {
+  flashIdx++;
+  showFlashCard();
+}
+
+function updateFlashProgress() {
+  const total = flashDeck.length;
+  const done = Math.min(flashIdx, total);
+  document.getElementById('f-total').textContent = flashSessionC + flashSessionW;
+  document.getElementById('f-correct').textContent = flashSessionC;
+  document.getElementById('f-wrong').textContent = flashSessionW;
+  document.getElementById('f-prog-text').textContent = `${done} / ${total}`;
+  document.getElementById('f-pct').textContent = total ? Math.round(done/total*100)+'%' : '0%';
+  document.getElementById('f-prog-bar').style.width = total ? (done/total*100)+'%' : '0%';
+}
+
+function showFlashFinish() {
+  document.getElementById('flash-game').style.display = 'none';
+  document.getElementById('flash-finish').style.display = 'block';
+  const pct = (flashSessionC + flashSessionW) > 0 ? Math.round(flashSessionC/(flashSessionC+flashSessionW)*100) : 0;
+  document.getElementById('flash-finish-sub').textContent = `正答率 ${pct}%`;
+  document.getElementById('flash-finish-stats').innerHTML = `
+    <div class="finish-stat"><div class="n" style="color:var(--accent3)">${flashDeck.length}</div><div class="l">総問数</div></div>
+    <div class="finish-stat"><div class="n" style="color:var(--success)">${flashSessionC}</div><div class="l">正解</div></div>
+    <div class="finish-stat"><div class="n" style="color:var(--danger)">${flashSessionW}</div><div class="l">不正解</div></div>
+  `;
+}
+function restartFlash() { flashIdx=0; flashSessionC=0; flashSessionW=0; flashDeck=getFiltered(flashCats,flashWeak,flashDir); showFlashCard(); }
+function restartFlashWeak() { flashWeak=true; document.getElementById('weak-btn-flash').classList.add('active'); flashDeck=getFiltered(flashCats,true,flashDir); flashIdx=0; flashSessionC=0; flashSessionW=0; showFlashCard(); }
+
+// ---- QUIZ ----
+function initQuiz() {
+  buildCatFilter('cat-filter-quiz', quizCats, () => { quizDeck=getFiltered(quizCats,quizWeak,quizDir); quizIdx=0; quizSessionC=0; quizSessionW=0; showQuiz(); });
+  bindDirBtns('dir-group-quiz', dir => { quizDir=dir; quizDeck=getFiltered(quizCats,quizWeak,quizDir); quizIdx=0; quizSessionC=0; quizSessionW=0; showQuiz(); });
+  document.getElementById('weak-btn-quiz').onclick = function() {
+    quizWeak = !quizWeak;
+    this.classList.toggle('active', quizWeak);
+    quizDeck=getFiltered(quizCats,quizWeak,quizDir); quizIdx=0; quizSessionC=0; quizSessionW=0; showQuiz();
+  };
+  quizDeck=getFiltered(quizCats,quizWeak,quizDir); quizIdx=0; quizSessionC=0; quizSessionW=0;
+  showQuiz();
+}
+
+function getQuizOptions(w, dir) {
+  const correct = dir==='jp2kr' ? w.kr : w.jp;
+  const pool = WORDS.filter(x => x !== w).map(x => dir==='jp2kr' ? x.kr : x.jp);
+  const wrong = shuffle(pool).slice(0,3);
+  return shuffle([correct, ...wrong]);
+}
+
+function showQuiz() {
+  document.getElementById('quiz-game').style.display='block';
+  document.getElementById('quiz-finish').style.display='none';
+  updateQuizProgress();
+  if (quizIdx >= quizDeck.length) { showQuizFinish(); return; }
+  const w = quizDeck[quizIdx];
+  document.getElementById('q-next-btn').style.display='none';
+  document.getElementById('q-feedback').textContent='';
+  document.getElementById('q-feedback').className='feedback';
+
+  if (quizDir==='jp2kr') {
+    document.getElementById('q-label').textContent = '日本語 → 韓国語';
+    document.getElementById('q-word').textContent = w.jp;
+  } else {
+    document.getElementById('q-label').textContent = '韓国語 → 日本語';
+    document.getElementById('q-word').textContent = w.kr;
+  }
+  document.getElementById('q-en').textContent = w.en;
+  updateQuizTTSLabel();
+  // Auto-speak when question is KR
+  if (quizDir === 'kr2jp' && ttsSupported) {
+    setTimeout(() => speakKr(w.kr, 'tts-quiz-btn'), 300);
+  }
+
+  const opts = getQuizOptions(w, quizDir);
+  const correct = quizDir==='jp2kr' ? w.kr : w.jp;
+  const container = document.getElementById('q-options');
+  container.innerHTML = '';
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className='quiz-opt';
+    btn.textContent=opt;
+    btn.onclick = () => answerQuiz(btn, opt, correct, w.idx);
+    container.appendChild(btn);
+  });
+}
+
+function answerQuiz(btn, chosen, correct, wordIdx) {
+  document.querySelectorAll('.quiz-opt').forEach(b => b.disabled=true);
+  const ok = chosen===correct;
+  addStat(wordIdx, ok);
+  if (ok) quizSessionC++; else quizSessionW++;
+  btn.classList.add(ok ? 'correct' : 'wrong');
+  if (!ok) {
+    document.querySelectorAll('.quiz-opt').forEach(b => { if(b.textContent===correct) b.classList.add('correct'); });
+  }
+  const fb = document.getElementById('q-feedback');
+  fb.textContent = ok ? '✓ 正解！' : `✗ 正解: ${correct}`;
+  fb.className = 'feedback ' + (ok ? 'correct' : 'wrong');
+  document.getElementById('q-next-btn').style.display='block';
+  updateQuizProgress();
+  updateWordList();
+}
+
+function nextQuiz() { quizIdx++; showQuiz(); }
+
+function updateQuizProgress() {
+  const total = quizDeck.length, done = Math.min(quizIdx, total);
+  document.getElementById('q-total').textContent = quizSessionC+quizSessionW;
+  document.getElementById('q-correct').textContent = quizSessionC;
+  document.getElementById('q-wrong').textContent = quizSessionW;
+  document.getElementById('q-prog-text').textContent = `${done} / ${total}`;
+  document.getElementById('q-pct').textContent = total ? Math.round(done/total*100)+'%' : '0%';
+  document.getElementById('q-prog-bar').style.width = total ? (done/total*100)+'%' : '0%';
+}
+
+function showQuizFinish() {
+  document.getElementById('quiz-game').style.display='none';
+  document.getElementById('quiz-finish').style.display='block';
+  const pct = (quizSessionC+quizSessionW)>0 ? Math.round(quizSessionC/(quizSessionC+quizSessionW)*100) : 0;
+  document.getElementById('quiz-finish-sub').textContent = `正答率 ${pct}%`;
+  document.getElementById('quiz-finish-stats').innerHTML = `
+    <div class="finish-stat"><div class="n" style="color:var(--accent3)">${quizDeck.length}</div><div class="l">総問数</div></div>
+    <div class="finish-stat"><div class="n" style="color:var(--success)">${quizSessionC}</div><div class="l">正解</div></div>
+    <div class="finish-stat"><div class="n" style="color:var(--danger)">${quizSessionW}</div><div class="l">不正解</div></div>
+  `;
+}
+function restartQuiz() { quizIdx=0; quizSessionC=0; quizSessionW=0; quizDeck=getFiltered(quizCats,quizWeak,quizDir); showQuiz(); }
+function restartQuizWeak() { quizWeak=true; document.getElementById('weak-btn-quiz').classList.add('active'); quizDeck=getFiltered(quizCats,true,quizDir); quizIdx=0; quizSessionC=0; quizSessionW=0; showQuiz(); }
+
+// ---- WORD LIST ----
+function buildWordsCatFilter() {
+  buildCatFilter('cat-filter-words', wordsCat, renderWordList);
+}
+function renderWordList() {
+  const body = document.getElementById('word-list-body');
+  body.innerHTML = '';
+  const filtered = WORDS.map((w,i) => ({...w,idx:i})).filter(w => wordsCat.has(w.cat));
+  filtered.forEach(w => {
+    const s = getStats(w.idx);
+    const weak = isWeak(w.idx);
+    const row = document.createElement('div');
+    row.className = 'word-row' + (weak ? ' weak' : '');
+    row.innerHTML = `
+      <span><span class="cat-dot ${w.cat}"></span>${w.jp}</span>
+      <span class="kr" style="display:flex;align-items:center;gap:6px">${w.kr}<button class="tts-mini" onclick="ttsWord('${w.kr.replace(/'/g,"\\'")}',this)" title="発音">🔊</button></span>
+      <span class="en-sm">${w.en}</span>
+      <span class="stat-pill"><span class="stat-c">✓${s.correct}</span>&nbsp;<span class="stat-w">✗${s.wrong}</span></span>
+    `;
+    body.appendChild(row);
+  });
+  if (filtered.length===0) body.innerHTML='<div class="empty">表示する単語がありません</div>';
+}
+function updateWordList() {
+  if (document.getElementById('screen-words').classList.contains('active')) renderWordList();
+}
+
+// ---- TTS ----
+let krVoice = null;
+let ttsSupported = false;
+let currentKrText = '';
+let currentKrTextQuiz = '';
+
+function initTTS() {
+  if (!window.speechSynthesis) return;
+  ttsSupported = true;
+  function loadVoices() {
+    const voices = speechSynthesis.getVoices();
+    krVoice = voices.find(v => v.lang === 'ko-KR') ||
+              voices.find(v => v.lang.startsWith('ko')) ||
+              null;
+  }
+  loadVoices();
+  speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+function speakKr(text, btnId) {
+  if (!ttsSupported) return;
+  speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'ko-KR';
+  utter.rate = 0.85;
+  utter.pitch = 1;
+  if (krVoice) utter.voice = krVoice;
+  const btn = document.getElementById(btnId);
+  if (btn) btn.classList.add('speaking');
+  utter.onend = () => { if (btn) btn.classList.remove('speaking'); };
+  utter.onerror = () => { if (btn) btn.classList.remove('speaking'); };
+  speechSynthesis.speak(utter);
+}
+
+function ttsFront() {
+  // front card shows KR when dir=kr2jp, JP when dir=jp2kr
+  // We always want to speak KR
+  if (!flashDeck[flashIdx]) return;
+  speakKr(flashDeck[flashIdx].kr, 'tts-front-btn');
+}
+function ttsBack() {
+  if (!flashDeck[flashIdx]) return;
+  speakKr(flashDeck[flashIdx].kr, 'tts-back-btn');
+}
+function ttsQuiz() {
+  if (!quizDeck[quizIdx]) return;
+  speakKr(quizDeck[quizIdx].kr, 'tts-quiz-btn');
+}
+function ttsWord(kr, btnEl) {
+  if (!ttsSupported) return;
+  speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(kr);
+  utter.lang = 'ko-KR'; utter.rate = 0.85;
+  if (krVoice) utter.voice = krVoice;
+  btnEl.classList.add('speaking');
+  utter.onend = () => btnEl.classList.remove('speaking');
+  utter.onerror = () => btnEl.classList.remove('speaking');
+  speechSynthesis.speak(utter);
+}
+
+// Update flash card TTS labels based on direction
+function updateFlashTTSLabels() {
+  if (flashDir === 'jp2kr') {
+    // front = JP (no TTS needed), back = KR
+    document.getElementById('fc-front-tts').style.display = 'none';
+    document.getElementById('tts-back-label').textContent = '韓国語を聞く';
+  } else {
+    // front = KR (show TTS), back = JP
+    document.getElementById('fc-front-tts').style.display = 'flex';
+    document.getElementById('tts-front-label').textContent = '韓国語を聞く';
+    document.getElementById('tts-back-label').textContent = '韓国語を聞く';
+  }
+}
+
+// Update quiz TTS label
+function updateQuizTTSLabel() {
+  const label = document.getElementById('tts-quiz-label');
+  if (!label) return;
+  if (quizDir === 'jp2kr') {
+    // question is JP, no KR shown yet — offer to preview
+    label.textContent = '答えの発音を聞く';
+  } else {
+    label.textContent = '韓国語を聞く';
+  }
+}
+
+// ---- PHRASES ----
+const PHRASE_CAT_LABELS = {
+  forecast:    'フォーキャスト',
+  opportunity: '商談進捗',
+  schedule:    '日程・スケジュール',
+  reason:      '理由・原因',
+  ptc:         'PTC製品・提案',
+  other:       'その他',
+};
+const PHRASE_CAT_ORDER = ['forecast','opportunity','schedule','reason','ptc','other'];
+
+const BUILTIN_PHRASES = [
+  // forecast
+  {jp:'今週のフォーキャストを更新してください', kr:'이번 주 포캐스트를 업데이트해 주세요', en:'Please update this week\'s forecast', cat:'forecast', builtin:true},
+  {jp:'今月のフォーキャストはどうなっていますか？', kr:'이번 달 포캐스트는 어떻게 되어 있나요?', en:'What does this month\'s forecast look like?', cat:'forecast', builtin:true},
+  {jp:'コミットとベストケースを教えてください', kr:'커밋과 베스트 케이스를 알려 주세요', en:'Please tell me the commit and best case', cat:'forecast', builtin:true},
+  {jp:'フォーキャストの精度を上げましょう', kr:'포캐스트 정확도를 높입시다', en:'Let\'s improve forecast accuracy', cat:'forecast', builtin:true},
+  // opportunity
+  {jp:'このオポチュニティの進捗はどうですか？', kr:'이 영업 기회의 진행 상황은 어떻습니까?', en:'What is the status of this opportunity?', cat:'opportunity', builtin:true},
+  {jp:'このオポチュニティがロストになったのはなぜですか？', kr:'이 영업 기회가 실주된 이유는 무엇입니까?', en:'Why did this opportunity go to Closed Lost?', cat:'opportunity', builtin:true},
+  {jp:'このオポチュニティがスリップしたのはなぜですか？', kr:'이 영업 기회가 슬립된 이유는 무엇입니까?', en:'Why did this opportunity slip?', cat:'opportunity', builtin:true},
+  {jp:'ユースケースは何になりますか？', kr:'유스 케이스는 무엇이 됩니까?', en:'What is the use case?', cat:'opportunity', builtin:true},
+  {jp:'次のステップは何ですか？', kr:'다음 단계는 무엇입니까?', en:'What are the next steps?', cat:'opportunity', builtin:true},
+  {jp:'デシジョンメーカーは誰ですか？', kr:'의사결정권자는 누구입니까?', en:'Who is the decision maker?', cat:'opportunity', builtin:true},
+  {jp:'競合はどこですか？', kr:'경쟁사는 어디입니까?', en:'Who is the competition?', cat:'opportunity', builtin:true},
+  // schedule
+  {jp:'次の商談はいつですか？', kr:'다음 상담은 언제입니까?', en:'When is the next meeting?', cat:'schedule', builtin:true},
+  {jp:'正しいClose Dateはいつになりますか？', kr:'정확한 클로즈 일자는 언제가 됩니까?', en:'What will the correct close date be?', cat:'schedule', builtin:true},
+  {jp:'デモのスケジュールを入れましょう', kr:'데모 일정을 잡읍시다', en:'Let\'s schedule a demo', cat:'schedule', builtin:true},
+  {jp:'QBRはいつ予定していますか？', kr:'QBR은 언제 예정되어 있습니까?', en:'When is the QBR scheduled?', cat:'schedule', builtin:true},
+  // reason
+  {jp:'ブロッカーは何ですか？', kr:'블로커는 무엇입니까?', en:'What is the blocker?', cat:'reason', builtin:true},
+  {jp:'予算は承認されていますか？', kr:'예산은 승인되었습니까?', en:'Has the budget been approved?', cat:'reason', builtin:true},
+  {jp:'なぜこの金額ですか？', kr:'왜 이 금액입니까?', en:'Why is it this amount?', cat:'reason', builtin:true},
+  {jp:'リスクは何ですか？', kr:'리스크는 무엇입니까?', en:'What is the risk?', cat:'reason', builtin:true},
+  // ptc
+  {jp:'PTCのAIはどのような価値を提供しますか？', kr:'PTC의 AI는 어떤 가치를 제공합니까?', en:'What value does PTC\'s AI provide?', cat:'ptc', builtin:true},
+  {jp:'製品データを活用してワークフローを効率化できます', kr:'제품 데이터를 활용하여 워크플로우를 간소화할 수 있습니다', en:'You can streamline workflows by leveraging product data', cat:'ptc', builtin:true},
+  {jp:'概念から納品まで開発を加速化します', kr:'개념부터 납품까지 개발을 가속화합니다', en:'Accelerates development from concept to delivery', cat:'ptc', builtin:true},
+  {jp:'製品ライフサイクル全体でより大きな価値を創出します', kr:'전체 제품 수명 주기에서 더 큰 가치를 창출합니다', en:'Creates greater value across the entire product lifecycle', cat:'ptc', builtin:true},
+  {jp:'デジタルスレッドでデジタル変革を実現します', kr:'디지털 스레드로 디지털 혁신을 실현합니다', en:'Achieve digital transformation with the digital thread', cat:'ptc', builtin:true},
+  {jp:'摩擦と複雑性を削減して品質を向上させます', kr:'마찰과 복잡성을 줄여 품질을 향상시킵니다', en:'Reduce friction and complexity to improve quality', cat:'ptc', builtin:true},
+  {jp:'サービスデータをインサイトに変換します', kr:'서비스 데이터를 실행 가능한 인사이트로 전환합니다', en:'Transforms service data into actionable insights', cat:'ptc', builtin:true},
+  {jp:'PLM部門のリーダーとして評価されています', kr:'PLM 부문의 독보적인 리더로 선정되었습니다', en:'Recognized as a leader in the PLM category', cat:'ptc', builtin:true},
+  {jp:'フォーチュン500の製造会社の95%がPTCのお客様です', kr:'포춘 500대 제조 회사 중 95%가 PTC 고객입니다', en:'95% of Fortune 500 manufacturing companies are PTC customers', cat:'ptc', builtin:true},
+  {jp:'エンジニアリングデータの潜在力を最大限に活用できます', kr:'엔지니어링 데이터의 잠재력을 최대한 활용할 수 있습니다', en:'Maximize the potential of your engineering data', cat:'ptc', builtin:true},
+  {jp:'現場パフォーマンスを最適化し問題を事前に予測します', kr:'현장 성능을 최적화하고 문제를 사전에 예측합니다', en:'Optimizes field performance and proactively predicts issues', cat:'ptc', builtin:true},
+];
+
+let userPhrases = JSON.parse(localStorage.getItem('salesops_phrases') || '[]');
+let phraseFilterCat = new Set(PHRASE_CAT_ORDER);
+let selectedPcat = 'forecast';
+
+function saveUserPhrases() { localStorage.setItem('salesops_phrases', JSON.stringify(userPhrases)); }
+
+function allPhrases() { return [...BUILTIN_PHRASES, ...userPhrases]; }
+
+function buildPhraseCatFilter() {
+  const el = document.getElementById('phrase-cat-filter');
+  el.innerHTML = '';
+  // All button
+  const allBtn = document.createElement('button');
+  allBtn.className = 'cat-btn ' + (phraseFilterCat.size === PHRASE_CAT_ORDER.length ? 'active-sf' : '');
+  allBtn.style.borderColor = phraseFilterCat.size === PHRASE_CAT_ORDER.length ? 'var(--accent)' : '';
+  allBtn.style.color = phraseFilterCat.size === PHRASE_CAT_ORDER.length ? 'var(--accent)' : '';
+  allBtn.style.background = phraseFilterCat.size === PHRASE_CAT_ORDER.length ? 'rgba(79,142,247,0.15)' : '';
+  allBtn.textContent = 'すべて';
+  allBtn.onclick = () => { phraseFilterCat = new Set(PHRASE_CAT_ORDER); buildPhraseCatFilter(); renderPhrases(); };
+  el.appendChild(allBtn);
+
+  PHRASE_CAT_ORDER.forEach(cat => {
+    const btn = document.createElement('button');
+    const active = phraseFilterCat.has(cat) && phraseFilterCat.size < PHRASE_CAT_ORDER.length;
+    btn.className = 'cat-btn';
+    if (active) { btn.style.cssText = 'background:rgba(79,142,247,0.15);border-color:var(--accent);color:var(--accent)'; }
+    btn.textContent = PHRASE_CAT_LABELS[cat];
+    btn.onclick = () => {
+      phraseFilterCat = new Set([cat]);
+      buildPhraseCatFilter();
+      renderPhrases();
+    };
+    el.appendChild(btn);
+  });
+}
+
+function renderPhrases() {
+  const query = (document.getElementById('phrase-search')?.value || '').toLowerCase();
+  const list = document.getElementById('phrase-list');
+  list.innerHTML = '';
+
+  PHRASE_CAT_ORDER.forEach(cat => {
+    if (!phraseFilterCat.has(cat)) return;
+    const phrases = allPhrases().filter(p => p.cat === cat && (
+      !query || p.jp.toLowerCase().includes(query) || p.kr.includes(query) || p.en.toLowerCase().includes(query)
+    ));
+    if (phrases.length === 0) return;
+
+    const label = document.createElement('div');
+    label.className = 'phrase-group-label';
+    label.textContent = PHRASE_CAT_LABELS[cat];
+    list.appendChild(label);
+
+    phrases.forEach((p, localIdx) => {
+      const globalIdx = allPhrases().indexOf(p);
+      const card = document.createElement('div');
+      card.className = 'phrase-card';
+      card.innerHTML = `
+        <div class="phrase-jp">${p.jp}</div>
+        <div class="phrase-kr">${p.kr}</div>
+        <div class="phrase-en">${p.en}</div>
+        <div class="phrase-actions">
+          <button class="tts-btn" style="width:30px;height:30px;font-size:14px" onclick="speakKr('${p.kr.replace(/'/g,"\\'")}', 'ptts-${globalIdx}')" id="ptts-${globalIdx}" title="発音を聞く">🔊</button>
+          <button class="phrase-copy-btn" onclick="copyPhrase(this, '${p.kr.replace(/'/g,"\\'")}')">📋 韓国語をコピー</button>
+          <button class="phrase-copy-btn" onclick="copyPhrase(this, '${p.jp.replace(/'/g,"\\'")}')">📋 日本語をコピー</button>
+          ${!p.builtin ? `<button class="phrase-del-btn" onclick="deletePhrase(${userPhrases.indexOf(p)})" title="削除">🗑</button>` : ''}
+        </div>
+      `;
+      list.appendChild(card);
+    });
+  });
+
+  if (list.children.length === 0) {
+    list.innerHTML = '<div class="empty">該当するフレーズがありません</div>';
+  }
+}
+
+function copyPhrase(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.innerHTML;
+    btn.innerHTML = '✓ コピー完了';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 1500);
+  }).catch(() => {
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+    const orig = btn.innerHTML;
+    btn.innerHTML = '✓ コピー完了'; btn.classList.add('copied');
+    setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 1500);
+  });
+}
+
+function deletePhrase(idx) {
+  if (!confirm('このフレーズを削除しますか？')) return;
+  userPhrases.splice(idx, 1);
+  saveUserPhrases();
+  renderPhrases();
+}
+
+function addPhrase() {
+  const jp = document.getElementById('add-jp').value.trim();
+  const kr = document.getElementById('add-kr').value.trim();
+  const en = document.getElementById('add-en').value.trim();
+  const err = document.getElementById('phrase-add-err');
+  if (!jp || !kr) { err.textContent = '日本語と韓国語は必須です'; return; }
+  err.textContent = '';
+  userPhrases.push({ jp, kr, en, cat: selectedPcat, builtin: false });
+  saveUserPhrases();
+  document.getElementById('add-jp').value = '';
+  document.getElementById('add-kr').value = '';
+  document.getElementById('add-en').value = '';
+  renderPhrases();
+  // scroll to new phrase area
+  document.getElementById('phrase-list').lastElementChild?.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Category select buttons in add form
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.pcat-btn').forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll('.pcat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedPcat = btn.dataset.pcat;
+    };
+  });
+});
+
+// ---- INIT ----
+initTTS();
+buildWordsCatFilter();
+renderWordList();
+buildPhraseCatFilter();
+renderPhrases();
+initFlash();
+initQuiz();
+
+// ---- PWA: Service Worker 登録 ----
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+</script>
+</body>
+</html>
