@@ -331,78 +331,94 @@ main{flex:1;padding:20px;max-width:720px;margin:0 auto;width:100%}
 <script>
 // ===================== DATA =====================
 var WORDS = [
+  // Salesforce
   {jp:'リード',kr:'리드',en:'Lead',cat:'sf'},
   {jp:'商談',kr:'영업 기회',en:'Opportunity',cat:'sf'},
-  {jp:'取引先',kr:'거래처 / 계정',en:'Account',cat:'sf'},
-  {jp:'取引先責任者',kr:'담당자 / 연락처',en:'Contact',cat:'sf'},
-  {jp:'ケース',kr:'케이스 / 문의',en:'Case',cat:'sf'},
+  {jp:'取引先',kr:'거래처',en:'Account',cat:'sf'},
+  {jp:'責任者',kr:'담당자',en:'Contact person',cat:'sf'},
+  {jp:'ケース',kr:'케이스',en:'Case',cat:'sf'},
   {jp:'キャンペーン',kr:'캠페인',en:'Campaign',cat:'sf'},
-  {jp:'活動履歴',kr:'활동 내역',en:'Activity / Task',cat:'sf'},
+  {jp:'活動',kr:'활동',en:'Activity',cat:'sf'},
+  {jp:'履歴',kr:'내역',en:'History / Record',cat:'sf'},
   {jp:'レポート',kr:'보고서',en:'Report',cat:'sf'},
   {jp:'ダッシュボード',kr:'대시보드',en:'Dashboard',cat:'sf'},
-  {jp:'ワークフロー',kr:'워크플로우',en:'Workflow / Flow',cat:'sf'},
+  {jp:'ワークフロー',kr:'워크플로우',en:'Workflow',cat:'sf'},
   {jp:'パイプライン',kr:'파이프라인',en:'Pipeline',cat:'sf'},
-  {jp:'フォーキャスト',kr:'영업 예측 / 포캐스트',en:'Forecast',cat:'sf'},
-  {jp:'商談ステージ',kr:'영업 단계',en:'Opportunity Stage',cat:'sf'},
-  {jp:'クローズ日',kr:'클로즈 일자',en:'Close Date',cat:'sf'},
-  {jp:'成約確率',kr:'성약 확률',en:'Probability',cat:'sf'},
-  {jp:'商談金額',kr:'거래 금액',en:'Amount',cat:'sf'},
-  {jp:'売上高',kr:'매출 / 매출액',en:'Revenue',cat:'rev'},
-  {jp:'粗利益',kr:'매출총이익',en:'Gross Profit',cat:'rev'},
-  {jp:'粗利率',kr:'매출총이익률',en:'Gross Margin',cat:'rev'},
+  {jp:'フォーキャスト',kr:'포캐스트',en:'Forecast',cat:'sf'},
+  {jp:'予測',kr:'예측',en:'Prediction / Forecast',cat:'sf'},
+  {jp:'ステージ',kr:'단계',en:'Stage',cat:'sf'},
+  {jp:'クローズ',kr:'클로즈',en:'Close',cat:'sf'},
+  {jp:'確率',kr:'확률',en:'Probability',cat:'sf'},
+  {jp:'金額',kr:'금액',en:'Amount',cat:'sf'},
+  {jp:'更新',kr:'업데이트',en:'Update',cat:'sf'},
+  // 売上・利益
+  {jp:'売上',kr:'매출',en:'Revenue / Sales',cat:'rev'},
+  {jp:'利益',kr:'이익',en:'Profit',cat:'rev'},
+  {jp:'粗利',kr:'매출총이익',en:'Gross Profit',cat:'rev'},
+  {jp:'利益率',kr:'이익률',en:'Profit Margin',cat:'rev'},
   {jp:'営業利益',kr:'영업이익',en:'Operating Profit',cat:'rev'},
   {jp:'純利益',kr:'순이익',en:'Net Profit',cat:'rev'},
-  {jp:'売上原価',kr:'매출원가',en:'COGS',cat:'rev'},
-  {jp:'EBITDA',kr:'에비타 / EBITDA',en:'EBITDA',cat:'rev'},
-  {jp:'目標売上',kr:'매출 목표 / 할당량',en:'Revenue Target / Quota',cat:'rev'},
+  {jp:'原価',kr:'원가',en:'Cost',cat:'rev'},
+  {jp:'目標',kr:'목표',en:'Target / Goal',cat:'rev'},
+  {jp:'達成',kr:'달성',en:'Achievement',cat:'rev'},
   {jp:'達成率',kr:'달성률',en:'Attainment Rate',cat:'rev'},
-  {jp:'年間契約金額',kr:'연간 계약 금액',en:'ACV',cat:'rev'},
-  {jp:'年間経常収益',kr:'연간 반복 수익',en:'ARR',cat:'rev'},
-  {jp:'月次経常収益',kr:'월간 반복 수익',en:'MRR',cat:'rev'},
-  {jp:'顧客生涯価値',kr:'고객 생애 가치',en:'LTV / CLV',cat:'rev'},
-  {jp:'顧客獲得コスト',kr:'고객 획득 비용',en:'CAC',cat:'rev'},
-  {jp:'解約率',kr:'해지율 / 이탈률',en:'Churn Rate',cat:'rev'},
-  {jp:'アップセル',kr:'업셀',en:'Upsell',cat:'rev'},
-  {jp:'テリトリー管理',kr:'영업 구역 관리',en:'Territory Management',cat:'ops'},
-  {jp:'クォータ設定',kr:'할당량 설정',en:'Quota Setting',cat:'ops'},
+  {jp:'契約',kr:'계약',en:'Contract',cat:'rev'},
+  {jp:'年間',kr:'연간',en:'Annual',cat:'rev'},
+  {jp:'月次',kr:'월간',en:'Monthly',cat:'rev'},
+  {jp:'顧客',kr:'고객',en:'Customer',cat:'rev'},
+  {jp:'獲得',kr:'획득',en:'Acquisition',cat:'rev'},
+  {jp:'解約',kr:'해지',en:'Cancellation / Churn',cat:'rev'},
+  {jp:'収益',kr:'수익',en:'Revenue / Income',cat:'rev'},
+  {jp:'費用',kr:'비용',en:'Cost / Expense',cat:'rev'},
+  {jp:'割当',kr:'할당량',en:'Quota / Allocation',cat:'rev'},
+  // セールスOps
+  {jp:'テリトリー',kr:'영업 구역',en:'Territory',cat:'ops'},
+  {jp:'管理',kr:'관리',en:'Management',cat:'ops'},
+  {jp:'設定',kr:'설정',en:'Setting / Configuration',cat:'ops'},
   {jp:'コミッション',kr:'커미션',en:'Commission',cat:'ops'},
-  {jp:'セールスサイクル',kr:'영업 사이클',en:'Sales Cycle',cat:'ops'},
-  {jp:'リードスコアリング',kr:'리드 스코어링',en:'Lead Scoring',cat:'ops'},
-  {jp:'コンバージョン率',kr:'전환율',en:'Conversion Rate',cat:'ops'},
+  {jp:'インセンティブ',kr:'인센티브',en:'Incentive',cat:'ops'},
+  {jp:'サイクル',kr:'사이클',en:'Cycle',cat:'ops'},
+  {jp:'スコアリング',kr:'스코어링',en:'Scoring',cat:'ops'},
+  {jp:'コンバージョン',kr:'전환',en:'Conversion',cat:'ops'},
   {jp:'勝率',kr:'승률',en:'Win Rate',cat:'ops'},
-  {jp:'受注 / クローズ',kr:'수주 / 클로즈',en:'Closed Won',cat:'ops'},
-  {jp:'失注',kr:'실주 / 미수주',en:'Closed Lost',cat:'ops'},
-  {jp:'KPI',kr:'핵심성과지표 (KPI)',en:'KPI',cat:'ops'},
-  {jp:'OKR',kr:'목표 및 핵심 결과 (OKR)',en:'OKR',cat:'ops'},
-  {jp:'データクレンジング',kr:'데이터 정제',en:'Data Cleansing',cat:'ops'},
-  {jp:'CRM',kr:'고객 관계 관리 (CRM)',en:'CRM',cat:'ops'},
-  {jp:'SFA',kr:'영업 자동화 (SFA)',en:'Sales Force Automation',cat:'ops'},
-  {jp:'マーケティングオートメーション',kr:'마케팅 자동화 (MA)',en:'Marketing Automation',cat:'ops'},
-  {jp:'デジタル変革',kr:'디지털 혁신',en:'Digital Transformation',cat:'ptc'},
-  {jp:'製品ライフサイクル',kr:'제품 수명 주기',en:'Product Lifecycle',cat:'ptc'},
-  {jp:'製品ライフサイクル管理',kr:'제품 수명 주기 관리 (PLM)',en:'PLM',cat:'ptc'},
-  {jp:'デジタルスレッド',kr:'디지털 스레드',en:'Digital Thread',cat:'ptc'},
+  {jp:'受注',kr:'수주',en:'Order / Win',cat:'ops'},
+  {jp:'失注',kr:'실주',en:'Lost Deal',cat:'ops'},
+  {jp:'指標',kr:'지표',en:'Indicator / Metric',cat:'ops'},
+  {jp:'データ',kr:'데이터',en:'Data',cat:'ops'},
+  {jp:'自動化',kr:'자동화',en:'Automation',cat:'ops'},
+  {jp:'マーケティング',kr:'마케팅',en:'Marketing',cat:'ops'},
+  // PTC用語
+  {jp:'デジタル',kr:'디지털',en:'Digital',cat:'ptc'},
+  {jp:'変革',kr:'혁신',en:'Transformation / Innovation',cat:'ptc'},
+  {jp:'製品',kr:'제품',en:'Product',cat:'ptc'},
+  {jp:'ライフサイクル',kr:'수명 주기',en:'Lifecycle',cat:'ptc'},
+  {jp:'スレッド',kr:'스레드',en:'Thread',cat:'ptc'},
   {jp:'エンジニアリング',kr:'엔지니어링',en:'Engineering',cat:'ptc'},
   {jp:'製造',kr:'제조',en:'Manufacturing',cat:'ptc'},
-  {jp:'製品データ',kr:'제품 데이터',en:'Product Data',cat:'ptc'},
   {jp:'リリース',kr:'릴리스',en:'Release',cat:'ptc'},
   {jp:'ソリューション',kr:'솔루션',en:'Solution',cat:'ptc'},
-  {jp:'製品複雑性の管理',kr:'제품 복잡성 관리',en:'Managing Product Complexity',cat:'ptc'},
-  {jp:'コスト削減',kr:'비용 절감',en:'Cost Reduction',cat:'ptc'},
-  {jp:'製品品質向上',kr:'제품 품질 향상',en:'Improving Product Quality',cat:'ptc'},
-  {jp:'成長と革新の促進',kr:'성장과 혁신 촉진',en:'Driving Growth and Innovation',cat:'ptc'},
-  {jp:'顧客体験の変革',kr:'고객 경험 혁신',en:'Transforming Customer Experience',cat:'ptc'},
-  {jp:'サービスライフサイクル管理',kr:'서비스 라이프 사이클 관리',en:'Service Lifecycle Management',cat:'ptc'},
-  {jp:'フィールドサービス',kr:'현장 서비스',en:'Field Service',cat:'ptc'},
-  {jp:'インサイト',kr:'인사이트',en:'Insights',cat:'ptc'},
-  {jp:'価値連鎖',kr:'가치 사슬',en:'Value Chain',cat:'ptc'},
-  {jp:'エンタープライズALM',kr:'엔터프라이즈 ALM',en:'Enterprise ALM',cat:'ptc'},
-  {jp:'サービス最適化',kr:'서비스 최적화',en:'Service Optimization',cat:'ptc'},
-  {jp:'製造優秀性',kr:'제조 우수성',en:'Manufacturing Excellence',cat:'ptc'},
-  {jp:'事例研究',kr:'사례 연구',en:'Case Study',cat:'ptc'},
-  {jp:'イノベーションの加速',kr:'혁신 가속화',en:'Accelerating Innovation',cat:'ptc'},
+  {jp:'複雑性',kr:'복잡성',en:'Complexity',cat:'ptc'},
+  {jp:'削減',kr:'절감',en:'Reduction',cat:'ptc'},
+  {jp:'品質',kr:'품질',en:'Quality',cat:'ptc'},
+  {jp:'向上',kr:'향상',en:'Improvement',cat:'ptc'},
+  {jp:'成長',kr:'성장',en:'Growth',cat:'ptc'},
+  {jp:'革新',kr:'혁신',en:'Innovation',cat:'ptc'},
+  {jp:'促進',kr:'촉진',en:'Promotion / Acceleration',cat:'ptc'},
+  {jp:'顧客体験',kr:'고객 경험',en:'Customer Experience',cat:'ptc'},
+  {jp:'サービス',kr:'서비스',en:'Service',cat:'ptc'},
+  {jp:'最適化',kr:'최적화',en:'Optimization',cat:'ptc'},
+  {jp:'現場',kr:'현장',en:'Field / On-site',cat:'ptc'},
+  {jp:'インサイト',kr:'인사이트',en:'Insight',cat:'ptc'},
+  {jp:'価値',kr:'가치',en:'Value',cat:'ptc'},
+  {jp:'連鎖',kr:'사슬',en:'Chain',cat:'ptc'},
+  {jp:'加速',kr:'가속화',en:'Acceleration',cat:'ptc'},
   {jp:'持続可能性',kr:'지속 가능성',en:'Sustainability',cat:'ptc'},
-  {jp:'同時進行',kr:'동시 진행',en:'Concurrent Work',cat:'ptc'}
+  {jp:'同時進行',kr:'동시 진행',en:'Concurrent Work',cat:'ptc'},
+  {jp:'事例',kr:'사례',en:'Case / Example',cat:'ptc'},
+  {jp:'研究',kr:'연구',en:'Research / Study',cat:'ptc'},
+  {jp:'優秀',kr:'우수',en:'Excellence',cat:'ptc'},
+  {jp:'リーダー',kr:'리더',en:'Leader',cat:'ptc'},
+  {jp:'パートナー',kr:'파트너',en:'Partner',cat:'ptc'}
 ];
 
 var PHRASES = [
@@ -583,7 +599,7 @@ function showFlash(){
   document.getElementById('f-fb').textContent='';
   document.getElementById('f-fb').className='feedback';
   document.getElementById('f-judge').style.display='none';
-  document.getElementById('f-next').style.display='none';
+  document.getElementById('f-next').style.display='block';
   var tag=document.getElementById('f-tag');
   tag.textContent={sf:'Salesforce',rev:'売上・利益',ops:'セールスOps',ptc:'PTC用語'}[w.cat];
   tag.className='card-tag tag-'+w.cat;
@@ -622,10 +638,13 @@ function judgeCard(ok){
   fb.textContent=ok?'✓ 正解！':'✗ 不正解';
   fb.className='feedback '+(ok?'ok':'ng');
   document.getElementById('f-judge').style.display='none';
-  document.getElementById('f-next').style.display='block';
   updateFlashScore();
 }
-function nextFlash(){ fIdx++; showFlash(); }
+function nextFlash(){
+  // 採点なしでスキップした場合はカウントしない
+  fIdx++;
+  showFlash();
+}
 function updateFlashScore(){
   var total=fDeck.length, done=Math.min(fIdx,total);
   document.getElementById('f-total').textContent=fOk+fNg;
