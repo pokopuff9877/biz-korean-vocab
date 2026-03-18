@@ -688,7 +688,7 @@
       <button class="btn btn-wrong" onclick="judgeCard(false)">✗ 不正解</button>
       <button class="btn btn-correct" onclick="judgeCard(true)">✓ 正解</button>
     </div>
-    <div style="text-align:center" id="f-next-btn" style="display:none">
+    <div style="text-align:center;display:none" id="f-next-btn">
       <button class="btn btn-next" style="max-width:200px;margin:auto" onclick="nextCard()">次へ →</button>
     </div>
   </div>
@@ -956,7 +956,8 @@ function shuffle(arr) {
   return a;
 }
 function getFiltered(cats, weak, dir) {
-  let pool = WORDS.map((w,i) => ({...w, idx:i})).filter(w => cats.has(w.cat));
+  const catArr = Array.from(cats);
+  let pool = WORDS.map((w,i) => ({...w, idx:i})).filter(w => catArr.indexOf(w.cat) !== -1);
   if (weak) {
     const weakPool = pool.filter(w => isWeak(w.idx));
     if (weakPool.length > 0) pool = weakPool;
