@@ -639,7 +639,12 @@
       <button class="ctrl-btn" data-weak="1" id="weak-btn-flash">苦手優先</button>
     </div>
   </div>
-  <div class="cat-filter" id="cat-filter-flash"></div>
+  <div class="cat-filter" id="cat-filter-flash">
+    <button class="cat-btn active-sf" onclick="toggleCat('flash','sf',this)"><span class="cat-dot sf"></span>Salesforce</button>
+    <button class="cat-btn active-rev" onclick="toggleCat('flash','rev',this)"><span class="cat-dot rev"></span>売上・利益</button>
+    <button class="cat-btn active-ops" onclick="toggleCat('flash','ops',this)"><span class="cat-dot ops"></span>セールスOps</button>
+    <button class="cat-btn active-ptc" onclick="toggleCat('flash','ptc',this)"><span class="cat-dot ptc"></span>PTC用語</button>
+  </div>
   <div class="score-row">
     <div class="score-badge total"><div class="score-num" id="f-total">0</div><div class="score-label">総問数</div></div>
     <div class="score-badge correct"><div class="score-num" id="f-correct">0</div><div class="score-label">正解</div></div>
@@ -711,7 +716,12 @@
       <button class="ctrl-btn" data-weak="1" id="weak-btn-quiz">苦手優先</button>
     </div>
   </div>
-  <div class="cat-filter" id="cat-filter-quiz"></div>
+  <div class="cat-filter" id="cat-filter-quiz">
+    <button class="cat-btn active-sf" onclick="toggleCat('quiz','sf',this)"><span class="cat-dot sf"></span>Salesforce</button>
+    <button class="cat-btn active-rev" onclick="toggleCat('quiz','rev',this)"><span class="cat-dot rev"></span>売上・利益</button>
+    <button class="cat-btn active-ops" onclick="toggleCat('quiz','ops',this)"><span class="cat-dot ops"></span>セールスOps</button>
+    <button class="cat-btn active-ptc" onclick="toggleCat('quiz','ptc',this)"><span class="cat-dot ptc"></span>PTC用語</button>
+  </div>
   <div class="score-row">
     <div class="score-badge total"><div class="score-num" id="q-total">0</div><div class="score-label">総問数</div></div>
     <div class="score-badge correct"><div class="score-num" id="q-correct">0</div><div class="score-label">正解</div></div>
@@ -755,7 +765,12 @@
 
 <!-- WORD LIST -->
 <div class="screen" id="screen-words">
-  <div class="cat-filter" id="cat-filter-words"></div>
+  <div class="cat-filter" id="cat-filter-words">
+    <button class="cat-btn active-sf" onclick="toggleCat('words','sf',this)"><span class="cat-dot sf"></span>Salesforce</button>
+    <button class="cat-btn active-rev" onclick="toggleCat('words','rev',this)"><span class="cat-dot rev"></span>売上・利益</button>
+    <button class="cat-btn active-ops" onclick="toggleCat('words','ops',this)"><span class="cat-dot ops"></span>セールスOps</button>
+    <button class="cat-btn active-ptc" onclick="toggleCat('words','ptc',this)"><span class="cat-dot ptc"></span>PTC用語</button>
+  </div>
   <div class="word-list">
     <div class="word-row word-row-header">
       <span>日本語</span><span>한국어</span><span>English</span><span>正誤</span>
@@ -766,7 +781,14 @@
 <!-- PHRASES -->
 <div class="screen" id="screen-phrases">
   <!-- Category filter -->
-  <div class="phrase-cat-filter" id="phrase-cat-filter"></div>
+  <div class="phrase-cat-filter" id="phrase-cat-filter">
+    <button class="cat-btn active-sf" onclick="togglePhraseCat('forecast',this)">フォーキャスト</button>
+    <button class="cat-btn active-rev" onclick="togglePhraseCat('opportunity',this)">商談進捗</button>
+    <button class="cat-btn active-ops" onclick="togglePhraseCat('schedule',this)">日程</button>
+    <button class="cat-btn active-ops" onclick="togglePhraseCat('reason',this)">理由・原因</button>
+    <button class="cat-btn active-ptc" onclick="togglePhraseCat('ptc',this)">PTC製品</button>
+    <button class="cat-btn active-sf" onclick="togglePhraseCat('other',this)">その他</button>
+  </div>
 
   <!-- Search bar -->
   <div class="phrase-search-wrap">
@@ -942,7 +964,38 @@ function getFiltered(cats, weak, dir) {
   return shuffle(pool);
 }
 
-// ---- Category filter UI ----
+// ---- Category toggle (hardcoded buttons) ----
+function toggleCat(screen, cat, btn) {
+  const catsMap = { flash: flashCats, quiz: quizCats, words: wordsCat };
+  const cats = catsMap[screen];
+  if (cats.has(cat)) {
+    if (cats.size > 1) {
+      cats.delete(cat);
+      btn.className = 'cat-btn';
+    }
+  } else {
+    cats.add(cat);
+    btn.className = 'cat-btn active-' + cat;
+  }
+  if (screen === 'flash') { flashDeck = getFiltered(flashCats, flashWeak, flashDir); flashIdx=0; flashSessionC=0; flashSessionW=0; showFlashCard(); }
+  if (screen === 'quiz')  { quizDeck  = getFiltered(quizCats,  quizWeak,  quizDir);  quizIdx=0;  quizSessionC=0;  quizSessionW=0;  showQuiz(); }
+  if (screen === 'words') renderWordList();
+}
+
+function togglePhraseCat(cat, btn) {
+  if (phraseFilterCat.has(cat)) {
+    if (phraseFilterCat.size > 1) {
+      phraseFilterCat.delete(cat);
+      btn.className = 'cat-btn';
+    }
+  } else {
+    phraseFilterCat.add(cat);
+    btn.className = 'cat-btn active-sf';
+  }
+  renderPhrases();
+}
+
+// ---- Category filter UI (kept for compatibility) ----
 function buildCatFilter(containerId, activeCats, onChange) {
   const el = document.getElementById(containerId);
   el.innerHTML = '';
@@ -988,7 +1041,6 @@ function bindDirBtns(groupId, callback) {
 
 // ---- FLASH ----
 function initFlash() {
-  buildCatFilter('cat-filter-flash', flashCats, () => { flashDeck = getFiltered(flashCats, flashWeak, flashDir); flashIdx=0; flashSessionC=0; flashSessionW=0; showFlashCard(); });
   bindDirBtns('dir-group-flash', dir => { flashDir = dir; flashDeck = getFiltered(flashCats,flashWeak,flashDir); flashIdx=0; flashSessionC=0; flashSessionW=0; showFlashCard(); });
   document.getElementById('weak-btn-flash').onclick = function() {
     flashWeak = !flashWeak;
@@ -1112,7 +1164,6 @@ function restartFlashWeak() { flashWeak=true; document.getElementById('weak-btn-
 
 // ---- QUIZ ----
 function initQuiz() {
-  buildCatFilter('cat-filter-quiz', quizCats, () => { quizDeck=getFiltered(quizCats,quizWeak,quizDir); quizIdx=0; quizSessionC=0; quizSessionW=0; showQuiz(); });
   bindDirBtns('dir-group-quiz', dir => { quizDir=dir; quizDeck=getFiltered(quizCats,quizWeak,quizDir); quizIdx=0; quizSessionC=0; quizSessionW=0; showQuiz(); });
   document.getElementById('weak-btn-quiz').onclick = function() {
     quizWeak = !quizWeak;
@@ -1505,16 +1556,10 @@ function addPhrase() {
 // ---- INIT ----
 function initApp() {
   initTTS();
-  buildCatFilter('cat-filter-flash', flashCats, () => { flashDeck = getFiltered(flashCats, flashWeak, flashDir); flashIdx=0; flashSessionC=0; flashSessionW=0; showFlashCard(); });
-  buildCatFilter('cat-filter-quiz',  quizCats,  () => { quizDeck  = getFiltered(quizCats,  quizWeak,  quizDir);  quizIdx=0;  quizSessionC=0;  quizSessionW=0;  showQuiz(); });
-  buildWordsCatFilter();
   renderWordList();
-  buildPhraseCatFilter();
   renderPhrases();
   initFlash();
   initQuiz();
-
-  // pcat buttons
   document.querySelectorAll('.pcat-btn').forEach(btn => {
     btn.onclick = () => {
       document.querySelectorAll('.pcat-btn').forEach(b => b.classList.remove('active'));
