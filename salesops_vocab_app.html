@@ -1006,6 +1006,20 @@ function showFlashCard() {
   document.getElementById('flash-game').style.display = 'block';
   document.getElementById('flash-finish').style.display = 'none';
   updateFlashProgress();
+  if (flashDeck.length === 0) {
+    document.getElementById('fc-cat').textContent = '';
+    document.getElementById('fc-front-word').textContent = 'カテゴリを選んでください';
+    document.getElementById('fc-front-en').textContent = '';
+    document.getElementById('fc-front-tts').style.display = 'none';
+    document.getElementById('fc-back-word').textContent = '';
+    document.getElementById('fc-back-sub').textContent = '';
+    document.getElementById('fc-back-en').textContent = '';
+    document.getElementById('card-inner').classList.remove('flipped');
+    document.getElementById('f-judge-btns').style.display = 'none';
+    document.getElementById('f-next-btn').style.display = 'none';
+    document.getElementById('f-feedback').textContent = '';
+    return;
+  }
   if (flashIdx >= flashDeck.length) { showFlashFinish(); return; }
   const w = flashDeck[flashIdx];
   flashFlipped = false; flashAnswered = false;
@@ -1120,6 +1134,15 @@ function showQuiz() {
   document.getElementById('quiz-game').style.display='block';
   document.getElementById('quiz-finish').style.display='none';
   updateQuizProgress();
+  if (quizDeck.length === 0) {
+    document.getElementById('q-label').textContent = '';
+    document.getElementById('q-word').textContent = 'カテゴリを選んでください';
+    document.getElementById('q-en').textContent = '';
+    document.getElementById('q-options').innerHTML = '';
+    document.getElementById('q-next-btn').style.display='none';
+    document.getElementById('q-feedback').textContent='';
+    return;
+  }
   if (quizIdx >= quizDeck.length) { showQuizFinish(); return; }
   const w = quizDeck[quizIdx];
   document.getElementById('q-next-btn').style.display='none';
@@ -1477,8 +1500,21 @@ function addPhrase() {
   document.getElementById('phrase-list').lastElementChild?.scrollIntoView({ behavior: 'smooth' });
 }
 
-// Category select buttons in add form
-document.addEventListener('DOMContentLoaded', () => {
+// Category select buttons handled in initApp
+
+// ---- INIT ----
+function initApp() {
+  initTTS();
+  buildCatFilter('cat-filter-flash', flashCats, () => { flashDeck = getFiltered(flashCats, flashWeak, flashDir); flashIdx=0; flashSessionC=0; flashSessionW=0; showFlashCard(); });
+  buildCatFilter('cat-filter-quiz',  quizCats,  () => { quizDeck  = getFiltered(quizCats,  quizWeak,  quizDir);  quizIdx=0;  quizSessionC=0;  quizSessionW=0;  showQuiz(); });
+  buildWordsCatFilter();
+  renderWordList();
+  buildPhraseCatFilter();
+  renderPhrases();
+  initFlash();
+  initQuiz();
+
+  // pcat buttons
   document.querySelectorAll('.pcat-btn').forEach(btn => {
     btn.onclick = () => {
       document.querySelectorAll('.pcat-btn').forEach(b => b.classList.remove('active'));
@@ -1486,16 +1522,13 @@ document.addEventListener('DOMContentLoaded', () => {
       selectedPcat = btn.dataset.pcat;
     };
   });
-});
+}
 
-// ---- INIT ----
-initTTS();
-buildWordsCatFilter();
-renderWordList();
-buildPhraseCatFilter();
-renderPhrases();
-initFlash();
-initQuiz();
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
 
 // ---- PWA: Service Worker 登録 ----
 if ('serviceWorker' in navigator) {
