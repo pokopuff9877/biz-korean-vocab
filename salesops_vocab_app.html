@@ -23,7 +23,7 @@
   /* category colors */
   --c-time:#f7c948;--c-place:#4fd18a;--c-noun:#4f8ef7;
   --c-verb:#f7a035;--c-adj:#b794f4;--c-conj:#6ee7b7;
-  --c-num:#f76f6f;--c-greet:#e879a0;--c-qw:#a0d8ef;
+  --c-num:#f76f6f;--c-greet:#e879a0;--c-qw:#a0d8ef;--c-ptc:#7ee8a2;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;display:flex;flex-direction:column}
@@ -358,15 +358,16 @@ main{flex:1;padding:16px;max-width:720px;margin:0 auto;width:100%}
 <script>
 // ===================== CATEGORIES =====================
 var CATS = [
-  {id:'time',  label:'🕐 時期・時間', color:'var(--c-time)'},
-  {id:'place', label:'📍 場所・方向', color:'var(--c-place)'},
-  {id:'noun',  label:'📝 名詞',       color:'var(--c-noun)'},
-  {id:'verb',  label:'🔵 動詞',       color:'var(--c-verb)'},
-  {id:'adj',   label:'🟡 形容詞・副詞',color:'var(--c-adj)'},
-  {id:'conj',  label:'🔗 接続詞',     color:'var(--c-conj)'},
-  {id:'num',   label:'🔢 数字・単位', color:'var(--c-num)'},
-  {id:'greet', label:'👋 挨拶・敬語', color:'var(--c-greet)'},
-  {id:'qw',    label:'❓ 疑問詞',     color:'var(--c-qw)'}
+  {id:'time',   label:'🕐 時期・時間',    color:'var(--c-time)'},
+  {id:'place',  label:'📍 場所・方向',    color:'var(--c-place)'},
+  {id:'noun',   label:'📝 名詞',          color:'var(--c-noun)'},
+  {id:'verb',   label:'🔵 動詞',          color:'var(--c-verb)'},
+  {id:'adj',    label:'🟡 形容詞・副詞',  color:'var(--c-adj)'},
+  {id:'conj',   label:'🔗 接続詞',        color:'var(--c-conj)'},
+  {id:'num',    label:'🔢 数字・単位',    color:'var(--c-num)'},
+  {id:'greet',  label:'👋 挨拶・敬語',    color:'var(--c-greet)'},
+  {id:'qw',     label:'❓ 疑問詞',        color:'var(--c-qw)'},
+  {id:'ptc',    label:'🔷 PTC・AI・AR',   color:'var(--c-ptc)'}
 ];
 
 // ===================== WORDS =====================
@@ -781,7 +782,66 @@ var WORDS = [
   {jp:'ストリーミング',kr:'스트리밍',    en:'Streaming',               cat:'noun'},
   {jp:'セキュリティ', kr:'보안',         en:'Security',                cat:'noun'},
   {jp:'認証',         kr:'인증',         en:'Certification / Authentication', cat:'noun'},
-  {jp:'環境',         kr:'환경',         en:'Environment',             cat:'noun'}
+  {jp:'環境',         kr:'환경',         en:'Environment',             cat:'noun'},
+
+// ── PTC・AI・AR 専門用語 ───────────────────────────
+  // フレーズ集由来の単語
+  {jp:'フォーキャスト',   kr:'포캐스트',       en:'Forecast',                 cat:'ptc'},
+  {jp:'コミット',         kr:'커밋',           en:'Commit',                   cat:'ptc'},
+  {jp:'ベストケース',     kr:'베스트 케이스',  en:'Best case',                cat:'ptc'},
+  {jp:'オポチュニティ',   kr:'영업 기회',      en:'Opportunity',              cat:'ptc'},
+  {jp:'スリップ',         kr:'슬립',           en:'Slip',                     cat:'ptc'},
+  {jp:'クローズ日',       kr:'클로즈 일자',    en:'Close date',               cat:'ptc'},
+  {jp:'ユースケース',     kr:'유스 케이스',    en:'Use case',                 cat:'ptc'},
+  {jp:'デシジョンメーカー',kr:'의사결정권자',  en:'Decision maker',           cat:'ptc'},
+  {jp:'ブロッカー',       kr:'블로커',         en:'Blocker',                  cat:'ptc'},
+  {jp:'QBR',             kr:'QBR',            en:'Quarterly Business Review', cat:'ptc'},
+  // AIページ由来
+  {jp:'人工知能',         kr:'인공 지능',      en:'Artificial Intelligence',  cat:'ptc'},
+  {jp:'AIエージェント',   kr:'AI 에이전트',    en:'AI Agent',                 cat:'ptc'},
+  {jp:'生成AI',           kr:'생성형 AI',      en:'Generative AI',            cat:'ptc'},
+  {jp:'機械学習',         kr:'머신 러닝',      en:'Machine Learning',         cat:'ptc'},
+  {jp:'インテリジェンス', kr:'인텔리전스',     en:'Intelligence',             cat:'ptc'},
+  {jp:'インフラ',         kr:'인프라',         en:'Infrastructure',           cat:'ptc'},
+  {jp:'自動化',           kr:'자동화',         en:'Automation',               cat:'ptc'},
+  {jp:'意思決定',         kr:'의사 결정',      en:'Decision making',          cat:'ptc'},
+  {jp:'ワークフロー',     kr:'워크플로',       en:'Workflow',                 cat:'ptc'},
+  {jp:'埋め込みAI',       kr:'임베디드 AI',    en:'Embedded AI',              cat:'ptc'},
+  {jp:'確拡張性',         kr:'확장성',         en:'Scalability',              cat:'ptc'},
+  {jp:'倫理的AI',         kr:'윤리적인 AI',    en:'Ethical AI',               cat:'ptc'},
+  {jp:'データガバナンス', kr:'데이터 거버넌스',en:'Data governance',           cat:'ptc'},
+  {jp:'知的財産保護',     kr:'IP 보호',        en:'IP protection',            cat:'ptc'},
+  {jp:'병목 현상',        kr:'병목 현상',      en:'Bottleneck',               cat:'ptc'},
+  {jp:'根本原因分析',     kr:'근본 원인 분석', en:'Root cause analysis',      cat:'ptc'},
+  {jp:'요구사항',         kr:'요구사항',       en:'Requirements',             cat:'ptc'},
+  {jp:'애자일',           kr:'애자일',         en:'Agile',                    cat:'ptc'},
+  {jp:'サプライチェーン', kr:'공급망',         en:'Supply chain',             cat:'ptc'},
+  {jp:'予測',             kr:'예측',           en:'Prediction / Forecasting', cat:'ptc'},
+  // SKエネルギー事例由来
+  {jp:'拡張現実',         kr:'증강현실 (AR)',  en:'Augmented Reality (AR)',   cat:'ptc'},
+  {jp:'デジタルトランスフォーメーション',kr:'디지털 트랜스포메이션 (DT)',en:'Digital Transformation', cat:'ptc'},
+  {jp:'設備管理',         kr:'설비 관리',      en:'Facility / Asset management', cat:'ptc'},
+  {jp:'スマートプラント', kr:'스마트 플랜트',  en:'Smart plant',              cat:'ptc'},
+  {jp:'IoT',             kr:'사물 인터넷 (IoT)',en:'Internet of Things',      cat:'ptc'},
+  {jp:'ThingWorx',       kr:'씽웍스 (ThingWorx)',en:'ThingWorx',             cat:'ptc'},
+  {jp:'Vuforia',         kr:'뷰포리아 (Vuforia)',en:'Vuforia',               cat:'ptc'},
+  {jp:'デジタルスレッド', kr:'디지털 쓰레드',  en:'Digital thread',           cat:'ptc'},
+  {jp:'マスターデータ',   kr:'마스터 데이터',  en:'Master data',              cat:'ptc'},
+  {jp:'データ整備',       kr:'데이터 정제',    en:'Data cleansing',           cat:'ptc'},
+  {jp:'現場作業者',       kr:'현장 작업자',    en:'Field worker',             cat:'ptc'},
+  {jp:'維持保守',         kr:'유지보수',       en:'Maintenance',              cat:'ptc'},
+  {jp:'コスト削減',       kr:'비용 절감',      en:'Cost reduction',           cat:'ptc'},
+  {jp:'品質検査',         kr:'품질 검사',      en:'Quality inspection',       cat:'ptc'},
+  {jp:'安全管理',         kr:'안전 관리',      en:'Safety management',        cat:'ptc'},
+  {jp:'配管',             kr:'배관',           en:'Pipe / Piping',            cat:'ptc'},
+  {jp:'プラント',         kr:'플랜트',         en:'Plant',                    cat:'ptc'},
+  {jp:'石油化学',         kr:'석유 화학',      en:'Petrochemical',            cat:'ptc'},
+  {jp:'Windchill',       kr:'윈칠 (Windchill)',en:'Windchill',               cat:'ptc'},
+  {jp:'PLM',             kr:'PLM (제품 수명 주기 관리)',en:'Product Lifecycle Management', cat:'ptc'},
+  {jp:'ALM',             kr:'ALM (애플리케이션 수명 주기 관리)',en:'Application Lifecycle Management', cat:'ptc'},
+  {jp:'CAD',             kr:'캐드 (CAD)',      en:'Computer-Aided Design',    cat:'ptc'},
+  {jp:'Creo',            kr:'크레오 (Creo)',   en:'Creo (PTC CAD software)',  cat:'ptc'},
+  {jp:'Creo+',           kr:'크레오 플러스 (Creo+)',en:'Creo+ (SaaS CAD)',   cat:'ptc'}
 ];
 
 // ===================== PHRASES =====================
@@ -825,7 +885,24 @@ var PHRASES = [
   {jp:'変更内容がリアルタイムで同期されます',kr:'변경 사항이 실시간으로 동기화됩니다',en:'Changes are synchronized in real time',cat:'ptc'},
   {jp:'再作業を減らし遅延を最小化できます',kr:'재작업을 줄이고 지연 시간을 최소화할 수 있습니다',en:'We can reduce rework and minimize delays',cat:'ptc'},
   {jp:'一度に一人だけ一つのパートを編集できます',kr:'한 번에 한 사람만 하나의 파트를 작업할 수 있습니다',en:'Only one person can work on one part at a time',cat:'ptc'},
-  {jp:'来年はWebブラウザ版のCreo+がリリース予定です',kr:'내년에는 웹 브라우저 기반의 크레오 플러스가 출시될 예정입니다',en:'Next year, a web browser-based Creo+ is planned for release',cat:'ptc'}
+  {jp:'来年はWebブラウザ版のCreo+がリリース予定です',kr:'내년에는 웹 브라우저 기반의 크레오 플러스가 출시될 예정입니다',en:'Next year, a web browser-based Creo+ is planned for release',cat:'ptc'},
+  // AIページ由来フレーズ
+  {jp:'製品データを製品ベースのインテリジェンスに変換します',kr:'제품 데이터를 제품 기반 인텔리전스로 전환합니다',en:'Converting product data into product-based intelligence',cat:'ptc'},
+  {jp:'スケーラブルで安全かつ信頼できるAIを実現します',kr:'확장 가능하고 안전하며 신뢰할 수 있는 AI를 구현합니다',en:'Implementing scalable, safe and trustworthy AI',cat:'ptc'},
+  {jp:'インフラを全面改修せずに価値を提供できます',kr:'인프라를 전면 개편하지 않고도 가치를 제공할 수 있습니다',en:'Can deliver value without overhauling infrastructure',cat:'ptc'},
+  {jp:'製品の複雑性を競争優位に変換します',kr:'제품 복잡성을 경쟁 우위로 전환합니다',en:'Turning product complexity into competitive advantage',cat:'ptc'},
+  {jp:'設計から保守に至るすべての段階でAIが支援します',kr:'설계에서 서비스에 이르는 모든 단계에서 AI가 지원합니다',en:'AI supports every stage from design to service',cat:'ptc'},
+  {jp:'AIエージェントが質問に答えコンテンツを要約します',kr:'AI 에이전트는 질문에 답하고 콘텐츠를 요약합니다',en:'AI agents answer questions and summarize content',cat:'ptc'},
+  {jp:'最小限の人間介入でワークフロー全体を実行します',kr:'최소한의 인간 개입으로 전체 워크플로우를 실행합니다',en:'Executes entire workflows with minimal human intervention',cat:'ptc'},
+  {jp:'倫理的なAI活用を保証します',kr:'윤리적인 AI 응용을 보장합니다',en:'Guarantees ethical AI application',cat:'ptc'},
+  {jp:'個人情報保護とデータガバナンスが最重要です',kr:'개인 정보 보호와 데이터 거버넌스가 가장 중요합니다',en:'Privacy protection and data governance are paramount',cat:'ptc'},
+  // SK Energy事例由来フレーズ
+  {jp:'拡張現実で設備管理コストを最大15%削減できます',kr:'증강현실로 유지보수 비용을 최대 10~15% 절감할 수 있습니다',en:'AR can reduce maintenance costs by up to 10-15%',cat:'ptc'},
+  {jp:'デジタルトランスフォーメーションを推進しています',kr:'디지털 트랜스포메이션을 구축하고 있습니다',en:'We are driving digital transformation',cat:'ptc'},
+  {jp:'標準化されていないマスターデータが課題です',kr:'표준화되지 않은 마스터 데이터로 인한 어려움이 있습니다',en:'Non-standardized master data is a challenge',cat:'ptc'},
+  {jp:'現場作業者がデジタル情報に簡単にアクセスできます',kr:'현장 작업자도 디지털 정보를 손쉽게 활용할 수 있습니다',en:'Field workers can easily access digital information',cat:'ptc'},
+  {jp:'AR技術で長さ・幅・高さを自動測定します',kr:'AR 기술을 통해 길이, 폭, 높이를 자동으로 측정합니다',en:'AR technology automatically measures length, width and height',cat:'ptc'},
+  {jp:'重大事故の発生を防止し先制対応が可能です',kr:'중대한 재해 발생을 방지하고 선제 대응이 가능합니다',en:'Can prevent serious accidents and take preemptive action',cat:'ptc'}
 ];
 
 var PCAT_LABELS = {forecast:'フォーキャスト',opportunity:'商談進捗',schedule:'日程・スケジュール',reason:'理由・原因',ptc:'PTC製品',other:'その他'};
