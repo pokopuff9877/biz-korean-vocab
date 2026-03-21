@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>セールスオップス 韓国語単語帳</title>
+<title>韓国語単語帳</title>
 <meta name="theme-color" content="#0d0f14">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -12,157 +12,132 @@
 <link rel="manifest" href="manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#0d0f14; --bg2:#161922; --bg3:#1e2230;
-  --border:rgba(255,255,255,0.08); --border2:rgba(255,255,255,0.14);
-  --text:#e8eaf0; --text2:#8b90a0; --text3:#555a6e;
-  --accent:#4f8ef7; --accent2:#6ee7b7; --accent3:#f7c948;
-  --danger:#f76f6f; --success:#4fd18a;
-  --sf:#00a1e0; --rev:#4fd18a; --ops:#b794f4; --ptc:#f7a035;
+:root{
+  --bg:#0d0f14;--bg2:#161922;--bg3:#1e2230;
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
+  --text:#e8eaf0;--text2:#8b90a0;--text3:#555a6e;
+  --accent:#4f8ef7;--accent2:#6ee7b7;--accent3:#f7c948;
+  --danger:#f76f6f;--success:#4fd18a;
   --font:'Noto Sans JP','Noto Sans KR',sans-serif;
   --mono:'DM Mono',monospace;
+  /* category colors */
+  --c-time:#f7c948;--c-place:#4fd18a;--c-noun:#4f8ef7;
+  --c-verb:#f7a035;--c-adj:#b794f4;--c-conj:#6ee7b7;
+  --c-num:#f76f6f;--c-greet:#e879a0;--c-qw:#a0d8ef;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;display:flex;flex-direction:column}
-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg2)}
-.logo{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.12em}
+header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg2)}
+.logo{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.1em}
 .logo span{color:var(--text2)}
 .nav-tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);overflow-x:auto}
-.nav-tab{padding:10px 14px;font-size:13px;cursor:pointer;color:var(--text2);border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;flex-shrink:0}
+.nav-tab{padding:10px 13px;font-size:12px;cursor:pointer;color:var(--text2);border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;flex-shrink:0}
 .nav-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-main{flex:1;padding:20px;max-width:720px;margin:0 auto;width:100%}
+main{flex:1;padding:16px;max-width:720px;margin:0 auto;width:100%}
 .screen{display:none}.screen.active{display:block}
-
-/* controls */
-.controls{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+.controls{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
 .ctrl-label{font-size:12px;color:var(--text2)}
-.ctrl-group{display:flex;gap:4px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:4px}
-.ctrl-btn{padding:5px 12px;font-size:12px;border-radius:5px;border:none;cursor:pointer;background:transparent;color:var(--text2);font-family:var(--font);transition:all .15s}
+.ctrl-group{display:flex;gap:3px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:3px}
+.ctrl-btn{padding:5px 11px;font-size:12px;border-radius:5px;border:none;cursor:pointer;background:transparent;color:var(--text2);font-family:var(--font);transition:all .15s}
 .ctrl-btn.active{background:var(--accent);color:#fff}
-
-/* cat filter */
-.cat-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
-.cat-btn{padding:4px 12px;border-radius:20px;border:1px solid var(--border2);background:transparent;font-size:12px;cursor:pointer;font-family:var(--font);color:var(--text2);transition:all .15s}
-.cat-btn.on-sf{background:rgba(0,161,224,.15);border-color:var(--sf);color:var(--sf)}
-.cat-btn.on-rev{background:rgba(79,209,138,.15);border-color:var(--rev);color:var(--rev)}
-.cat-btn.on-ops{background:rgba(183,148,244,.15);border-color:var(--ops);color:var(--ops)}
-.cat-btn.on-ptc{background:rgba(247,160,53,.15);border-color:var(--ptc);color:var(--ptc)}
-
-/* scores */
-.score-row{display:flex;gap:10px;margin-bottom:16px}
-.score-badge{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
-.score-num{font-size:24px;font-weight:700;font-family:var(--mono)}
-.score-label{font-size:11px;color:var(--text2);margin-top:2px}
-.score-badge.s-total .score-num{color:var(--accent3)}
-.score-badge.s-ok .score-num{color:var(--success)}
-.score-badge.s-ng .score-num{color:var(--danger)}
-
-/* progress */
-.prog-wrap{margin-bottom:16px}
-.prog-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:6px}
+.cat-filter{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px}
+.cat-btn{padding:3px 10px;border-radius:20px;border:1px solid var(--border2);background:transparent;font-size:11px;cursor:pointer;font-family:var(--font);color:var(--text2);transition:all .15s;white-space:nowrap}
+.score-row{display:flex;gap:8px;margin-bottom:14px}
+.score-badge{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center}
+.score-num{font-size:22px;font-weight:700;font-family:var(--mono)}
+.score-label{font-size:10px;color:var(--text2);margin-top:2px}
+.s-total .score-num{color:var(--accent3)}.s-ok .score-num{color:var(--success)}.s-ng .score-num{color:var(--danger)}
+.prog-wrap{margin-bottom:14px}
+.prog-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:5px}
 .prog-bar{height:4px;background:var(--bg3);border-radius:2px;overflow:hidden}
 .prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;transition:width .4s}
-
-/* flashcard */
-.card-wrap{perspective:1000px;width:100%;height:200px;margin-bottom:16px;cursor:pointer}
+.card-wrap{perspective:1000px;width:100%;height:190px;margin-bottom:14px;cursor:pointer}
 .card-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,0,.2,1)}
 .card-inner.flipped{transform:rotateY(180deg)}
-.card-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px;border:1px solid var(--border2);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:6px}
-.card-front{background:var(--bg2)}
-.card-back{background:var(--bg3);transform:rotateY(180deg)}
-.card-hint{position:absolute;top:10px;right:12px;font-size:11px;color:var(--text3);font-family:var(--mono)}
-.card-tag{position:absolute;top:10px;left:12px;font-size:10px;padding:2px 8px;border-radius:10px;font-family:var(--mono)}
-.tag-sf{background:rgba(0,161,224,.15);color:var(--sf)}
-.tag-rev{background:rgba(79,209,138,.15);color:var(--rev)}
-.tag-ops{background:rgba(183,148,244,.15);color:var(--ops)}
-.tag-ptc{background:rgba(247,160,53,.15);color:var(--ptc)}
+.card-face{position:absolute;width:100%;height:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;border:1px solid var(--border2);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;gap:5px}
+.card-front{background:var(--bg2)}.card-back{background:var(--bg3);transform:rotateY(180deg)}
+.card-hint{position:absolute;top:10px;right:12px;font-size:10px;color:var(--text3);font-family:var(--mono)}
+.card-tag{position:absolute;top:10px;left:12px;font-size:10px;padding:2px 7px;border-radius:8px;font-family:var(--mono)}
 .card-word{font-size:26px;font-weight:500;text-align:center;line-height:1.3}
 .card-sub{font-size:13px;color:var(--text2);text-align:center}
 .card-en{font-family:var(--mono);font-size:11px;color:var(--text3)}
-.tts-btn{background:none;border:1px solid var(--border2);border-radius:50%;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:15px;transition:all .15s;flex-shrink:0}
+.tts-btn{background:none;border:1px solid var(--border2);border-radius:50%;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:14px;transition:all .15s;flex-shrink:0}
 .tts-btn:hover,.tts-btn.speaking{color:var(--accent2);border-color:var(--accent2);background:rgba(110,231,183,.1)}
-
-/* judge btns */
-.judge-row{display:flex;gap:12px;margin-bottom:12px}
-.btn{flex:1;padding:12px;border-radius:10px;border:none;font-size:14px;font-family:var(--font);cursor:pointer;font-weight:500;transition:all .15s}
+.judge-row{display:flex;gap:10px;margin-bottom:10px}
+.btn{flex:1;padding:11px;border-radius:10px;border:none;font-size:14px;font-family:var(--font);cursor:pointer;font-weight:500;transition:all .15s}
 .btn-ok{background:rgba(79,209,138,.15);color:var(--success);border:1px solid rgba(79,209,138,.3)}
 .btn-ng{background:rgba(247,111,111,.12);color:var(--danger);border:1px solid rgba(247,111,111,.3)}
-.btn-next{background:var(--accent);color:#fff;border:1px solid transparent}
-.btn-sec{padding:9px 18px;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:13px;font-family:var(--font);cursor:pointer;transition:all .15s}
+.btn-next{background:var(--accent);color:#fff;border:none}
+.btn-sec{padding:8px 16px;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:13px;font-family:var(--font);cursor:pointer}
 .btn-center{text-align:center;margin-top:4px}
-.feedback{text-align:center;font-size:14px;height:20px;margin-bottom:8px;font-weight:500}
+.feedback{text-align:center;font-size:14px;height:18px;margin-bottom:6px;font-weight:500}
 .feedback.ok{color:var(--success)}.feedback.ng{color:var(--danger)}
-
-/* quiz */
-.quiz-q{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:24px 20px;text-align:center;margin-bottom:16px}
-.quiz-qlabel{font-size:11px;color:var(--text3);font-family:var(--mono);margin-bottom:10px;letter-spacing:.08em}
-.quiz-qword{font-size:28px;font-weight:500;margin-bottom:4px}
-.quiz-qen{font-size:11px;color:var(--text3);font-family:var(--mono);margin-bottom:10px}
-.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
-.quiz-opt{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:13px 10px;font-size:14px;cursor:pointer;font-family:var(--font);color:var(--text);text-align:center;transition:all .15s;line-height:1.4}
+.quiz-q{background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:20px 16px;text-align:center;margin-bottom:14px}
+.quiz-qlabel{font-size:11px;color:var(--text3);font-family:var(--mono);margin-bottom:8px;letter-spacing:.06em}
+.quiz-qword{font-size:26px;font-weight:500;margin-bottom:4px}
+.quiz-qen{font-size:11px;color:var(--text3);font-family:var(--mono);margin-bottom:8px}
+.quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.quiz-opt{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 8px;font-size:14px;cursor:pointer;font-family:var(--font);color:var(--text);text-align:center;transition:all .15s;line-height:1.4}
 .quiz-opt:hover:not(:disabled){border-color:var(--accent);background:rgba(79,142,247,.08)}
 .quiz-opt.opt-ok{background:rgba(79,209,138,.15);border-color:var(--success);color:var(--success)}
 .quiz-opt.opt-ng{background:rgba(247,111,111,.12);border-color:var(--danger);color:var(--danger)}
-
-/* word list */
-.word-list{display:flex;flex-direction:column;gap:6px}
-.word-hdr{display:grid;grid-template-columns:1fr 1fr 1fr 60px;gap:8px;padding:4px 12px;font-size:11px;color:var(--text3);font-family:var(--mono)}
-.word-row{display:grid;grid-template-columns:1fr 1fr 1fr 60px;gap:8px;align-items:center;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:9px 12px;font-size:13px}
+.word-list{display:flex;flex-direction:column;gap:5px}
+.word-hdr{display:grid;grid-template-columns:1fr 1fr 1fr 56px;gap:6px;padding:3px 10px;font-size:10px;color:var(--text3);font-family:var(--mono)}
+.word-row{display:grid;grid-template-columns:1fr 1fr 1fr 56px;gap:6px;align-items:center;background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:8px 10px;font-size:12px}
 .word-row.weak{border-left:3px solid var(--danger)}
-.dot{display:inline-block;width:6px;height:6px;border-radius:3px;margin-right:4px;vertical-align:middle}
-.dot-sf{background:var(--sf)}.dot-rev{background:var(--rev)}.dot-ops{background:var(--ops)}.dot-ptc{background:var(--ptc)}
+.dot{display:inline-block;width:6px;height:6px;border-radius:3px;margin-right:3px;vertical-align:middle}
 .stat-ok{color:var(--success);font-family:var(--mono);font-size:11px}
 .stat-ng{color:var(--danger);font-family:var(--mono);font-size:11px}
-
-/* finish */
-.finish{background:var(--bg2);border:1px solid var(--border2);border-radius:20px;padding:36px 28px;text-align:center;display:none}
-.finish-icon{font-size:44px;margin-bottom:14px}
+.finish{background:var(--bg2);border:1px solid var(--border2);border-radius:18px;padding:32px 24px;text-align:center;display:none}
+.finish-icon{font-size:42px;margin-bottom:12px}
 .finish-title{font-size:20px;font-weight:700;margin-bottom:6px}
-.finish-sub{font-size:14px;color:var(--text2);margin-bottom:24px}
-.finish-stats{display:flex;gap:14px;justify-content:center;margin-bottom:24px}
-.finish-stat{background:var(--bg3);border-radius:12px;padding:14px 20px;min-width:90px}
-.finish-stat .n{font-size:26px;font-weight:700;font-family:var(--mono)}
-.finish-stat .l{font-size:11px;color:var(--text2);margin-top:2px}
+.finish-sub{font-size:13px;color:var(--text2);margin-bottom:22px}
+.finish-stats{display:flex;gap:12px;justify-content:center;margin-bottom:22px}
+.finish-stat{background:var(--bg3);border-radius:10px;padding:12px 18px}
+.finish-stat .n{font-size:24px;font-weight:700;font-family:var(--mono)}
+.finish-stat .l{font-size:10px;color:var(--text2);margin-top:2px}
 .finish-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-
-/* phrases */
-.phrase-search{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:10px 14px;font-size:14px;color:var(--text);font-family:var(--font);outline:none;margin-bottom:14px}
+.phrase-search{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:9px 12px;font-size:14px;color:var(--text);font-family:var(--font);outline:none;margin-bottom:12px}
 .phrase-search::placeholder{color:var(--text3)}
-.phrase-group{font-size:11px;font-family:var(--mono);color:var(--text3);letter-spacing:.08em;padding:10px 0 6px;border-bottom:1px solid var(--border);margin-bottom:8px}
-.phrase-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:8px}
-.phrase-jp{font-size:13px;color:var(--text2);margin-bottom:5px;line-height:1.5}
-.phrase-kr{font-size:16px;font-weight:500;line-height:1.5;margin-bottom:3px}
-.phrase-en{font-size:11px;color:var(--text3);font-family:var(--mono);margin-bottom:10px}
-.phrase-acts{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.copy-btn{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:7px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:12px;font-family:var(--font);cursor:pointer;transition:all .15s}
+.phrase-group{font-size:10px;font-family:var(--mono);color:var(--text3);letter-spacing:.08em;padding:9px 0 5px;border-bottom:1px solid var(--border);margin-bottom:7px}
+.phrase-card{background:var(--bg2);border:1px solid var(--border);border-radius:11px;padding:12px 14px;margin-bottom:7px}
+.phrase-jp{font-size:12px;color:var(--text2);margin-bottom:4px;line-height:1.5}
+.phrase-kr{font-size:15px;font-weight:500;line-height:1.5;margin-bottom:3px}
+.phrase-en{font-size:11px;color:var(--text3);font-family:var(--mono);margin-bottom:8px}
+.phrase-acts{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.copy-btn{display:inline-flex;align-items:center;gap:3px;padding:4px 9px;border-radius:7px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:11px;font-family:var(--font);cursor:pointer;transition:all .15s}
 .copy-btn:hover{background:var(--bg3);color:var(--accent2);border-color:var(--accent2)}
 .copy-btn.copied{color:var(--success);border-color:var(--success)}
-.del-btn{margin-left:auto;background:none;border:none;color:var(--text3);cursor:pointer;font-size:15px;padding:4px 6px;border-radius:6px;transition:all .15s}
+.del-btn{margin-left:auto;background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;padding:3px 5px;border-radius:6px;transition:all .15s}
 .del-btn:hover{color:var(--danger)}
-.add-card{background:var(--bg2);border:1px dashed var(--border2);border-radius:14px;padding:16px;margin-top:20px}
-.add-title{font-size:13px;font-weight:500;color:var(--accent);margin-bottom:12px}
-.add-fields{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
-.field-label{font-size:11px;color:var(--text3);font-family:var(--mono);margin-bottom:3px}
-.phrase-input{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:14px;color:var(--text);font-family:var(--font);outline:none;width:100%}
-.pcat-row{display:flex;gap:6px;flex-wrap:wrap}
-.pcat-btn{padding:4px 10px;border-radius:20px;border:1px solid var(--border2);background:transparent;font-size:12px;cursor:pointer;font-family:var(--font);color:var(--text2);transition:all .15s}
+.add-card{background:var(--bg2);border:1px dashed var(--border2);border-radius:13px;padding:14px;margin-top:18px}
+.add-title{font-size:13px;font-weight:500;color:var(--accent);margin-bottom:10px}
+.add-fields{display:flex;flex-direction:column;gap:7px;margin-bottom:9px}
+.field-label{font-size:10px;color:var(--text3);font-family:var(--mono);margin-bottom:2px}
+.phrase-input{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;color:var(--text);font-family:var(--font);outline:none;width:100%}
+.pcat-row{display:flex;gap:5px;flex-wrap:wrap}
+.pcat-btn{padding:3px 9px;border-radius:20px;border:1px solid var(--border2);background:transparent;font-size:11px;cursor:pointer;font-family:var(--font);color:var(--text2);transition:all .15s}
 .pcat-btn.active{background:rgba(79,142,247,.15);border-color:var(--accent);color:var(--accent)}
-.add-err{font-size:12px;color:var(--danger);margin-top:6px;min-height:16px}
-
-.empty{text-align:center;padding:32px;color:var(--text2);font-size:14px}
-@media(max-width:480px){.quiz-opts{grid-template-columns:1fr}.word-hdr,.word-row{grid-template-columns:1fr 1fr 60px}.word-hdr span:nth-child(3),.word-row span:nth-child(3){display:none}}
+.add-err{font-size:12px;color:var(--danger);margin-top:5px;min-height:15px}
+.empty{text-align:center;padding:28px;color:var(--text2);font-size:13px}
+@media(max-width:480px){
+  .quiz-opts{grid-template-columns:1fr}
+  .word-hdr,.word-row{grid-template-columns:1fr 1fr 56px}
+  .word-hdr span:nth-child(3),.word-row span:nth-child(3){display:none}
+}
 </style>
 </head>
 <body>
 <header>
   <div class="logo">SALES<span>OPS</span> 単語帳</div>
-  <div style="font-size:11px;color:var(--text3);font-family:var(--mono)">JP⇄KR</div>
+  <div style="font-size:10px;color:var(--text3);font-family:var(--mono)">JP⇄KR</div>
 </header>
 <div class="nav-tabs">
   <div class="nav-tab active" onclick="showTab('flash')">🃏 フラッシュカード</div>
   <div class="nav-tab" onclick="showTab('quiz')">🎯 4択クイズ</div>
   <div class="nav-tab" onclick="showTab('words')">📋 単語リスト</div>
   <div class="nav-tab" onclick="showTab('phrases')">💬 フレーズ集</div>
+  <div class="nav-tab" onclick="showTab('progress')">📊 進捗</div>
 </div>
 <main>
 
@@ -176,12 +151,7 @@ main{flex:1;padding:20px;max-width:720px;margin:0 auto;width:100%}
     </div>
     <button class="ctrl-btn" id="f-weak-btn" onclick="toggleFlashWeak()">苦手優先</button>
   </div>
-  <div class="cat-filter">
-    <button class="cat-btn on-sf" id="fcb-sf" onclick="toggleFlashCat('sf')"><span class="dot dot-sf"></span>Salesforce</button>
-    <button class="cat-btn on-rev" id="fcb-rev" onclick="toggleFlashCat('rev')"><span class="dot dot-rev"></span>売上・利益</button>
-    <button class="cat-btn on-ops" id="fcb-ops" onclick="toggleFlashCat('ops')"><span class="dot dot-ops"></span>セールスOps</button>
-    <button class="cat-btn on-ptc" id="fcb-ptc" onclick="toggleFlashCat('ptc')"><span class="dot dot-ptc"></span>PTC用語</button>
-  </div>
+  <div class="cat-filter" id="f-cat-filter"></div>
   <div class="score-row">
     <div class="score-badge s-total"><div class="score-num" id="f-total">0</div><div class="score-label">総問数</div></div>
     <div class="score-badge s-ok"><div class="score-num" id="f-ok">0</div><div class="score-label">正解</div></div>
@@ -199,7 +169,7 @@ main{flex:1;padding:20px;max-width:720px;margin:0 auto;width:100%}
           <span class="card-hint">タップして裏返す</span>
           <div class="card-word" id="f-front"></div>
           <div class="card-en" id="f-front-en"></div>
-          <div style="margin-top:6px;display:none" id="f-front-tts">
+          <div style="margin-top:5px;display:none" id="f-front-tts">
             <button class="tts-btn" id="tts-f-front" onclick="event.stopPropagation();ttsPlay(currentWord.kr,'tts-f-front')">🔊</button>
           </div>
         </div>
@@ -208,7 +178,7 @@ main{flex:1;padding:20px;max-width:720px;margin:0 auto;width:100%}
           <div class="card-word" id="f-back"></div>
           <div class="card-sub" id="f-back-sub"></div>
           <div class="card-en" id="f-back-en"></div>
-          <div style="margin-top:6px">
+          <div style="margin-top:5px">
             <button class="tts-btn" id="tts-f-back" onclick="event.stopPropagation();ttsPlay(currentWord.kr,'tts-f-back')">🔊</button>
           </div>
         </div>
@@ -219,8 +189,8 @@ main{flex:1;padding:20px;max-width:720px;margin:0 auto;width:100%}
       <button class="btn btn-ng" onclick="judgeCard(false)">✗ 不正解</button>
       <button class="btn btn-ok" onclick="judgeCard(true)">✓ 正解</button>
     </div>
-    <div class="btn-center" id="f-next" style="display:none">
-      <button class="btn btn-next" style="width:180px" onclick="nextFlash()">次へ →</button>
+    <div class="btn-center">
+      <button class="btn btn-next" style="width:160px" onclick="nextFlash()">次へ →</button>
     </div>
   </div>
   <div class="finish" id="f-finish">
@@ -229,7 +199,7 @@ main{flex:1;padding:20px;max-width:720px;margin:0 auto;width:100%}
     <div class="finish-sub" id="f-finish-sub"></div>
     <div class="finish-stats" id="f-finish-stats"></div>
     <div class="finish-btns">
-      <button class="btn btn-next" style="padding:10px 24px" onclick="restartFlash(false)">もう一度</button>
+      <button class="btn btn-next" style="padding:10px 22px" onclick="restartFlash(false)">もう一度</button>
       <button class="btn-sec" onclick="restartFlash(true)">苦手だけ</button>
     </div>
   </div>
@@ -245,12 +215,7 @@ main{flex:1;padding:20px;max-width:720px;margin:0 auto;width:100%}
     </div>
     <button class="ctrl-btn" id="q-weak-btn" onclick="toggleQuizWeak()">苦手優先</button>
   </div>
-  <div class="cat-filter">
-    <button class="cat-btn on-sf" id="qcb-sf" onclick="toggleQuizCat('sf')"><span class="dot dot-sf"></span>Salesforce</button>
-    <button class="cat-btn on-rev" id="qcb-rev" onclick="toggleQuizCat('rev')"><span class="dot dot-rev"></span>売上・利益</button>
-    <button class="cat-btn on-ops" id="qcb-ops" onclick="toggleQuizCat('ops')"><span class="dot dot-ops"></span>セールスOps</button>
-    <button class="cat-btn on-ptc" id="qcb-ptc" onclick="toggleQuizCat('ptc')"><span class="dot dot-ptc"></span>PTC用語</button>
-  </div>
+  <div class="cat-filter" id="q-cat-filter"></div>
   <div class="score-row">
     <div class="score-badge s-total"><div class="score-num" id="q-total">0</div><div class="score-label">総問数</div></div>
     <div class="score-badge s-ok"><div class="score-num" id="q-ok">0</div><div class="score-label">正解</div></div>
@@ -265,12 +230,12 @@ main{flex:1;padding:20px;max-width:720px;margin:0 auto;width:100%}
       <div class="quiz-qlabel" id="q-label"></div>
       <div class="quiz-qword" id="q-word"></div>
       <div class="quiz-qen" id="q-en"></div>
-      <button class="tts-btn" id="tts-q" onclick="ttsPlay(currentQuizKr,'tts-q')" style="margin-top:8px">🔊</button>
+      <button class="tts-btn" id="tts-q" onclick="ttsPlay(currentQuizKr,'tts-q')" style="margin-top:6px">🔊</button>
     </div>
     <div class="quiz-opts" id="q-opts"></div>
     <div class="feedback" id="q-fb"></div>
     <div class="btn-center">
-      <button class="btn btn-next" id="q-next" style="width:180px;display:none" onclick="nextQuiz()">次へ →</button>
+      <button class="btn btn-next" id="q-next" style="width:160px;display:none" onclick="nextQuiz()">次へ →</button>
     </div>
   </div>
   <div class="finish" id="q-finish">
@@ -279,7 +244,7 @@ main{flex:1;padding:20px;max-width:720px;margin:0 auto;width:100%}
     <div class="finish-sub" id="q-finish-sub"></div>
     <div class="finish-stats" id="q-finish-stats"></div>
     <div class="finish-btns">
-      <button class="btn btn-next" style="padding:10px 24px" onclick="restartQuiz(false)">もう一度</button>
+      <button class="btn btn-next" style="padding:10px 22px" onclick="restartQuiz(false)">もう一度</button>
       <button class="btn-sec" onclick="restartQuiz(true)">苦手だけ</button>
     </div>
   </div>
@@ -287,12 +252,7 @@ main{flex:1;padding:20px;max-width:720px;margin:0 auto;width:100%}
 
 <!-- WORDS -->
 <div class="screen" id="tab-words">
-  <div class="cat-filter">
-    <button class="cat-btn on-sf" id="wcb-sf" onclick="toggleWordCat('sf')"><span class="dot dot-sf"></span>Salesforce</button>
-    <button class="cat-btn on-rev" id="wcb-rev" onclick="toggleWordCat('rev')"><span class="dot dot-rev"></span>売上・利益</button>
-    <button class="cat-btn on-ops" id="wcb-ops" onclick="toggleWordCat('ops')"><span class="dot dot-ops"></span>セールスOps</button>
-    <button class="cat-btn on-ptc" id="wcb-ptc" onclick="toggleWordCat('ptc')"><span class="dot dot-ptc"></span>PTC用語</button>
-  </div>
+  <div class="cat-filter" id="w-cat-filter"></div>
   <div class="word-list">
     <div class="word-hdr"><span>日本語</span><span>한국어</span><span>English</span><span>正誤</span></div>
     <div id="word-body"></div>
@@ -301,126 +261,530 @@ main{flex:1;padding:20px;max-width:720px;margin:0 auto;width:100%}
 
 <!-- PHRASES -->
 <div class="screen" id="tab-phrases">
-  <div class="cat-filter" id="ph-cats"></div>
-  <input type="text" class="phrase-search" id="ph-search" placeholder="🔍 検索…" oninput="renderPhrases()">
-  <div id="ph-list"></div>
-  <div class="add-card">
-    <div class="add-title">＋ 新しいフレーズを追加</div>
-    <div class="add-fields">
-      <div><div class="field-label">🇯🇵 日本語</div><input id="add-jp" class="phrase-input" placeholder="例：今週のフォーキャストを更新してください"></div>
-      <div><div class="field-label">🇰🇷 한국어</div><input id="add-kr" class="phrase-input" placeholder="예：이번 주 포캐스트를 업데이트해 주세요"></div>
-      <div><div class="field-label">🇺🇸 English</div><input id="add-en" class="phrase-input" placeholder="e.g.: Please update this week's forecast"></div>
-      <div>
-        <div class="field-label">カテゴリ</div>
-        <div class="pcat-row">
-          <button class="pcat-btn active" data-pcat="forecast" onclick="selPcat(this)">フォーキャスト</button>
-          <button class="pcat-btn" data-pcat="opportunity" onclick="selPcat(this)">商談進捗</button>
-          <button class="pcat-btn" data-pcat="schedule" onclick="selPcat(this)">日程</button>
-          <button class="pcat-btn" data-pcat="reason" onclick="selPcat(this)">理由・原因</button>
-          <button class="pcat-btn" data-pcat="ptc" onclick="selPcat(this)">PTC製品</button>
-          <button class="pcat-btn" data-pcat="other" onclick="selPcat(this)">その他</button>
-        </div>
+  <!-- モード切替 -->
+  <div class="controls" style="margin-bottom:14px">
+    <div class="ctrl-group">
+      <button class="ctrl-btn active" id="ph-mode-build" onclick="setPhraseMode('build')">🧩 並び替え</button>
+      <button class="ctrl-btn" id="ph-mode-list" onclick="setPhraseMode('list')">📄 一覧</button>
+    </div>
+  </div>
+
+  <!-- 並び替えモード -->
+  <div id="ph-build">
+    <div class="cat-filter" id="ph-build-cats"></div>
+    <!-- 進捗バー -->
+    <div class="prog-wrap">
+      <div class="prog-meta"><span id="pb-prog">0 / 0</span><span id="pb-pct">0%</span></div>
+      <div class="prog-bar"><div class="prog-fill" id="pb-bar" style="width:0%"></div></div>
+    </div>
+    <div id="pb-game">
+      <!-- 問題カード -->
+      <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:16px;margin-bottom:14px">
+        <div style="font-size:10px;color:var(--text3);font-family:var(--mono);margin-bottom:8px;letter-spacing:.06em">🇯🇵 日本語を見て韓国語に並び替えよう</div>
+        <div style="font-size:17px;font-weight:500;color:var(--text);margin-bottom:4px;line-height:1.5" id="pb-jp"></div>
+        <div style="font-size:11px;color:var(--text3);font-family:var(--mono);margin-bottom:10px" id="pb-en"></div>
+        <button class="tts-btn" id="tts-pb" onclick="ttsPlay(pbCurrent.kr,'tts-pb')" style="margin-top:2px">🔊</button>
+      </div>
+      <!-- 回答エリア -->
+      <div id="pb-answer" style="min-height:52px;background:var(--bg2);border:1.5px dashed var(--border2);border-radius:10px;padding:10px 12px;margin-bottom:12px;display:flex;flex-wrap:wrap;gap:6px;align-items:flex-start">
+        <span id="pb-answer-placeholder" style="font-size:13px;color:var(--text3)">↓ 単語をタップして並べよう</span>
+      </div>
+      <!-- フィードバック -->
+      <div id="pb-feedback" style="min-height:20px;margin-bottom:8px;font-size:13px;font-weight:500;text-align:center"></div>
+      <!-- 単語プール -->
+      <div id="pb-pool" style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px"></div>
+      <!-- ボタン -->
+      <button class="btn btn-next" style="width:100%;margin-bottom:8px" id="pb-check-btn" onclick="pbCheck()">✓ 確認する</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn-sec" style="flex:1" onclick="pbSkip()">スキップ →</button>
+        <button class="btn-sec" style="flex:1" onclick="pbReveal()">💡 答えを見る</button>
       </div>
     </div>
-    <button class="btn btn-next" style="width:100%;margin-top:8px" onclick="addPhrase()">追加する</button>
-    <div class="add-err" id="add-err"></div>
+    <div class="finish" id="pb-finish">
+      <div class="finish-icon">🎉</div>
+      <div class="finish-title">ラウンド完了！</div>
+      <div class="finish-sub" id="pb-finish-sub"></div>
+      <div class="finish-stats" id="pb-finish-stats"></div>
+      <div class="finish-btns">
+        <button class="btn btn-next" style="padding:10px 22px" onclick="pbRestart()">もう一度</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 一覧モード -->
+  <div id="ph-list-mode" style="display:none">
+    <div class="cat-filter" id="ph-cats"></div>
+    <input type="text" class="phrase-search" id="ph-search" placeholder="🔍 検索…" oninput="renderPhrases()">
+    <div id="ph-list"></div>
+    <div class="add-card">
+      <div class="add-title">＋ 新しいフレーズを追加</div>
+      <div class="add-fields">
+        <div><div class="field-label">🇯🇵 日本語</div><input id="add-jp" class="phrase-input" placeholder="例：今週のフォーキャストを更新してください"></div>
+        <div><div class="field-label">🇰🇷 한국어</div><input id="add-kr" class="phrase-input" placeholder="예：이번 주 포캐스트를 업데이트해 주세요"></div>
+        <div><div class="field-label">🇺🇸 English</div><input id="add-en" class="phrase-input" placeholder="e.g.: Please update this week's forecast"></div>
+        <div>
+          <div class="field-label">カテゴリ</div>
+          <div class="pcat-row">
+            <button class="pcat-btn active" data-pcat="forecast" onclick="selPcat(this)">フォーキャスト</button>
+            <button class="pcat-btn" data-pcat="opportunity" onclick="selPcat(this)">商談進捗</button>
+            <button class="pcat-btn" data-pcat="schedule" onclick="selPcat(this)">日程</button>
+            <button class="pcat-btn" data-pcat="reason" onclick="selPcat(this)">理由・原因</button>
+            <button class="pcat-btn" data-pcat="ptc" onclick="selPcat(this)">PTC製品</button>
+            <button class="pcat-btn" data-pcat="other" onclick="selPcat(this)">その他</button>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-next" style="width:100%;margin-top:7px" onclick="addPhrase()">追加する</button>
+      <div class="add-err" id="add-err"></div>
+    </div>
+  </div>
+</div>
+<!-- PROGRESS -->
+<div class="screen" id="tab-progress">
+  <div id="pg-summary" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:18px"></div>
+  <div style="font-size:11px;font-weight:500;color:var(--text2);margin-bottom:8px;letter-spacing:.05em">カテゴリ別 進捗</div>
+  <div id="pg-cats" style="display:flex;flex-direction:column;gap:7px;margin-bottom:20px"></div>
+  <div style="font-size:11px;font-weight:500;color:var(--text2);margin-bottom:8px;letter-spacing:.05em">苦手単語 TOP5</div>
+  <div id="pg-weak" style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px"></div>
+  <div style="font-size:11px;font-weight:500;color:var(--text2);margin-bottom:8px;letter-spacing:.05em">学習カレンダー（過去28日）</div>
+  <div id="pg-cal" style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px"></div>
+  <div style="font-size:10px;color:var(--text3)">■ 濃い = たくさん学習　■ 薄い = 少し学習　□ = 未学習</div>
+  <div style="margin-top:16px;text-align:center">
+    <button class="btn-sec" onclick="resetStats()">学習記録をリセット</button>
   </div>
 </div>
 
 </main>
 <script>
-// ===================== DATA =====================
-var WORDS = [
-  // Salesforce
-  {jp:'リード',kr:'리드',en:'Lead',cat:'sf'},
-  {jp:'商談',kr:'영업 기회',en:'Opportunity',cat:'sf'},
-  {jp:'取引先',kr:'거래처',en:'Account',cat:'sf'},
-  {jp:'責任者',kr:'담당자',en:'Contact person',cat:'sf'},
-  {jp:'ケース',kr:'케이스',en:'Case',cat:'sf'},
-  {jp:'キャンペーン',kr:'캠페인',en:'Campaign',cat:'sf'},
-  {jp:'活動',kr:'활동',en:'Activity',cat:'sf'},
-  {jp:'履歴',kr:'내역',en:'History / Record',cat:'sf'},
-  {jp:'レポート',kr:'보고서',en:'Report',cat:'sf'},
-  {jp:'ダッシュボード',kr:'대시보드',en:'Dashboard',cat:'sf'},
-  {jp:'ワークフロー',kr:'워크플로우',en:'Workflow',cat:'sf'},
-  {jp:'パイプライン',kr:'파이프라인',en:'Pipeline',cat:'sf'},
-  {jp:'フォーキャスト',kr:'포캐스트',en:'Forecast',cat:'sf'},
-  {jp:'予測',kr:'예측',en:'Prediction / Forecast',cat:'sf'},
-  {jp:'ステージ',kr:'단계',en:'Stage',cat:'sf'},
-  {jp:'クローズ',kr:'클로즈',en:'Close',cat:'sf'},
-  {jp:'確率',kr:'확률',en:'Probability',cat:'sf'},
-  {jp:'金額',kr:'금액',en:'Amount',cat:'sf'},
-  {jp:'更新',kr:'업데이트',en:'Update',cat:'sf'},
-  // 売上・利益
-  {jp:'売上',kr:'매출',en:'Revenue / Sales',cat:'rev'},
-  {jp:'利益',kr:'이익',en:'Profit',cat:'rev'},
-  {jp:'粗利',kr:'매출총이익',en:'Gross Profit',cat:'rev'},
-  {jp:'利益率',kr:'이익률',en:'Profit Margin',cat:'rev'},
-  {jp:'営業利益',kr:'영업이익',en:'Operating Profit',cat:'rev'},
-  {jp:'純利益',kr:'순이익',en:'Net Profit',cat:'rev'},
-  {jp:'原価',kr:'원가',en:'Cost',cat:'rev'},
-  {jp:'目標',kr:'목표',en:'Target / Goal',cat:'rev'},
-  {jp:'達成',kr:'달성',en:'Achievement',cat:'rev'},
-  {jp:'達成率',kr:'달성률',en:'Attainment Rate',cat:'rev'},
-  {jp:'契約',kr:'계약',en:'Contract',cat:'rev'},
-  {jp:'年間',kr:'연간',en:'Annual',cat:'rev'},
-  {jp:'月次',kr:'월간',en:'Monthly',cat:'rev'},
-  {jp:'顧客',kr:'고객',en:'Customer',cat:'rev'},
-  {jp:'獲得',kr:'획득',en:'Acquisition',cat:'rev'},
-  {jp:'解約',kr:'해지',en:'Cancellation / Churn',cat:'rev'},
-  {jp:'収益',kr:'수익',en:'Revenue / Income',cat:'rev'},
-  {jp:'費用',kr:'비용',en:'Cost / Expense',cat:'rev'},
-  {jp:'割当',kr:'할당량',en:'Quota / Allocation',cat:'rev'},
-  // セールスOps
-  {jp:'テリトリー',kr:'영업 구역',en:'Territory',cat:'ops'},
-  {jp:'管理',kr:'관리',en:'Management',cat:'ops'},
-  {jp:'設定',kr:'설정',en:'Setting / Configuration',cat:'ops'},
-  {jp:'コミッション',kr:'커미션',en:'Commission',cat:'ops'},
-  {jp:'インセンティブ',kr:'인센티브',en:'Incentive',cat:'ops'},
-  {jp:'サイクル',kr:'사이클',en:'Cycle',cat:'ops'},
-  {jp:'スコアリング',kr:'스코어링',en:'Scoring',cat:'ops'},
-  {jp:'コンバージョン',kr:'전환',en:'Conversion',cat:'ops'},
-  {jp:'勝率',kr:'승률',en:'Win Rate',cat:'ops'},
-  {jp:'受注',kr:'수주',en:'Order / Win',cat:'ops'},
-  {jp:'失注',kr:'실주',en:'Lost Deal',cat:'ops'},
-  {jp:'指標',kr:'지표',en:'Indicator / Metric',cat:'ops'},
-  {jp:'データ',kr:'데이터',en:'Data',cat:'ops'},
-  {jp:'自動化',kr:'자동화',en:'Automation',cat:'ops'},
-  {jp:'マーケティング',kr:'마케팅',en:'Marketing',cat:'ops'},
-  // PTC用語
-  {jp:'デジタル',kr:'디지털',en:'Digital',cat:'ptc'},
-  {jp:'変革',kr:'혁신',en:'Transformation / Innovation',cat:'ptc'},
-  {jp:'製品',kr:'제품',en:'Product',cat:'ptc'},
-  {jp:'ライフサイクル',kr:'수명 주기',en:'Lifecycle',cat:'ptc'},
-  {jp:'スレッド',kr:'스레드',en:'Thread',cat:'ptc'},
-  {jp:'エンジニアリング',kr:'엔지니어링',en:'Engineering',cat:'ptc'},
-  {jp:'製造',kr:'제조',en:'Manufacturing',cat:'ptc'},
-  {jp:'リリース',kr:'릴리스',en:'Release',cat:'ptc'},
-  {jp:'ソリューション',kr:'솔루션',en:'Solution',cat:'ptc'},
-  {jp:'複雑性',kr:'복잡성',en:'Complexity',cat:'ptc'},
-  {jp:'削減',kr:'절감',en:'Reduction',cat:'ptc'},
-  {jp:'品質',kr:'품질',en:'Quality',cat:'ptc'},
-  {jp:'向上',kr:'향상',en:'Improvement',cat:'ptc'},
-  {jp:'成長',kr:'성장',en:'Growth',cat:'ptc'},
-  {jp:'革新',kr:'혁신',en:'Innovation',cat:'ptc'},
-  {jp:'促進',kr:'촉진',en:'Promotion / Acceleration',cat:'ptc'},
-  {jp:'顧客体験',kr:'고객 경험',en:'Customer Experience',cat:'ptc'},
-  {jp:'サービス',kr:'서비스',en:'Service',cat:'ptc'},
-  {jp:'最適化',kr:'최적화',en:'Optimization',cat:'ptc'},
-  {jp:'現場',kr:'현장',en:'Field / On-site',cat:'ptc'},
-  {jp:'インサイト',kr:'인사이트',en:'Insight',cat:'ptc'},
-  {jp:'価値',kr:'가치',en:'Value',cat:'ptc'},
-  {jp:'連鎖',kr:'사슬',en:'Chain',cat:'ptc'},
-  {jp:'加速',kr:'가속화',en:'Acceleration',cat:'ptc'},
-  {jp:'持続可能性',kr:'지속 가능성',en:'Sustainability',cat:'ptc'},
-  {jp:'同時進行',kr:'동시 진행',en:'Concurrent Work',cat:'ptc'},
-  {jp:'事例',kr:'사례',en:'Case / Example',cat:'ptc'},
-  {jp:'研究',kr:'연구',en:'Research / Study',cat:'ptc'},
-  {jp:'優秀',kr:'우수',en:'Excellence',cat:'ptc'},
-  {jp:'リーダー',kr:'리더',en:'Leader',cat:'ptc'},
-  {jp:'パートナー',kr:'파트너',en:'Partner',cat:'ptc'}
+// ===================== CATEGORIES =====================
+var CATS = [
+  {id:'time',  label:'🕐 時期・時間', color:'var(--c-time)'},
+  {id:'place', label:'📍 場所・方向', color:'var(--c-place)'},
+  {id:'noun',  label:'📝 名詞',       color:'var(--c-noun)'},
+  {id:'verb',  label:'🔵 動詞',       color:'var(--c-verb)'},
+  {id:'adj',   label:'🟡 形容詞・副詞',color:'var(--c-adj)'},
+  {id:'conj',  label:'🔗 接続詞',     color:'var(--c-conj)'},
+  {id:'num',   label:'🔢 数字・単位', color:'var(--c-num)'},
+  {id:'greet', label:'👋 挨拶・敬語', color:'var(--c-greet)'},
+  {id:'qw',    label:'❓ 疑問詞',     color:'var(--c-qw)'}
 ];
 
+// ===================== WORDS =====================
+var WORDS = [
+
+// ── 時期・時間 ─────────────────────────────────────
+  {jp:'今日',       kr:'오늘',          en:'Today',                   cat:'time'},
+  {jp:'明日',       kr:'내일',          en:'Tomorrow',                cat:'time'},
+  {jp:'昨日',       kr:'어제',          en:'Yesterday',               cat:'time'},
+  {jp:'今週',       kr:'이번 주',       en:'This week',               cat:'time'},
+  {jp:'来週',       kr:'다음 주',       en:'Next week',               cat:'time'},
+  {jp:'先週',       kr:'지난주',        en:'Last week',               cat:'time'},
+  {jp:'今月',       kr:'이번 달',       en:'This month',              cat:'time'},
+  {jp:'来月',       kr:'다음 달',       en:'Next month',              cat:'time'},
+  {jp:'先月',       kr:'지난달',        en:'Last month',              cat:'time'},
+  {jp:'今年',       kr:'올해',          en:'This year',               cat:'time'},
+  {jp:'来年',       kr:'내년',          en:'Next year',               cat:'time'},
+  {jp:'去年',       kr:'작년',          en:'Last year',               cat:'time'},
+  {jp:'1年後',      kr:'1년 후 (일년 후)',   en:'1 year later',            cat:'time'},
+  {jp:'2年後',      kr:'2년 후 (이년 후)',   en:'2 years later',           cat:'time'},
+  {jp:'3年後',      kr:'3년 후 (삼년 후)',   en:'3 years later',           cat:'time'},
+  {jp:'5分後',      kr:'5분 후 (오분 후)',   en:'5 minutes later',         cat:'time'},
+  {jp:'10分後',     kr:'10분 후 (십분 후)',  en:'10 minutes later',        cat:'time'},
+  {jp:'30分後',     kr:'30분 후 (삼십분 후)',en:'30 minutes later',        cat:'time'},
+  {jp:'5分前',      kr:'5분 전 (오분 전)',   en:'5 minutes ago',           cat:'time'},
+  {jp:'10分前',     kr:'10분 전 (십분 전)',  en:'10 minutes ago',          cat:'time'},
+  {jp:'30分前',     kr:'30분 전 (삼십분 전)',en:'30 minutes ago',          cat:'time'},
+  {jp:'前',         kr:'전',            en:'Before / Ago',            cat:'time'},
+  {jp:'後',         kr:'후',            en:'After / Later',           cat:'time'},
+  {jp:'春',         kr:'봄',            en:'Spring',                  cat:'time'},
+  {jp:'夏',         kr:'여름',          en:'Summer',                  cat:'time'},
+  {jp:'秋',         kr:'가을',          en:'Autumn / Fall',           cat:'time'},
+  {jp:'冬',         kr:'겨울',          en:'Winter',                  cat:'time'},
+  {jp:'午前',       kr:'오전',          en:'AM / Morning',            cat:'time'},
+  {jp:'午後',       kr:'오후',          en:'PM / Afternoon',          cat:'time'},
+  {jp:'朝',         kr:'아침',          en:'Morning',                 cat:'time'},
+  {jp:'昼',         kr:'점심',          en:'Noon / Lunch',            cat:'time'},
+  {jp:'夜',         kr:'저녁 / 밤',     en:'Evening / Night',         cat:'time'},
+  {jp:'1月',        kr:'1월 (일월)',     en:'January',                 cat:'time'},
+  {jp:'2月',        kr:'2월 (이월)',     en:'February',                cat:'time'},
+  {jp:'3月',        kr:'3월 (삼월)',     en:'March',                   cat:'time'},
+  {jp:'4月',        kr:'4월 (사월)',     en:'April',                   cat:'time'},
+  {jp:'5月',        kr:'5월 (오월)',     en:'May',                     cat:'time'},
+  {jp:'6月',        kr:'6월 (유월)',     en:'June',                    cat:'time'},
+  {jp:'7月',        kr:'7월 (칠월)',     en:'July',                    cat:'time'},
+  {jp:'8月',        kr:'8월 (팔월)',     en:'August',                  cat:'time'},
+  {jp:'9月',        kr:'9월 (구월)',     en:'September',               cat:'time'},
+  {jp:'10月',       kr:'10월 (시월)',    en:'October',                 cat:'time'},
+  {jp:'11月',       kr:'11월 (십일월)',  en:'November',                cat:'time'},
+  {jp:'12月',       kr:'12월 (십이월)',  en:'December',                cat:'time'},
+  {jp:'第1四半期',  kr:'1분기 (일분기)', en:'Q1',                      cat:'time'},
+  {jp:'第2四半期',  kr:'2분기 (이분기)', en:'Q2',                      cat:'time'},
+  {jp:'第3四半期',  kr:'3분기 (삼분기)', en:'Q3',                      cat:'time'},
+  {jp:'第4四半期',  kr:'4분기 (사분기)', en:'Q4',                      cat:'time'},
+  {jp:'2024年',     kr:'2024년 (이천이십사년)', en:'Year 2024',         cat:'time'},
+  {jp:'2025年',     kr:'2025년 (이천이십오년)', en:'Year 2025',         cat:'time'},
+  {jp:'2026年',     kr:'2026년 (이천이십육년)', en:'Year 2026',         cat:'time'},
+  {jp:'先々月',     kr:'지지난달',      en:'Two months ago',          cat:'time'},
+  {jp:'再来月',     kr:'다다음 달',     en:'Two months later',        cat:'time'},
+  {jp:'3か月前',    kr:'3개월 전 (삼 개월 전)', en:'3 months ago',           cat:'time'},
+  {jp:'3か月後',    kr:'3개월 후 (삼 개월 후)', en:'3 months later',         cat:'time'},
+  {jp:'朝早く',     kr:'이른 아침에',   en:'Early in the morning',    cat:'time'},
+  {jp:'夜遅く',     kr:'밤 늦게',       en:'Late at night',           cat:'time'},
+  {jp:'Q1',         kr:'1분기 (일분기 / Q1)', en:'Q1 (First quarter)',  cat:'time'},
+  {jp:'Q2',         kr:'2분기 (이분기 / Q2)', en:'Q2 (Second quarter)', cat:'time'},
+  {jp:'Q3',         kr:'3분기 (삼분기 / Q3)', en:'Q3 (Third quarter)',  cat:'time'},
+  {jp:'Q4',         kr:'4분기 (사분기 / Q4)', en:'Q4 (Fourth quarter)', cat:'time'},
+
+// ── 場所・方向 ─────────────────────────────────────
+  {jp:'上',         kr:'위',            en:'Above / Top',             cat:'place'},
+  {jp:'下',         kr:'아래',          en:'Below / Bottom',          cat:'place'},
+  {jp:'左',         kr:'왼쪽',          en:'Left',                    cat:'place'},
+  {jp:'右',         kr:'오른쪽',        en:'Right',                   cat:'place'},
+  {jp:'中',         kr:'안 / 중간',     en:'Inside / Middle',         cat:'place'},
+  {jp:'外',         kr:'밖',            en:'Outside',                 cat:'place'},
+  {jp:'前',         kr:'앞',            en:'Front',                   cat:'place'},
+  {jp:'後ろ',       kr:'뒤',            en:'Behind / Back',           cat:'place'},
+  {jp:'隣',         kr:'옆',            en:'Next to / Beside',        cat:'place'},
+  {jp:'ここ',       kr:'여기',          en:'Here',                    cat:'place'},
+  {jp:'そこ',       kr:'거기',          en:'There',                   cat:'place'},
+  {jp:'あそこ',     kr:'저기',          en:'Over there',              cat:'place'},
+  {jp:'会社',       kr:'회사',          en:'Company',                 cat:'place'},
+  {jp:'オフィス',   kr:'사무실',        en:'Office',                  cat:'place'},
+  {jp:'本社',       kr:'본사',          en:'Headquarters',            cat:'place'},
+  {jp:'支社',       kr:'지사',          en:'Branch office',           cat:'place'},
+  {jp:'会議室',     kr:'회의실',        en:'Meeting room',            cat:'place'},
+  {jp:'国内',       kr:'국내',          en:'Domestic',                cat:'place'},
+  {jp:'海外',       kr:'해외',          en:'Overseas',                cat:'place'},
+  {jp:'韓国',       kr:'한국',          en:'Korea',                   cat:'place'},
+  {jp:'日本',       kr:'일본',          en:'Japan',                   cat:'place'},
+  {jp:'アジア',     kr:'아시아',        en:'Asia',                    cat:'place'},
+  {jp:'グローバル', kr:'글로벌',        en:'Global',                  cat:'place'},
+  {jp:'東京',       kr:'도쿄',          en:'Tokyo',                   cat:'place'},
+  {jp:'ソウル',     kr:'서울',          en:'Seoul',                   cat:'place'},
+  {jp:'どこ',       kr:'어디',          en:'Where',                   cat:'place'},
+  {jp:'場所',       kr:'장소',          en:'Place / Location',        cat:'place'},
+  {jp:'現場',       kr:'현장',          en:'On-site / Field',         cat:'place'},
+  {jp:'オンライン', kr:'온라인',        en:'Online',                  cat:'place'},
+  {jp:'オフライン', kr:'오프라인',      en:'Offline',                 cat:'place'},
+  {jp:'アセアン',   kr:'아세안',        en:'ASEAN',                   cat:'place'},
+  {jp:'オーストラリア',kr:'호주',       en:'Australia',               cat:'place'},
+  {jp:'宮城',       kr:'미야기',        en:'Miyagi',                  cat:'place'},
+  {jp:'仙台',       kr:'센다이',        en:'Sendai',                  cat:'place'},
+
+// ── 名詞 ──────────────────────────────────────────
+  {jp:'商談',       kr:'영업 기회',     en:'Opportunity',             cat:'noun'},
+  {jp:'顧客',       kr:'고객',          en:'Customer',                cat:'noun'},
+  {jp:'取引先',     kr:'거래처',        en:'Account',                 cat:'noun'},
+  {jp:'担当者',     kr:'담당자',        en:'Person in charge',        cat:'noun'},
+  {jp:'契約',       kr:'계약',          en:'Contract',                cat:'noun'},
+  {jp:'提案',       kr:'제안',          en:'Proposal',                cat:'noun'},
+  {jp:'製品',       kr:'제품',          en:'Product',                 cat:'noun'},
+  {jp:'サービス',   kr:'서비스',        en:'Service',                 cat:'noun'},
+  {jp:'売上',       kr:'매출',          en:'Revenue / Sales',         cat:'noun'},
+  {jp:'利益',       kr:'이익',          en:'Profit',                  cat:'noun'},
+  {jp:'目標',       kr:'목표',          en:'Target / Goal',           cat:'noun'},
+  {jp:'予算',       kr:'예산',          en:'Budget',                  cat:'noun'},
+  {jp:'競合',       kr:'경쟁사',        en:'Competitor',              cat:'noun'},
+  {jp:'パートナー', kr:'파트너',        en:'Partner',                 cat:'noun'},
+  {jp:'チーム',     kr:'팀',            en:'Team',                    cat:'noun'},
+  {jp:'部門',       kr:'부서',          en:'Department',              cat:'noun'},
+  {jp:'マネージャー',kr:'매니저',       en:'Manager',                 cat:'noun'},
+  {jp:'リーダー',   kr:'리더',          en:'Leader',                  cat:'noun'},
+  {jp:'会議',       kr:'회의',          en:'Meeting',                 cat:'noun'},
+  {jp:'資料',       kr:'자료',          en:'Document / Material',     cat:'noun'},
+  {jp:'データ',     kr:'데이터',        en:'Data',                    cat:'noun'},
+  {jp:'レポート',   kr:'보고서',        en:'Report',                  cat:'noun'},
+  {jp:'フォーキャスト',kr:'포캐스트',   en:'Forecast',                cat:'noun'},
+  {jp:'パイプライン',kr:'파이프라인',   en:'Pipeline',                cat:'noun'},
+  {jp:'ステージ',   kr:'단계',          en:'Stage',                   cat:'noun'},
+  {jp:'リード',     kr:'리드',          en:'Lead',                    cat:'noun'},
+  {jp:'課題',       kr:'과제',          en:'Issue / Task',            cat:'noun'},
+  {jp:'解決策',     kr:'해결책',        en:'Solution',                cat:'noun'},
+  {jp:'成果',       kr:'성과',          en:'Result / Achievement',    cat:'noun'},
+  {jp:'戦略',       kr:'전략',          en:'Strategy',                cat:'noun'},
+  {jp:'計画',       kr:'계획',          en:'Plan',                    cat:'noun'},
+  {jp:'プロセス',   kr:'프로세스',      en:'Process',                 cat:'noun'},
+  {jp:'リスク',     kr:'리스크',        en:'Risk',                    cat:'noun'},
+  {jp:'機会',       kr:'기회',          en:'Opportunity / Chance',    cat:'noun'},
+  {jp:'影響',       kr:'영향',          en:'Impact / Influence',      cat:'noun'},
+  {jp:'色',         kr:'색',            en:'Color',                   cat:'noun'},
+  {jp:'赤',         kr:'빨간색',        en:'Red',                     cat:'noun'},
+  {jp:'青',         kr:'파란색',        en:'Blue',                    cat:'noun'},
+  {jp:'緑',         kr:'초록색',        en:'Green',                   cat:'noun'},
+  {jp:'白',         kr:'흰색',          en:'White',                   cat:'noun'},
+  {jp:'黒',         kr:'검은색',        en:'Black',                   cat:'noun'},
+  {jp:'黄色',       kr:'노란색',        en:'Yellow',                  cat:'noun'},
+  {jp:'項目',       kr:'항목',          en:'Item / Field',            cat:'noun'},
+  {jp:'フィールド', kr:'필드',          en:'Field',                   cat:'noun'},
+  {jp:'署名',       kr:'서명',          en:'Signature',               cat:'noun'},
+  {jp:'サイン',     kr:'사인',          en:'Sign / Signature',        cat:'noun'},
+  {jp:'YoY',        kr:'전년 대비 (YoY)',en:'Year-on-Year',           cat:'noun'},
+  {jp:'役職',       kr:'직책',          en:'Title / Position',        cat:'noun'},
+  {jp:'前任者',     kr:'전임자',        en:'Predecessor',             cat:'noun'},
+  {jp:'後任者',     kr:'후임자',        en:'Successor',               cat:'noun'},
+  {jp:'3人',        kr:'3명',           en:'3 people',                cat:'noun'},
+
+// ── 動詞 ──────────────────────────────────────────
+  {jp:'する',       kr:'하다',          en:'To do',                   cat:'verb'},
+  {jp:'できる',     kr:'할 수 있다',    en:'Can do / Be able to',     cat:'verb'},
+  {jp:'始める',     kr:'시작하다',      en:'To start / begin',        cat:'verb'},
+  {jp:'終わる',     kr:'끝나다',        en:'To end / finish',         cat:'verb'},
+  {jp:'確認する',   kr:'확인하다',      en:'To confirm / check',      cat:'verb'},
+  {jp:'更新する',   kr:'업데이트하다',  en:'To update',               cat:'verb'},
+  {jp:'送る',       kr:'보내다',        en:'To send',                 cat:'verb'},
+  {jp:'受け取る',   kr:'받다',          en:'To receive',              cat:'verb'},
+  {jp:'連絡する',   kr:'연락하다',      en:'To contact',              cat:'verb'},
+  {jp:'説明する',   kr:'설명하다',      en:'To explain',              cat:'verb'},
+  {jp:'提案する',   kr:'제안하다',      en:'To propose',              cat:'verb'},
+  {jp:'承認する',   kr:'승인하다',      en:'To approve',              cat:'verb'},
+  {jp:'変更する',   kr:'변경하다',      en:'To change / modify',      cat:'verb'},
+  {jp:'確定する',   kr:'확정하다',      en:'To finalize / confirm',   cat:'verb'},
+  {jp:'準備する',   kr:'준비하다',      en:'To prepare',              cat:'verb'},
+  {jp:'管理する',   kr:'관리하다',      en:'To manage',               cat:'verb'},
+  {jp:'達成する',   kr:'달성하다',      en:'To achieve',              cat:'verb'},
+  {jp:'改善する',   kr:'개선하다',      en:'To improve',              cat:'verb'},
+  {jp:'共有する',   kr:'공유하다',      en:'To share',                cat:'verb'},
+  {jp:'検討する',   kr:'검토하다',      en:'To review / consider',    cat:'verb'},
+  {jp:'対応する',   kr:'대응하다',      en:'To respond / handle',     cat:'verb'},
+  {jp:'依頼する',   kr:'요청하다',      en:'To request',              cat:'verb'},
+  {jp:'報告する',   kr:'보고하다',      en:'To report',               cat:'verb'},
+  {jp:'増やす',     kr:'늘리다',        en:'To increase',             cat:'verb'},
+  {jp:'減らす',     kr:'줄이다',        en:'To decrease / reduce',    cat:'verb'},
+  {jp:'進める',     kr:'진행하다',      en:'To proceed / advance',    cat:'verb'},
+  {jp:'止める',     kr:'멈추다',        en:'To stop',                 cat:'verb'},
+  {jp:'決める',     kr:'결정하다',      en:'To decide',               cat:'verb'},
+  {jp:'見る',       kr:'보다',          en:'To see / look',           cat:'verb'},
+  {jp:'聞く',       kr:'듣다 / 묻다',   en:'To listen / ask',         cat:'verb'},
+  {jp:'話す',       kr:'이야기하다',    en:'To talk / speak',         cat:'verb'},
+  {jp:'書く',       kr:'쓰다',          en:'To write',                cat:'verb'},
+  {jp:'会う',       kr:'만나다',        en:'To meet',                 cat:'verb'},
+  {jp:'助ける',     kr:'돕다',          en:'To help',                 cat:'verb'},
+  {jp:'理解する',   kr:'이해하다',      en:'To understand',           cat:'verb'},
+  {jp:'署名する',   kr:'서명하다',      en:'To sign',                 cat:'verb'},
+  {jp:'反対する',   kr:'반대하다',      en:'To oppose / disagree',    cat:'verb'},
+  {jp:'サポートする',kr:'지원하다',     en:'To support',              cat:'verb'},
+  {jp:'指示する',   kr:'지시하다',      en:'To instruct / direct',    cat:'verb'},
+  {jp:'位置する',   kr:'위치하다',      en:'To be located',           cat:'verb'},
+  {jp:'隠す',       kr:'숨기다',        en:'To hide',                 cat:'verb'},
+  {jp:'表示する',   kr:'표시하다',      en:'To display / show',       cat:'verb'},
+  {jp:'動かす',     kr:'움직이다',      en:'To move (something)',     cat:'verb'},
+  {jp:'移動する',   kr:'이동하다',      en:'To move / transfer',      cat:'verb'},
+  {jp:'記入する',   kr:'기입하다',      en:'To fill in / enter',      cat:'verb'},
+  {jp:'勉強する',   kr:'공부하다',      en:'To study',                cat:'verb'},
+  {jp:'頑張る',     kr:'열심히 하다',   en:'To do one\'s best',       cat:'verb'},
+  {jp:'間違える',   kr:'틀리다',        en:'To make a mistake',       cat:'verb'},
+  {jp:'寝る',       kr:'자다',          en:'To sleep',                cat:'verb'},
+  {jp:'起きる',     kr:'일어나다',      en:'To wake up / get up',     cat:'verb'},
+  {jp:'休む',       kr:'쉬다',          en:'To rest / take a break',  cat:'verb'},
+  {jp:'疲れる',     kr:'피곤하다',      en:'To get tired',            cat:'verb'},
+  {jp:'転籍する',   kr:'전적하다',      en:'To transfer (company)',   cat:'verb'},
+  {jp:'異動する',   kr:'이동하다',      en:'To transfer (department)',cat:'verb'},
+
+// ── 形容詞・副詞 ──────────────────────────────────
+  {jp:'大きい',     kr:'크다',          en:'Big / Large',             cat:'adj'},
+  {jp:'小さい',     kr:'작다',          en:'Small',                   cat:'adj'},
+  {jp:'多い',       kr:'많다',          en:'Many / Much',             cat:'adj'},
+  {jp:'少ない',     kr:'적다',          en:'Few / Little',            cat:'adj'},
+  {jp:'早い',       kr:'빠르다',        en:'Fast / Early',            cat:'adj'},
+  {jp:'遅い',       kr:'늦다',          en:'Late / Slow',             cat:'adj'},
+  {jp:'新しい',     kr:'새롭다',        en:'New',                     cat:'adj'},
+  {jp:'古い',       kr:'오래되다',      en:'Old',                     cat:'adj'},
+  {jp:'良い',       kr:'좋다',          en:'Good',                    cat:'adj'},
+  {jp:'悪い',       kr:'나쁘다',        en:'Bad',                     cat:'adj'},
+  {jp:'正しい',     kr:'맞다 / 올바르다',en:'Correct / Right',        cat:'adj'},
+  {jp:'間違い',     kr:'틀리다',        en:'Wrong / Incorrect',       cat:'adj'},
+  {jp:'重要',       kr:'중요하다',      en:'Important',               cat:'adj'},
+  {jp:'緊急',       kr:'긴급하다',      en:'Urgent',                  cat:'adj'},
+  {jp:'難しい',     kr:'어렵다',        en:'Difficult',               cat:'adj'},
+  {jp:'簡単',       kr:'쉽다',          en:'Easy / Simple',           cat:'adj'},
+  {jp:'高い',       kr:'높다 / 비싸다', en:'High / Expensive',        cat:'adj'},
+  {jp:'低い',       kr:'낮다',          en:'Low',                     cat:'adj'},
+  {jp:'もっと',     kr:'더',            en:'More',                    cat:'adj'},
+  {jp:'少し',       kr:'조금',          en:'A little',                cat:'adj'},
+  {jp:'すぐ',       kr:'바로',          en:'Right away / Immediately',cat:'adj'},
+  {jp:'まだ',       kr:'아직',          en:'Still / Not yet',         cat:'adj'},
+  {jp:'もう',       kr:'이미 / 벌써',   en:'Already',                 cat:'adj'},
+  {jp:'一緒に',     kr:'함께',          en:'Together',                cat:'adj'},
+  {jp:'別に',       kr:'따로',          en:'Separately',              cat:'adj'},
+  {jp:'全部',       kr:'전부 / 모두',   en:'All / Everything',        cat:'adj'},
+  {jp:'一部',       kr:'일부',          en:'Part / Some',             cat:'adj'},
+  {jp:'特に',       kr:'특히',          en:'Especially / Particularly',cat:'adj'},
+  {jp:'基本的に',   kr:'기본적으로',    en:'Basically',               cat:'adj'},
+  {jp:'たぶん',     kr:'아마',          en:'Probably / Maybe',        cat:'adj'},
+  {jp:'絶対',       kr:'절대',          en:'Absolutely',              cat:'adj'},
+  {jp:'だいたい',   kr:'대략',          en:'Approximately / Roughly', cat:'adj'},
+  {jp:'薄い',       kr:'얇다 / 연하다', en:'Thin / Light (color)',    cat:'adj'},
+  {jp:'濃い',       kr:'두껍다 / 진하다',en:'Thick / Dark (color)',   cat:'adj'},
+  {jp:'正しい',     kr:'올바르다',      en:'Correct / Right (adj)',   cat:'adj'},
+  {jp:'偉い',       kr:'훌륭하다 / 높다',en:'Great / Senior / High-ranking',cat:'adj'},
+
+// ── 接続詞・表現 ──────────────────────────────────
+  {jp:'しかし',     kr:'하지만',        en:'But / However',           cat:'conj'},
+  {jp:'そして',     kr:'그리고',        en:'And / Then',              cat:'conj'},
+  {jp:'または',     kr:'또는',          en:'Or',                      cat:'conj'},
+  {jp:'なぜなら',   kr:'왜냐하면',      en:'Because',                 cat:'conj'},
+  {jp:'つまり',     kr:'즉',            en:'In other words / That is',cat:'conj'},
+  {jp:'例えば',     kr:'예를 들면',     en:'For example',             cat:'conj'},
+  {jp:'もし',       kr:'만약',          en:'If',                      cat:'conj'},
+  {jp:'だから',     kr:'그래서',        en:'So / Therefore',          cat:'conj'},
+  {jp:'でも',       kr:'그런데',        en:'But / By the way',        cat:'conj'},
+  {jp:'それに',     kr:'게다가',        en:'Moreover / In addition',  cat:'conj'},
+  {jp:'一方',       kr:'한편',          en:'On the other hand',       cat:'conj'},
+  {jp:'まず',       kr:'먼저',          en:'First of all',            cat:'conj'},
+  {jp:'次に',       kr:'다음으로',      en:'Next / Then',             cat:'conj'},
+  {jp:'最後に',     kr:'마지막으로',    en:'Finally / Lastly',        cat:'conj'},
+  {jp:'結果として', kr:'결과적으로',    en:'As a result',             cat:'conj'},
+  {jp:'したがって', kr:'따라서',        en:'Therefore / Thus',        cat:'conj'},
+  {jp:'ちなみに',   kr:'참고로',        en:'By the way / For reference',cat:'conj'},
+  {jp:'ただし',     kr:'단',            en:'However / Provided that', cat:'conj'},
+  {jp:'特に',       kr:'특히',          en:'Especially',              cat:'conj'},
+  {jp:'基本的に',   kr:'기본적으로',    en:'Basically',               cat:'conj'},
+  {jp:'〜について', kr:'〜에 대해서',   en:'About / Regarding',       cat:'conj'},
+  {jp:'〜のため',   kr:'〜을 위해',     en:'For the purpose of',      cat:'conj'},
+  {jp:'〜に関して', kr:'〜에 관해서',   en:'Concerning / Regarding',  cat:'conj'},
+  {jp:'〜によると', kr:'〜에 따르면',   en:'According to',            cat:'conj'},
+  {jp:'〜と比べて', kr:'〜와 비교해서', en:'Compared to',             cat:'conj'},
+  {jp:'〜の場合',   kr:'〜의 경우',     en:'In the case of',          cat:'conj'},
+  {jp:'〜ができれば',kr:'〜을 할 수 있다면',en:'If we can',           cat:'conj'},
+  {jp:'〜をお願いします',kr:'〜을 부탁드립니다',en:'Please do',       cat:'conj'},
+
+// ── 数字・単位 ──────────────────────────────────
+  {jp:'1つ',        kr:'하나 / 1개 (일 개)',  en:'One',                    cat:'num'},
+  {jp:'2つ',        kr:'둘 / 2개 (이 개)',    en:'Two',                    cat:'num'},
+  {jp:'3つ',        kr:'셋 / 3개 (삼 개)',    en:'Three',                  cat:'num'},
+  {jp:'10',         kr:'10 (십)',            en:'Ten',                    cat:'num'},
+  {jp:'100',        kr:'100 (백)',           en:'Hundred',                cat:'num'},
+  {jp:'1000',       kr:'1000 (천)',          en:'Thousand',               cat:'num'},
+  {jp:'1万',        kr:'1만 (일만)',         en:'Ten thousand',           cat:'num'},
+  {jp:'1億',        kr:'1억 (일억)',         en:'Hundred million',        cat:'num'},
+  {jp:'%',          kr:'퍼센트',            en:'Percent',                cat:'num'},
+  {jp:'円',         kr:'엔',                en:'Yen',                    cat:'num'},
+  {jp:'ウォン',     kr:'원',                en:'Won',                    cat:'num'},
+  {jp:'ドル',       kr:'달러',              en:'Dollar',                 cat:'num'},
+  {jp:'件',         kr:'건',                en:'Case / Item (counter)',  cat:'num'},
+  {jp:'人',         kr:'명',                en:'Person (counter)',       cat:'num'},
+  {jp:'社',         kr:'사',                en:'Company (counter)',      cat:'num'},
+  {jp:'回',         kr:'번',                en:'Time(s) / Occasion',     cat:'num'},
+  {jp:'日間',       kr:'일 (일)',            en:'Day(s)',                 cat:'num'},
+  {jp:'週間',       kr:'주일 (주일)',        en:'Week(s)',                cat:'num'},
+  {jp:'ヶ月',       kr:'개월 (개월)',        en:'Month(s)',               cat:'num'},
+  {jp:'年間',       kr:'년 (년)',            en:'Year(s)',                cat:'num'},
+  {jp:'第1位',      kr:'1위 (일위)',         en:'1st place',              cat:'num'},
+  {jp:'半分',       kr:'절반',              en:'Half',                   cat:'num'},
+  {jp:'倍',         kr:'배',                en:'Times / Double',         cat:'num'},
+  {jp:'約',         kr:'약',                en:'About / Approximately',  cat:'num'},
+  {jp:'以上',       kr:'이상',              en:'More than / Above',      cat:'num'},
+  {jp:'以下',       kr:'이하',              en:'Less than / Below',      cat:'num'},
+  {jp:'合計',       kr:'합계',              en:'Total',                  cat:'num'},
+  {jp:'平均',       kr:'평균',              en:'Average',                cat:'num'},
+  {jp:'最大',       kr:'최대',              en:'Maximum',                cat:'num'},
+  {jp:'最小',       kr:'최소',              en:'Minimum',                cat:'num'},
+  {jp:'前年比',     kr:'전년 대비',         en:'Year-on-year comparison',cat:'num'},
+
+// ── 挨拶・敬語 ──────────────────────────────────
+  {jp:'よろしくお願いします',kr:'잘 부탁드립니다', en:'Nice to meet you / Please',cat:'greet'},
+  {jp:'ありがとうございます',kr:'감사합니다',      en:'Thank you',               cat:'greet'},
+  {jp:'お疲れ様です',kr:'수고하셨습니다',         en:'Good work',               cat:'greet'},
+  {jp:'おはようございます',kr:'안녕하세요 (아침)',en:'Good morning',             cat:'greet'},
+  {jp:'こんにちは',  kr:'안녕하세요',    en:'Hello',                   cat:'greet'},
+  {jp:'こんばんは',  kr:'안녕하세요 (저녁)',en:'Good evening',           cat:'greet'},
+  {jp:'失礼します',  kr:'실례합니다',    en:'Excuse me',               cat:'greet'},
+  {jp:'申し訳ありません',kr:'죄송합니다',en:'I am sorry',              cat:'greet'},
+  {jp:'承知しました',kr:'알겠습니다',    en:'Understood',              cat:'greet'},
+  {jp:'確認します',  kr:'확인하겠습니다',en:'I will check',            cat:'greet'},
+  {jp:'検討します',  kr:'검토하겠습니다',en:'I will consider',         cat:'greet'},
+  {jp:'後ほど連絡します',kr:'나중에 연락드리겠습니다',en:'I will contact you later',cat:'greet'},
+  {jp:'ご確認ください',kr:'확인해 주세요',en:'Please confirm',         cat:'greet'},
+  {jp:'ご連絡ください',kr:'연락해 주세요',en:'Please contact me',      cat:'greet'},
+  {jp:'お願いします', kr:'부탁드립니다', en:'Please / I ask you',      cat:'greet'},
+  {jp:'はい',         kr:'네',           en:'Yes',                     cat:'greet'},
+  {jp:'いいえ',       kr:'아니요',       en:'No',                      cat:'greet'},
+  {jp:'少々お待ちください',kr:'잠시만 기다려 주세요',en:'Please wait a moment',cat:'greet'},
+  {jp:'以上です',     kr:'이상입니다',   en:'That is all',             cat:'greet'},
+  {jp:'よろしければ', kr:'괜찮으시다면', en:'If you do not mind',      cat:'greet'},
+  {jp:'お世話になっております',kr:'신세를 지고 있습니다',en:'Thank you for your continued support',cat:'greet'},
+  {jp:'初めまして',   kr:'처음 뵙겠습니다',en:'Nice to meet you (first time)',cat:'greet'},
+  {jp:'どうぞよろしく',kr:'잘 부탁합니다',en:'Best regards',           cat:'greet'},
+  {jp:'お疲れ様',     kr:'수고했어요',   en:'Good work (casual)',      cat:'greet'},
+  {jp:'また来週',     kr:'다음 주에 봐요',en:'See you next week',       cat:'greet'},
+  {jp:'では',         kr:'그럼',         en:'Well then / OK then',     cat:'greet'},
+  {jp:'なるほど',     kr:'그렇군요',     en:'I see / I understand',    cat:'greet'},
+  {jp:'もちろん',     kr:'물론이죠',     en:'Of course',               cat:'greet'},
+  {jp:'大丈夫です',   kr:'괜찮습니다',   en:'It is fine / No problem', cat:'greet'},
+  {jp:'失礼しました', kr:'실례했습니다', en:'Excuse me / My apologies',cat:'greet'},
+
+// ── 疑問詞 ──────────────────────────────────────
+  {jp:'いつ',         kr:'언제',         en:'When',                    cat:'qw'},
+  {jp:'どこ',         kr:'어디',         en:'Where',                   cat:'qw'},
+  {jp:'だれ',         kr:'누구',         en:'Who',                     cat:'qw'},
+  {jp:'なに',         kr:'무엇 / 뭐',    en:'What',                    cat:'qw'},
+  {jp:'なぜ',         kr:'왜',           en:'Why',                     cat:'qw'},
+  {jp:'どう',         kr:'어떻게',       en:'How',                     cat:'qw'},
+  {jp:'どのくらい',   kr:'얼마나',       en:'How much / How long',     cat:'qw'},
+  {jp:'いくら',       kr:'얼마',         en:'How much (price)',        cat:'qw'},
+  {jp:'何人',         kr:'몇 명',        en:'How many people',         cat:'qw'},
+  {jp:'何件',         kr:'몇 건',        en:'How many cases',          cat:'qw'},
+  {jp:'何時',         kr:'몇 시',        en:'What time',               cat:'qw'},
+  {jp:'何月',         kr:'몇 월',        en:'What month',              cat:'qw'},
+  {jp:'何日',         kr:'며칠',         en:'What day / date',         cat:'qw'},
+  {jp:'何年',         kr:'몇 년',        en:'What year',               cat:'qw'},
+  {jp:'何番',         kr:'몇 번',        en:'What number',             cat:'qw'},
+  {jp:'どちら',       kr:'어느 쪽',      en:'Which one',               cat:'qw'},
+  {jp:'どれ',         kr:'어느 것',      en:'Which (thing)',           cat:'qw'},
+  {jp:'どんな',       kr:'어떤',         en:'What kind of',            cat:'qw'},
+  {jp:'いつから',     kr:'언제부터',     en:'From when / Since when',  cat:'qw'},
+  {jp:'いつまで',     kr:'언제까지',     en:'Until when / By when',    cat:'qw'},
+  {jp:'どのステージ', kr:'어떤 단계',    en:'Which stage',             cat:'qw'},
+  {jp:'何のため',     kr:'무엇을 위해',  en:'For what purpose',        cat:'qw'},
+  {jp:'誰が担当',     kr:'누가 담당',    en:'Who is in charge',        cat:'qw'},
+  {jp:'いくつ',       kr:'몇 개',        en:'How many (items)',        cat:'qw'},
+  {jp:'何社',         kr:'몇 사',        en:'How many companies',      cat:'qw'},
+  {jp:'どのくらいの期間',kr:'얼마나 오래',en:'How long (duration)',    cat:'qw'},
+  {jp:'どのくらいの予算',kr:'얼마 정도의 예산',en:'What kind of budget',cat:'qw'},
+  {jp:'どのくらいの規模',kr:'어느 정도 규모',en:'What scale / size',  cat:'qw'},
+  {jp:'いつクローズ', kr:'언제 클로즈',  en:'When to close',           cat:'qw'},
+  {jp:'何が課題',     kr:'무엇이 과제',  en:'What is the challenge',   cat:'qw'},
+  // ── Creo動画追加単語 (名詞) ──
+  {jp:'競争',         kr:'경쟁',         en:'Competition',             cat:'noun'},
+  {jp:'納期',         kr:'납기',         en:'Delivery deadline',       cat:'noun'},
+  {jp:'競争力',       kr:'경쟁력',       en:'Competitiveness',         cat:'noun'},
+  {jp:'投資',         kr:'투자',         en:'Investment',              cat:'noun'},
+  {jp:'バージョン',   kr:'버전',         en:'Version',                 cat:'noun'},
+  {jp:'機能',         kr:'기능',         en:'Function / Feature',      cat:'noun'},
+  {jp:'設計',         kr:'설계',         en:'Design / Engineering',    cat:'noun'},
+  {jp:'シミュレーション',kr:'시뮬레이션',en:'Simulation',              cat:'noun'},
+  {jp:'SaaS',         kr:'SaaS (소프트웨어 서비스)', en:'Software as a Service', cat:'noun'},
+  {jp:'クラウド',     kr:'클라우드',     en:'Cloud',                   cat:'noun'},
+  {jp:'ライセンス',   kr:'라이센스',     en:'License',                 cat:'noun'},
+  {jp:'協業',         kr:'협업',         en:'Collaboration',           cat:'noun'},
+  {jp:'リアルタイム', kr:'실시간',       en:'Real-time',               cat:'noun'},
+  {jp:'ワークステーション',kr:'워크스테이션',en:'Workstation',         cat:'noun'},
+  {jp:'生産性',       kr:'생산성',       en:'Productivity',            cat:'noun'},
+  {jp:'コミュニケーション',kr:'커뮤니케이션',en:'Communication',       cat:'noun'},
+  {jp:'アクセス',     kr:'액세스',       en:'Access',                  cat:'noun'},
+  {jp:'ポータル',     kr:'포털',         en:'Portal',                  cat:'noun'},
+  {jp:'アップグレード',kr:'업그레이드',  en:'Upgrade',                 cat:'noun'},
+  {jp:'アセンブリ',   kr:'어셈블리',     en:'Assembly',                cat:'noun'},
+  {jp:'同時設計',     kr:'동시 설계',    en:'Concurrent design',       cat:'noun'},
+  {jp:'同期',         kr:'동기화',       en:'Synchronization',         cat:'noun'},
+  {jp:'再作業',       kr:'재작업',       en:'Rework',                  cat:'noun'},
+  {jp:'遅延',         kr:'지연',         en:'Delay',                   cat:'noun'},
+  {jp:'分割画面',     kr:'분할 화면',    en:'Split screen',            cat:'noun'},
+  {jp:'ユーザー',     kr:'사용자',       en:'User',                    cat:'noun'},
+  {jp:'セッション',   kr:'세션',         en:'Session',                 cat:'noun'},
+  {jp:'部品',         kr:'부품',         en:'Part / Component',        cat:'noun'},
+  {jp:'競合',         kr:'충돌',         en:'Conflict / Collision',    cat:'noun'},
+  {jp:'パッケージ',   kr:'패키지',       en:'Package',                 cat:'noun'},
+  {jp:'互換性',       kr:'호환성',       en:'Compatibility',           cat:'noun'},
+  {jp:'ロードマップ', kr:'로드맵',       en:'Roadmap',                 cat:'noun'},
+  {jp:'Webブラウザ',  kr:'웹 브라우저',  en:'Web browser',             cat:'noun'},
+  {jp:'ストリーミング',kr:'스트리밍',    en:'Streaming',               cat:'noun'},
+  {jp:'セキュリティ', kr:'보안',         en:'Security',                cat:'noun'},
+  {jp:'認証',         kr:'인증',         en:'Certification / Authentication', cat:'noun'},
+  {jp:'環境',         kr:'환경',         en:'Environment',             cat:'noun'}
+];
+
+// ===================== PHRASES =====================
 var PHRASES = [
   {jp:'今週のフォーキャストを更新してください',kr:'이번 주 포캐스트를 업데이트해 주세요',en:"Please update this week's forecast",cat:'forecast'},
   {jp:'今月のフォーキャストはどうなっていますか？',kr:'이번 달 포캐스트는 어떻게 되어 있나요?',en:"What does this month's forecast look like?",cat:'forecast'},
@@ -445,164 +809,154 @@ var PHRASES = [
   {jp:'製品データを活用してワークフローを効率化できます',kr:'제품 데이터를 활용하여 워크플로우를 간소화할 수 있습니다',en:'You can streamline workflows by leveraging product data',cat:'ptc'},
   {jp:'概念から納品まで開発を加速化します',kr:'개념부터 납품까지 개발을 가속화합니다',en:'Accelerates development from concept to delivery',cat:'ptc'},
   {jp:'製品ライフサイクル全体でより大きな価値を創出します',kr:'전체 제품 수명 주기에서 더 큰 가치를 창출합니다',en:'Creates greater value across the entire product lifecycle',cat:'ptc'},
-  {jp:'デジタルスレッドでデジタル変革を実現します',kr:'디지털 스레드로 디지털 혁신을 실현합니다',en:'Achieve digital transformation with the digital thread',cat:'ptc'},
-  {jp:'摩擦と複雑性を削減して品質を向上させます',kr:'마찰과 복잡성을 줄여 품질을 향상시킵니다',en:'Reduce friction and complexity to improve quality',cat:'ptc'},
-  {jp:'フォーチュン500の製造会社の95%がPTCのお客様です',kr:'포춘 500대 제조 회사 중 95%가 PTC 고객입니다',en:'95% of Fortune 500 manufacturing companies are PTC customers',cat:'ptc'}
+  {jp:'フォーチュン500の製造会社の95%がPTCのお客様です',kr:'포춘 500대 제조 회사 중 95%가 PTC 고객입니다',en:'95% of Fortune 500 manufacturing companies are PTC customers',cat:'ptc'},
+  {jp:'競争が激化しています',kr:'경쟁이 심화되고 있습니다',en:'Competition is intensifying',cat:'ptc'},
+  {jp:'短い時間でより多くの仕事をしたいです',kr:'짧은 시간에 더 많은 일을 하고 싶습니다',en:'We want to do more work in less time',cat:'ptc'},
+  {jp:'納期がどんどん短くなっています',kr:'납기는 점점 짧아지고 있습니다',en:'Delivery deadlines are getting shorter and shorter',cat:'ptc'},
+  {jp:'PTCは CAD事業に継続的に投資しています',kr:'PTC는 이 캐드 사업에 지속적으로 투자를 하고 있습니다',en:'PTC continuously invests in the CAD business',cat:'ptc'},
+  {jp:'Creo+はSaaSとして提供されます',kr:'크레오 플러스는 SaaS로 출시되었습니다',en:'Creo+ is available as SaaS',cat:'ptc'},
+  {jp:'リアルタイム協業機能があります',kr:'실시간 협업 기능이 있습니다',en:'It has real-time collaboration features',cat:'ptc'},
+  {jp:'ソフトウェアの所有コストを削減します',kr:'소프트웨어의 소유 비용을 절감시킵니다',en:'It reduces the total cost of software ownership',cat:'ptc'},
+  {jp:'高性能ワークステーションが不要になります',kr:'고성능 워크스테이션이 더 이상 필요하지 않습니다',en:'High-performance workstations are no longer required',cat:'ptc'},
+  {jp:'いつでもどこでもアクセスできます',kr:'언제나 어디서나 액세스할 수 있습니다',en:'You can access it anytime, anywhere',cat:'ptc'},
+  {jp:'中央集中型ポータルで管理できます',kr:'중앙 집중식 포털을 통해서 관리할 수 있습니다',en:'You can manage it through a centralized portal',cat:'ptc'},
+  {jp:'ソフトウェアを自動でアップグレードします',kr:'자동으로 소프트웨어를 업그레이드해 줍니다',en:'It automatically upgrades the software',cat:'ptc'},
+  {jp:'同時設計でコンカレントエンジニアリングが実現します',kr:'동시 설계로 컨커런트 엔지니어링이 실현됩니다',en:'Concurrent design enables concurrent engineering',cat:'ptc'},
+  {jp:'変更内容がリアルタイムで同期されます',kr:'변경 사항이 실시간으로 동기화됩니다',en:'Changes are synchronized in real time',cat:'ptc'},
+  {jp:'再作業を減らし遅延を最小化できます',kr:'재작업을 줄이고 지연 시간을 최소화할 수 있습니다',en:'We can reduce rework and minimize delays',cat:'ptc'},
+  {jp:'一度に一人だけ一つのパートを編集できます',kr:'한 번에 한 사람만 하나의 파트를 작업할 수 있습니다',en:'Only one person can work on one part at a time',cat:'ptc'},
+  {jp:'来年はWebブラウザ版のCreo+がリリース予定です',kr:'내년에는 웹 브라우저 기반의 크레오 플러스가 출시될 예정입니다',en:'Next year, a web browser-based Creo+ is planned for release',cat:'ptc'}
 ];
 
-var PCAT_LABELS = {forecast:'フォーキャスト',opportunity:'商談進捗',schedule:'日程・スケジュール',reason:'理由・原因',ptc:'PTC製品・提案',other:'その他'};
+var PCAT_LABELS = {forecast:'フォーキャスト',opportunity:'商談進捗',schedule:'日程・スケジュール',reason:'理由・原因',ptc:'PTC製品',other:'その他'};
 var PCAT_ORDER = ['forecast','opportunity','schedule','reason','ptc','other'];
 
 // ===================== STATE =====================
-var stats = {};
-try { stats = JSON.parse(localStorage.getItem('so_stats')||'{}'); } catch(e){}
-var userPhrases = [];
-try { userPhrases = JSON.parse(localStorage.getItem('so_phrases')||'[]'); } catch(e){}
+var stats = {}; try{stats=JSON.parse(localStorage.getItem('so_stats')||'{}');}catch(e){}
+var userPhrases = []; try{userPhrases=JSON.parse(localStorage.getItem('so_phrases')||'[]');}catch(e){}
 
-var fCats = {sf:true,rev:true,ops:true,ptc:true};
-var fDir = 'jp2kr', fWeak = false;
-var fDeck = [], fIdx = 0, fFlipped = false, fAnswered = false;
-var fOk = 0, fNg = 0;
-var currentWord = null;
+var fCats = {}; for(var i=0;i<CATS.length;i++) fCats[CATS[i].id]=(i===0);
+var qCats = {}; for(var i=0;i<CATS.length;i++) qCats[CATS[i].id]=(i===0);
+var wCats = {}; for(var i=0;i<CATS.length;i++) wCats[CATS[i].id]=(i===0);
+var phCats = {}; for(var i=0;i<PCAT_ORDER.length;i++) phCats[PCAT_ORDER[i]]=true;
 
-var qCats = {sf:true,rev:true,ops:true,ptc:true};
-var qDir = 'jp2kr', qWeak = false;
-var qDeck = [], qIdx = 0;
-var qOk = 0, qNg = 0;
-var currentQuizKr = '';
-
-var wCats = {sf:true,rev:true,ops:true,ptc:true};
-var phCats = {forecast:true,opportunity:true,schedule:true,reason:true,ptc:true,other:true};
-var selPcatVal = 'forecast';
+var fDir='jp2kr', fWeak=false, fDeck=[], fIdx=0, fFlipped=false, fAnswered=false, fOk=0, fNg=0;
+var currentWord=null;
+var qDir='jp2kr', qWeak=false, qDeck=[], qIdx=0, qOk=0, qNg=0;
+var currentQuizKr='';
+var selPcatVal='forecast';
 
 // ===================== HELPERS =====================
-function saveStats(){ try{localStorage.setItem('so_stats',JSON.stringify(stats));}catch(e){} }
-function savePhrases(){ try{localStorage.setItem('so_phrases',JSON.stringify(userPhrases));}catch(e){} }
-function getStat(i){ return stats[i]||{ok:0,ng:0}; }
-function addStat(i,ok){ if(!stats[i])stats[i]={ok:0,ng:0}; ok?stats[i].ok++:stats[i].ng++; saveStats(); }
-function isWeak(i){ var s=getStat(i); return s.ng>s.ok&&(s.ok+s.ng)>0; }
-
-function shuffle(a){
-  var b=a.slice(),i,j,t;
-  for(i=b.length-1;i>0;i--){j=Math.floor(Math.random()*(i+1));t=b[i];b[i]=b[j];b[j]=t;}
-  return b;
-}
+function saveStats(){try{localStorage.setItem('so_stats',JSON.stringify(stats));}catch(e){}}
+function savePhrases(){try{localStorage.setItem('so_phrases',JSON.stringify(userPhrases));}catch(e){}}
+function getStat(i){return stats[i]||{ok:0,ng:0};}
+function addStat(i,ok){if(!stats[i])stats[i]={ok:0,ng:0};ok?stats[i].ok++:stats[i].ng++;saveStats();recordHistory();}
+function isWeak(i){var s=getStat(i);return s.ng>s.ok&&(s.ok+s.ng)>0;}
+function recordHistory(){} // 後で上書き定義
+function shuffle(a){var b=a.slice(),i,j,t;for(i=b.length-1;i>0;i--){j=Math.floor(Math.random()*(i+1));t=b[i];b[i]=b[j];b[j]=t;}return b;}
+function catColor(id){for(var i=0;i<CATS.length;i++){if(CATS[i].id===id)return CATS[i].color;}return 'var(--text2)';}
+function catLabel(id){for(var i=0;i<CATS.length;i++){if(CATS[i].id===id)return CATS[i].label;}return id;}
 
 function getDeck(cats,weak){
   var pool=[];
-  for(var i=0;i<WORDS.length;i++){
-    if(cats[WORDS[i].cat]) pool.push(i);
-  }
-  if(weak){
-    var wp=[];
-    for(var j=0;j<pool.length;j++){ if(isWeak(pool[j])) wp.push(pool[j]); }
-    if(wp.length>0) pool=wp;
-  }
+  for(var i=0;i<WORDS.length;i++){if(cats[WORDS[i].cat])pool.push(i);}
+  if(weak){var wp=[];for(var j=0;j<pool.length;j++){if(isWeak(pool[j]))wp.push(pool[j]);}if(wp.length>0)pool=wp;}
   return shuffle(pool);
 }
-
-function getOpts(correctKr, correctJp, dir){
-  var correct = dir==='jp2kr'?correctKr:correctJp;
+function getOpts(w,dir){
+  var correct=dir==='jp2kr'?w.kr:w.jp;
   var pool=[];
-  for(var i=0;i<WORDS.length;i++){
-    var v = dir==='jp2kr'?WORDS[i].kr:WORDS[i].jp;
-    if(v!==correct) pool.push(v);
+  for(var i=0;i<WORDS.length;i++){var v=dir==='jp2kr'?WORDS[i].kr:WORDS[i].jp;if(v!==correct)pool.push(v);}
+  pool=shuffle(pool).slice(0,3);pool.push(correct);return shuffle(pool);
+}
+
+// ===================== CAT FILTER BUILDER =====================
+function buildCatFilter(containerId, catsObj, onToggle){
+  var el=document.getElementById(containerId);
+  el.innerHTML='';
+  for(var i=0;i<CATS.length;i++){
+    var cat=CATS[i];
+    var btn=document.createElement('button');
+    btn.className='cat-btn';
+    btn.style.borderColor=catsObj[cat.id]?catColor(cat.id):'';
+    btn.style.color=catsObj[cat.id]?catColor(cat.id):'';
+    btn.style.background=catsObj[cat.id]?catColor(cat.id).replace(')',',0.12)').replace('var(','rgba('):'';
+    btn.textContent=cat.label;
+    (function(id,b){b.onclick=function(){onToggle(id,b);};})(cat.id,btn);
+    el.appendChild(btn);
   }
-  pool=shuffle(pool).slice(0,3);
-  pool.push(correct);
-  return shuffle(pool);
+}
+function makeToggle(catsObj, containerId, onAfter){
+  return function(id, btn){
+    // 全カテゴリをオフにしてから選択したものだけオン
+    for(var k in catsObj) catsObj[k]=false;
+    catsObj[id]=true;
+    // ボタンの見た目を全部リセットしてから選択したものだけ色付け
+    var el=document.getElementById(containerId);
+    var btns=el.querySelectorAll('.cat-btn');
+    for(var i=0;i<btns.length;i++){
+      btns[i].style.borderColor='';
+      btns[i].style.color='';
+      btns[i].style.background='';
+    }
+    btn.style.borderColor=catColor(id);
+    btn.style.color=catColor(id);
+    btn.style.background=catColor(id).replace(')',',0.12)').replace('var(','rgba(');
+    onAfter();
+  };
 }
 
 // ===================== TABS =====================
 function showTab(name){
   var tabs=document.querySelectorAll('.nav-tab');
   var screens=document.querySelectorAll('.screen');
-  for(var i=0;i<tabs.length;i++) tabs[i].classList.remove('active');
-  for(var i=0;i<screens.length;i++) screens[i].classList.remove('active');
-  var tabEls=document.querySelectorAll('.nav-tab');
-  var names=['flash','quiz','words','phrases'];
-  for(var i=0;i<names.length;i++){
-    if(names[i]===name){ tabEls[i].classList.add('active'); break; }
-  }
+  for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');
+  for(var i=0;i<screens.length;i++)screens[i].classList.remove('active');
+  var names=['flash','quiz','words','phrases','progress'];
+  for(var i=0;i<names.length;i++){if(names[i]===name){tabs[i].classList.add('active');break;}}
   document.getElementById('tab-'+name).classList.add('active');
   if(name==='words') renderWords();
-  if(name==='phrases') renderPhrases();
+  if(name==='phrases'){ setPhraseMode(phraseMode); }
+  if(name==='progress') renderProgress();
 }
 
 // ===================== TTS =====================
 var krVoice=null;
 function initTTS(){
-  if(!window.speechSynthesis) return;
-  function load(){ var vs=speechSynthesis.getVoices(); for(var i=0;i<vs.length;i++){ if(vs[i].lang.indexOf('ko')===0){krVoice=vs[i];break;} } }
-  load(); speechSynthesis.onvoiceschanged=load;
+  if(!window.speechSynthesis)return;
+  function load(){var vs=speechSynthesis.getVoices();for(var i=0;i<vs.length;i++){if(vs[i].lang.indexOf('ko')===0){krVoice=vs[i];break;}}}
+  load();speechSynthesis.onvoiceschanged=load;
 }
 function ttsPlay(text,btnId){
-  if(!window.speechSynthesis) return;
+  if(!window.speechSynthesis)return;
   speechSynthesis.cancel();
   var u=new SpeechSynthesisUtterance(text);
-  u.lang='ko-KR'; u.rate=0.85;
-  if(krVoice) u.voice=krVoice;
+  u.lang='ko-KR';u.rate=0.85;if(krVoice)u.voice=krVoice;
   var btn=document.getElementById(btnId);
-  if(btn) btn.classList.add('speaking');
-  u.onend=function(){ if(btn) btn.classList.remove('speaking'); };
-  u.onerror=function(){ if(btn) btn.classList.remove('speaking'); };
+  if(btn)btn.classList.add('speaking');
+  u.onend=function(){if(btn)btn.classList.remove('speaking');};
+  u.onerror=function(){if(btn)btn.classList.remove('speaking');};
   speechSynthesis.speak(u);
 }
 
 // ===================== FLASH =====================
-function setFlashDir(d){
-  fDir=d;
-  document.getElementById('f-btn-jp2kr').classList.toggle('active',d==='jp2kr');
-  document.getElementById('f-btn-kr2jp').classList.toggle('active',d==='kr2jp');
-  startFlash();
-}
-function toggleFlashWeak(){
-  fWeak=!fWeak;
-  document.getElementById('f-weak-btn').classList.toggle('active',fWeak);
-  startFlash();
-}
-function toggleFlashCat(cat){
-  var on=Object.keys(fCats).filter(function(k){return fCats[k];}).length;
-  if(fCats[cat]&&on>1) fCats[cat]=false;
-  else fCats[cat]=true;
-  var btn=document.getElementById('fcb-'+cat);
-  btn.className='cat-btn'+(fCats[cat]?' on-'+cat:'');
-  startFlash();
-}
-function startFlash(){
-  fDeck=getDeck(fCats,fWeak); fIdx=0; fOk=0; fNg=0;
-  document.getElementById('f-finish').style.display='none';
-  document.getElementById('f-game').style.display='block';
-  showFlash();
-}
+function setFlashDir(d){fDir=d;document.getElementById('f-btn-jp2kr').classList.toggle('active',d==='jp2kr');document.getElementById('f-btn-kr2jp').classList.toggle('active',d==='kr2jp');startFlash();}
+function toggleFlashWeak(){fWeak=!fWeak;document.getElementById('f-weak-btn').classList.toggle('active',fWeak);startFlash();}
+function startFlash(){fDeck=getDeck(fCats,fWeak);fIdx=0;fOk=0;fNg=0;document.getElementById('f-finish').style.display='none';document.getElementById('f-game').style.display='block';showFlash();}
 function showFlash(){
   updateFlashScore();
-  if(fDeck.length===0){
-    document.getElementById('f-front').textContent='単語がありません';
-    document.getElementById('f-back').textContent='';
-    document.getElementById('f-front-en').textContent='';
-    document.getElementById('f-back-sub').textContent='';
-    document.getElementById('f-back-en').textContent='';
-    document.getElementById('f-tag').textContent='';
-    document.getElementById('f-tag').className='card-tag';
-    document.getElementById('f-card').classList.remove('flipped');
-    document.getElementById('f-judge').style.display='none';
-    document.getElementById('f-next').style.display='none';
-    return;
-  }
-  if(fIdx>=fDeck.length){ showFlashFinish(); return; }
-  var idx=fDeck[fIdx];
-  var w=WORDS[idx];
-  currentWord=w;
-  fFlipped=false; fAnswered=false;
+  if(fDeck.length===0){document.getElementById('f-front').textContent='単語がありません';document.getElementById('f-back').textContent='';document.getElementById('f-front-en').textContent='';document.getElementById('f-back-sub').textContent='';document.getElementById('f-back-en').textContent='';document.getElementById('f-tag').textContent='';document.getElementById('f-card').classList.remove('flipped');document.getElementById('f-judge').style.display='none';return;}
+  if(fIdx>=fDeck.length){showFlashFinish();return;}
+  var w=WORDS[fDeck[fIdx]];currentWord=w;
+  fFlipped=false;fAnswered=false;
   document.getElementById('f-card').classList.remove('flipped');
-  document.getElementById('f-fb').textContent='';
-  document.getElementById('f-fb').className='feedback';
+  document.getElementById('f-fb').textContent='';document.getElementById('f-fb').className='feedback';
   document.getElementById('f-judge').style.display='none';
-  document.getElementById('f-next').style.display='block';
   var tag=document.getElementById('f-tag');
-  tag.textContent={sf:'Salesforce',rev:'売上・利益',ops:'セールスOps',ptc:'PTC用語'}[w.cat];
-  tag.className='card-tag tag-'+w.cat;
+  tag.textContent=catLabel(w.cat);
+  tag.className='card-tag';
+  tag.style.background=catColor(w.cat).replace(')',',0.15)').replace('var(','rgba(');
+  tag.style.color=catColor(w.cat);
   if(fDir==='jp2kr'){
     document.getElementById('f-front').textContent=w.jp;
     document.getElementById('f-front-en').textContent=w.en;
@@ -610,315 +964,584 @@ function showFlash(){
     document.getElementById('f-back').textContent=w.kr;
     document.getElementById('f-back-sub').textContent=w.jp;
     document.getElementById('f-back-en').textContent=w.en;
-  } else {
+  }else{
     document.getElementById('f-front').textContent=w.kr;
     document.getElementById('f-front-en').textContent=w.en;
     document.getElementById('f-front-tts').style.display='block';
     document.getElementById('f-back').textContent=w.jp;
     document.getElementById('f-back-sub').textContent=w.kr;
     document.getElementById('f-back-en').textContent=w.en;
-    if(window.speechSynthesis) setTimeout(function(){ttsPlay(w.kr,'tts-f-front');},300);
+    if(window.speechSynthesis)setTimeout(function(){ttsPlay(w.kr,'tts-f-front');},300);
   }
 }
 function flipCard(){
-  if(fAnswered) return;
+  if(fAnswered)return;
   fFlipped=!fFlipped;
   document.getElementById('f-card').classList.toggle('flipped',fFlipped);
-  if(fFlipped){
-    document.getElementById('f-judge').style.display='flex';
-    if(window.speechSynthesis&&currentWord) setTimeout(function(){ttsPlay(currentWord.kr,'tts-f-back');},300);
-  }
+  if(fFlipped){document.getElementById('f-judge').style.display='flex';if(window.speechSynthesis&&currentWord)setTimeout(function(){ttsPlay(currentWord.kr,'tts-f-back');},300);}
 }
 function judgeCard(ok){
-  fAnswered=true;
-  var idx=fDeck[fIdx];
-  addStat(idx,ok);
-  if(ok) fOk++; else fNg++;
-  var fb=document.getElementById('f-fb');
-  fb.textContent=ok?'✓ 正解！':'✗ 不正解';
-  fb.className='feedback '+(ok?'ok':'ng');
-  document.getElementById('f-judge').style.display='none';
-  updateFlashScore();
+  fAnswered=true;var idx=fDeck[fIdx];addStat(idx,ok);if(ok)fOk++;else fNg++;
+  var fb=document.getElementById('f-fb');fb.textContent=ok?'✓ 正解！':'✗ 不正解';fb.className='feedback '+(ok?'ok':'ng');
+  document.getElementById('f-judge').style.display='none';updateFlashScore();
 }
-function nextFlash(){
-  // 採点なしでスキップした場合はカウントしない
-  fIdx++;
-  showFlash();
-}
+function nextFlash(){fIdx++;showFlash();}
 function updateFlashScore(){
-  var total=fDeck.length, done=Math.min(fIdx,total);
-  document.getElementById('f-total').textContent=fOk+fNg;
-  document.getElementById('f-ok').textContent=fOk;
-  document.getElementById('f-ng').textContent=fNg;
-  document.getElementById('f-prog').textContent=done+' / '+total;
-  document.getElementById('f-pct').textContent=total?Math.round(done/total*100)+'%':'0%';
+  var total=fDeck.length,done=Math.min(fIdx,total);
+  document.getElementById('f-total').textContent=fOk+fNg;document.getElementById('f-ok').textContent=fOk;document.getElementById('f-ng').textContent=fNg;
+  document.getElementById('f-prog').textContent=done+' / '+total;document.getElementById('f-pct').textContent=total?Math.round(done/total*100)+'%':'0%';
   document.getElementById('f-bar').style.width=total?(done/total*100)+'%':'0%';
 }
 function showFlashFinish(){
-  document.getElementById('f-game').style.display='none';
-  document.getElementById('f-finish').style.display='block';
+  document.getElementById('f-game').style.display='none';document.getElementById('f-finish').style.display='block';
   var pct=(fOk+fNg)>0?Math.round(fOk/(fOk+fNg)*100):0;
   document.getElementById('f-finish-sub').textContent='正答率 '+pct+'%';
-  document.getElementById('f-finish-stats').innerHTML=
-    '<div class="finish-stat"><div class="n" style="color:var(--accent3)">'+fDeck.length+'</div><div class="l">総問数</div></div>'+
-    '<div class="finish-stat"><div class="n" style="color:var(--success)">'+fOk+'</div><div class="l">正解</div></div>'+
-    '<div class="finish-stat"><div class="n" style="color:var(--danger)">'+fNg+'</div><div class="l">不正解</div></div>';
+  document.getElementById('f-finish-stats').innerHTML='<div class="finish-stat"><div class="n" style="color:var(--accent3)">'+fDeck.length+'</div><div class="l">総問数</div></div><div class="finish-stat"><div class="n" style="color:var(--success)">'+fOk+'</div><div class="l">正解</div></div><div class="finish-stat"><div class="n" style="color:var(--danger)">'+fNg+'</div><div class="l">不正解</div></div>';
 }
-function restartFlash(weakOnly){
-  if(weakOnly){ fWeak=true; document.getElementById('f-weak-btn').classList.add('active'); }
-  startFlash();
-}
+function restartFlash(weakOnly){if(weakOnly){fWeak=true;document.getElementById('f-weak-btn').classList.add('active');}startFlash();}
 
 // ===================== QUIZ =====================
-function setQuizDir(d){
-  qDir=d;
-  document.getElementById('q-btn-jp2kr').classList.toggle('active',d==='jp2kr');
-  document.getElementById('q-btn-kr2jp').classList.toggle('active',d==='kr2jp');
-  startQuiz();
-}
-function toggleQuizWeak(){
-  qWeak=!qWeak;
-  document.getElementById('q-weak-btn').classList.toggle('active',qWeak);
-  startQuiz();
-}
-function toggleQuizCat(cat){
-  var on=Object.keys(qCats).filter(function(k){return qCats[k];}).length;
-  if(qCats[cat]&&on>1) qCats[cat]=false;
-  else qCats[cat]=true;
-  var btn=document.getElementById('qcb-'+cat);
-  btn.className='cat-btn'+(qCats[cat]?' on-'+cat:'');
-  startQuiz();
-}
-function startQuiz(){
-  qDeck=getDeck(qCats,qWeak); qIdx=0; qOk=0; qNg=0;
-  document.getElementById('q-finish').style.display='none';
-  document.getElementById('q-game').style.display='block';
-  showQuiz();
-}
+function setQuizDir(d){qDir=d;document.getElementById('q-btn-jp2kr').classList.toggle('active',d==='jp2kr');document.getElementById('q-btn-kr2jp').classList.toggle('active',d==='kr2jp');startQuiz();}
+function toggleQuizWeak(){qWeak=!qWeak;document.getElementById('q-weak-btn').classList.toggle('active',qWeak);startQuiz();}
+function startQuiz(){qDeck=getDeck(qCats,qWeak);qIdx=0;qOk=0;qNg=0;document.getElementById('q-finish').style.display='none';document.getElementById('q-game').style.display='block';showQuiz();}
 function showQuiz(){
   updateQuizScore();
-  if(qDeck.length===0){
-    document.getElementById('q-word').textContent='単語がありません';
-    document.getElementById('q-label').textContent='';
-    document.getElementById('q-en').textContent='';
-    document.getElementById('q-opts').innerHTML='';
-    document.getElementById('q-next').style.display='none';
-    return;
-  }
-  if(qIdx>=qDeck.length){ showQuizFinish(); return; }
-  var idx=qDeck[qIdx];
-  var w=WORDS[idx];
-  currentQuizKr=w.kr;
-  document.getElementById('q-next').style.display='none';
-  document.getElementById('q-fb').textContent='';
-  document.getElementById('q-fb').className='feedback';
-  if(qDir==='jp2kr'){
-    document.getElementById('q-label').textContent='日本語 → 韓国語';
-    document.getElementById('q-word').textContent=w.jp;
-  } else {
-    document.getElementById('q-label').textContent='韓国語 → 日本語';
-    document.getElementById('q-word').textContent=w.kr;
-    if(window.speechSynthesis) setTimeout(function(){ttsPlay(w.kr,'tts-q');},300);
-  }
+  if(qDeck.length===0){document.getElementById('q-word').textContent='単語がありません';document.getElementById('q-label').textContent='';document.getElementById('q-en').textContent='';document.getElementById('q-opts').innerHTML='';document.getElementById('q-next').style.display='none';return;}
+  if(qIdx>=qDeck.length){showQuizFinish();return;}
+  var w=WORDS[qDeck[qIdx]];currentQuizKr=w.kr;
+  document.getElementById('q-next').style.display='none';document.getElementById('q-fb').textContent='';document.getElementById('q-fb').className='feedback';
+  if(qDir==='jp2kr'){document.getElementById('q-label').textContent='日本語 → 韓国語';document.getElementById('q-word').textContent=w.jp;}
+  else{document.getElementById('q-label').textContent='韓国語 → 日本語';document.getElementById('q-word').textContent=w.kr;if(window.speechSynthesis)setTimeout(function(){ttsPlay(w.kr,'tts-q');},300);}
   document.getElementById('q-en').textContent=w.en;
   var correct=qDir==='jp2kr'?w.kr:w.jp;
-  var opts=getOpts(w.kr,w.jp,qDir);
-  var container=document.getElementById('q-opts');
-  container.innerHTML='';
+  var opts=getOpts(w,qDir);
+  var container=document.getElementById('q-opts');container.innerHTML='';
   for(var i=0;i<opts.length;i++){
-    var btn=document.createElement('button');
-    btn.className='quiz-opt';
-    btn.textContent=opts[i];
-    (function(b,o,c,wi){ b.onclick=function(){ answerQuiz(b,o,c,wi); }; })(btn,opts[i],correct,idx);
+    var btn=document.createElement('button');btn.className='quiz-opt';btn.textContent=opts[i];
+    (function(b,o,c,wi){b.onclick=function(){answerQuiz(b,o,c,wi);};})(btn,opts[i],correct,qDeck[qIdx]);
     container.appendChild(btn);
   }
 }
 function answerQuiz(btn,chosen,correct,idx){
-  var opts=document.querySelectorAll('.quiz-opt');
-  for(var i=0;i<opts.length;i++) opts[i].disabled=true;
-  var ok=chosen===correct;
-  addStat(idx,ok);
-  if(ok) qOk++; else qNg++;
+  var opts=document.querySelectorAll('.quiz-opt');for(var i=0;i<opts.length;i++)opts[i].disabled=true;
+  var ok=chosen===correct;addStat(idx,ok);if(ok)qOk++;else qNg++;
   btn.classList.add(ok?'opt-ok':'opt-ng');
-  if(!ok){ for(var i=0;i<opts.length;i++){ if(opts[i].textContent===correct) opts[i].classList.add('opt-ok'); } }
-  var fb=document.getElementById('q-fb');
-  fb.textContent=ok?'✓ 正解！':'✗ 正解: '+correct;
-  fb.className='feedback '+(ok?'ok':'ng');
-  document.getElementById('q-next').style.display='block';
-  updateQuizScore();
+  if(!ok){for(var i=0;i<opts.length;i++){if(opts[i].textContent===correct)opts[i].classList.add('opt-ok');}}
+  var fb=document.getElementById('q-fb');fb.textContent=ok?'✓ 正解！':'✗ 正解: '+correct;fb.className='feedback '+(ok?'ok':'ng');
+  document.getElementById('q-next').style.display='block';updateQuizScore();
 }
-function nextQuiz(){ qIdx++; showQuiz(); }
+function nextQuiz(){qIdx++;showQuiz();}
 function updateQuizScore(){
-  var total=qDeck.length, done=Math.min(qIdx,total);
-  document.getElementById('q-total').textContent=qOk+qNg;
-  document.getElementById('q-ok').textContent=qOk;
-  document.getElementById('q-ng').textContent=qNg;
-  document.getElementById('q-prog').textContent=done+' / '+total;
-  document.getElementById('q-pct').textContent=total?Math.round(done/total*100)+'%':'0%';
+  var total=qDeck.length,done=Math.min(qIdx,total);
+  document.getElementById('q-total').textContent=qOk+qNg;document.getElementById('q-ok').textContent=qOk;document.getElementById('q-ng').textContent=qNg;
+  document.getElementById('q-prog').textContent=done+' / '+total;document.getElementById('q-pct').textContent=total?Math.round(done/total*100)+'%':'0%';
   document.getElementById('q-bar').style.width=total?(done/total*100)+'%':'0%';
 }
 function showQuizFinish(){
-  document.getElementById('q-game').style.display='none';
-  document.getElementById('q-finish').style.display='block';
+  document.getElementById('q-game').style.display='none';document.getElementById('q-finish').style.display='block';
   var pct=(qOk+qNg)>0?Math.round(qOk/(qOk+qNg)*100):0;
   document.getElementById('q-finish-sub').textContent='正答率 '+pct+'%';
-  document.getElementById('q-finish-stats').innerHTML=
-    '<div class="finish-stat"><div class="n" style="color:var(--accent3)">'+qDeck.length+'</div><div class="l">総問数</div></div>'+
-    '<div class="finish-stat"><div class="n" style="color:var(--success)">'+qOk+'</div><div class="l">正解</div></div>'+
-    '<div class="finish-stat"><div class="n" style="color:var(--danger)">'+qNg+'</div><div class="l">不正解</div></div>';
+  document.getElementById('q-finish-stats').innerHTML='<div class="finish-stat"><div class="n" style="color:var(--accent3)">'+qDeck.length+'</div><div class="l">総問数</div></div><div class="finish-stat"><div class="n" style="color:var(--success)">'+qOk+'</div><div class="l">正解</div></div><div class="finish-stat"><div class="n" style="color:var(--danger)">'+qNg+'</div><div class="l">不正解</div></div>';
 }
-function restartQuiz(weakOnly){
-  if(weakOnly){ qWeak=true; document.getElementById('q-weak-btn').classList.add('active'); }
-  startQuiz();
-}
+function restartQuiz(weakOnly){if(weakOnly){qWeak=true;document.getElementById('q-weak-btn').classList.add('active');}startQuiz();}
 
 // ===================== WORDS =====================
-function toggleWordCat(cat){
-  var on=Object.keys(wCats).filter(function(k){return wCats[k];}).length;
-  if(wCats[cat]&&on>1) wCats[cat]=false;
-  else wCats[cat]=true;
-  var btn=document.getElementById('wcb-'+cat);
-  btn.className='cat-btn'+(wCats[cat]?' on-'+cat:'');
-  renderWords();
-}
 function renderWords(){
-  var body=document.getElementById('word-body');
-  body.innerHTML='';
-  var catNames={sf:'Salesforce',rev:'売上・利益',ops:'セールスOps',ptc:'PTC用語'};
+  var body=document.getElementById('word-body');body.innerHTML='';
   var count=0;
   for(var i=0;i<WORDS.length;i++){
-    var w=WORDS[i];
-    if(!wCats[w.cat]) continue;
-    count++;
-    var s=getStat(i);
-    var weak=isWeak(i);
-    var row=document.createElement('div');
-    row.className='word-row'+(weak?' weak':'');
-    row.innerHTML=
-      '<span><span class="dot dot-'+w.cat+'"></span>'+w.jp+'</span>'+
-      '<span style="display:flex;align-items:center;gap:5px">'+w.kr+
-        ' <button class="tts-btn" style="width:24px;height:24px;font-size:12px" onclick="ttsPlay(\''+w.kr.replace(/'/g,"\\'")+'\',' + "'tts-w-"+i+"')\" id=\"tts-w-"+i+"\">🔊</button>"+
-      '</span>'+
-      '<span style="font-size:11px;color:var(--text3);font-family:var(--mono)">'+w.en+'</span>'+
+    var w=WORDS[i];if(!wCats[w.cat])continue;count++;
+    var s=getStat(i);var weak=isWeak(i);
+    var row=document.createElement('div');row.className='word-row'+(weak?' weak':'');
+    var col=catColor(w.cat);
+    var kr_safe=w.kr.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    row.innerHTML='<span><span class="dot" style="background:'+col+'"></span>'+w.jp+'</span>'+
+      '<span style="display:flex;align-items:center;gap:4px">'+w.kr+
+        '<button class="tts-btn" style="width:22px;height:22px;font-size:11px" onclick="ttsPlay(\''+kr_safe+'\',\'tw'+i+'\')" id="tw'+i+'">🔊</button></span>'+
+      '<span style="font-size:10px;color:var(--text3);font-family:var(--mono)">'+w.en+'</span>'+
       '<span><span class="stat-ok">✓'+s.ok+'</span> <span class="stat-ng">✗'+s.ng+'</span></span>';
     body.appendChild(row);
   }
-  if(count===0) body.innerHTML='<div class="empty">該当する単語がありません</div>';
+  if(count===0)body.innerHTML='<div class="empty">該当する単語がありません</div>';
 }
 
 // ===================== PHRASES =====================
-function buildPhraseCatBtns(){
-  var el=document.getElementById('ph-cats');
-  el.innerHTML='';
-  for(var i=0;i<PCAT_ORDER.length;i++){
-    var cat=PCAT_ORDER[i];
-    var btn=document.createElement('button');
-    btn.className='cat-btn on-sf';
-    btn.textContent=PCAT_LABELS[cat];
-    (function(c,b){ b.onclick=function(){
-      if(phCats[c]&&Object.keys(phCats).filter(function(k){return phCats[k];}).length>1){
-        phCats[c]=false; b.className='cat-btn';
-      } else { phCats[c]=true; b.className='cat-btn on-sf'; }
-      renderPhrases();
-    }; })(cat,btn);
-    el.appendChild(btn);
-  }
-}
 function renderPhrases(){
   var q=(document.getElementById('ph-search').value||'').toLowerCase();
   var all=PHRASES.concat(userPhrases);
-  var list=document.getElementById('ph-list');
-  list.innerHTML='';
+  var list=document.getElementById('ph-list');list.innerHTML='';
   for(var pi=0;pi<PCAT_ORDER.length;pi++){
-    var cat=PCAT_ORDER[pi];
-    if(!phCats[cat]) continue;
+    var cat=PCAT_ORDER[pi];if(!phCats[cat])continue;
     var items=[];
-    for(var i=0;i<all.length;i++){
-      var p=all[i];
-      if(p.cat!==cat) continue;
-      if(q&&p.jp.toLowerCase().indexOf(q)===-1&&p.kr.indexOf(q)===-1&&p.en.toLowerCase().indexOf(q)===-1) continue;
-      items.push({p:p,i:i});
-    }
-    if(items.length===0) continue;
-    var lbl=document.createElement('div');
-    lbl.className='phrase-group';
-    lbl.textContent=PCAT_LABELS[cat];
-    list.appendChild(lbl);
+    for(var i=0;i<all.length;i++){var p=all[i];if(p.cat!==cat)continue;if(q&&p.jp.toLowerCase().indexOf(q)===-1&&p.kr.indexOf(q)===-1&&p.en.toLowerCase().indexOf(q)===-1)continue;items.push({p:p,i:i});}
+    if(items.length===0)continue;
+    var lbl=document.createElement('div');lbl.className='phrase-group';lbl.textContent=PCAT_LABELS[cat];list.appendChild(lbl);
     for(var j=0;j<items.length;j++){
-      var p=items[j].p;
-      var globalIdx=items[j].i;
-      var isUser=globalIdx>=PHRASES.length;
-      var card=document.createElement('div');
-      card.className='phrase-card';
-      var krSafe=p.kr.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-      var jpSafe=p.jp.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-      var ttsId='ptts-'+globalIdx;
-      card.innerHTML=
-        '<div class="phrase-jp">'+p.jp+'</div>'+
-        '<div class="phrase-kr">'+p.kr+'</div>'+
-        '<div class="phrase-en">'+p.en+'</div>'+
+      var p=items[j].p;var gIdx=items[j].i;var isUser=gIdx>=PHRASES.length;
+      var card=document.createElement('div');card.className='phrase-card';
+      var krs=p.kr.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      var jps=p.jp.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      var tid='ptts'+gIdx;
+      card.innerHTML='<div class="phrase-jp">'+p.jp+'</div><div class="phrase-kr">'+p.kr+'</div><div class="phrase-en">'+p.en+'</div>'+
         '<div class="phrase-acts">'+
-          '<button class="tts-btn" id="'+ttsId+'" onclick="ttsPlay(\''+krSafe+'\',\''+ttsId+'\')">🔊</button>'+
-          '<button class="copy-btn" onclick="copyText(this,\''+krSafe+'\')">📋 韓国語</button>'+
-          '<button class="copy-btn" onclick="copyText(this,\''+jpSafe+'\')">📋 日本語</button>'+
-          (isUser?'<button class="del-btn" onclick="delPhrase('+(globalIdx-PHRASES.length)+')">🗑</button>':'')+
+          '<button class="tts-btn" id="'+tid+'" onclick="ttsPlay(\''+krs+'\',\''+tid+'\')">🔊</button>'+
+          '<button class="copy-btn" onclick="copyText(this,\''+krs+'\')">📋 韓国語</button>'+
+          '<button class="copy-btn" onclick="copyText(this,\''+jps+'\')">📋 日本語</button>'+
+          (isUser?'<button class="del-btn" onclick="delPhrase('+(gIdx-PHRASES.length)+')">🗑</button>':'')+
         '</div>';
       list.appendChild(card);
     }
   }
-  if(list.children.length===0) list.innerHTML='<div class="empty">該当するフレーズがありません</div>';
+  if(list.children.length===0)list.innerHTML='<div class="empty">該当するフレーズがありません</div>';
 }
 function copyText(btn,text){
   var orig=btn.innerHTML;
-  if(navigator.clipboard){
-    navigator.clipboard.writeText(text).then(function(){
-      btn.innerHTML='✓ コピー完了'; btn.classList.add('copied');
-      setTimeout(function(){btn.innerHTML=orig;btn.classList.remove('copied');},1500);
-    });
+  function done(){btn.innerHTML='✓ コピー完了';btn.classList.add('copied');setTimeout(function(){btn.innerHTML=orig;btn.classList.remove('copied');},1500);}
+  if(navigator.clipboard){navigator.clipboard.writeText(text).then(done);}
+  else{var ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);done();}
+}
+function delPhrase(idx){if(!confirm('削除しますか？'))return;userPhrases.splice(idx,1);savePhrases();renderPhrases();}
+function selPcat(btn){var bs=document.querySelectorAll('.pcat-btn');for(var i=0;i<bs.length;i++)bs[i].classList.remove('active');btn.classList.add('active');selPcatVal=btn.getAttribute('data-pcat');}
+function addPhrase(){
+  var jp=document.getElementById('add-jp').value.trim();var kr=document.getElementById('add-kr').value.trim();var en=document.getElementById('add-en').value.trim();
+  var err=document.getElementById('add-err');
+  if(!jp||!kr){err.textContent='日本語と韓国語は必須です';return;}
+  err.textContent='';userPhrases.push({jp:jp,kr:kr,en:en,cat:selPcatVal});savePhrases();
+  document.getElementById('add-jp').value='';document.getElementById('add-kr').value='';document.getElementById('add-en').value='';
+  renderPhrases();
+}
+
+// ===================== PROGRESS =====================
+function renderProgress(){
+  // --- サマリー ---
+  var totalWords = WORDS.length;
+  var studied = 0, totalOk = 0, totalAnswered = 0, weakCount = 0;
+  for(var i=0;i<WORDS.length;i++){
+    var s=getStat(i);
+    if(s.ok+s.ng>0) studied++;
+    totalOk+=s.ok; totalAnswered+=s.ok+s.ng;
+    if(isWeak(i)) weakCount++;
+  }
+  var overallPct = totalAnswered>0?Math.round(totalOk/totalAnswered*100):0;
+  var summaryEl=document.getElementById('pg-summary');
+  summaryEl.innerHTML=
+    pgCard('総単語数',totalWords,'全カテゴリ','var(--accent3)')+
+    pgCard('学習済み',studied,Math.round(studied/totalWords*100)+'%','var(--success)')+
+    pgCard('正答率',overallPct+'%','全体平均','var(--accent)')+
+    pgCard('苦手単語',weakCount,'要復習','var(--danger)');
+
+  // --- カテゴリ別進捗バー ---
+  var catsEl=document.getElementById('pg-cats');
+  catsEl.innerHTML='';
+  for(var c=0;c<CATS.length;c++){
+    var cat=CATS[c];
+    var catOk=0,catTotal=0;
+    for(var i=0;i<WORDS.length;i++){
+      if(WORDS[i].cat!==cat.id) continue;
+      var s=getStat(i);
+      catOk+=s.ok; catTotal+=s.ok+s.ng;
+    }
+    var pct=catTotal>0?Math.round(catOk/catTotal*100):0;
+    var row=document.createElement('div');
+    row.style.cssText='display:grid;grid-template-columns:120px 1fr 46px;gap:8px;align-items:center';
+    var col=cat.color;
+    row.innerHTML=
+      '<span style="font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+cat.label+'</span>'+
+      '<div style="height:8px;background:var(--bg3);border-radius:4px;overflow:hidden">'+
+        '<div style="height:100%;width:'+pct+'%;background:'+col+';border-radius:4px;transition:width .5s"></div>'+
+      '</div>'+
+      '<span style="font-size:11px;color:var(--text2);text-align:right;font-family:var(--mono)">'+pct+'%</span>';
+    catsEl.appendChild(row);
+  }
+
+  // --- 苦手単語TOP5 ---
+  var weakEl=document.getElementById('pg-weak');
+  weakEl.innerHTML='';
+  var weakList=[];
+  for(var i=0;i<WORDS.length;i++){
+    var s=getStat(i);
+    if(s.ng>0) weakList.push({w:WORDS[i],s:s,score:s.ng-(s.ok*0.5)});
+  }
+  weakList.sort(function(a,b){return b.score-a.score;});
+  var top=weakList.slice(0,5);
+  if(top.length===0){
+    weakEl.innerHTML='<div style="font-size:13px;color:var(--text2);padding:10px 0">まだ学習記録がありません</div>';
   } else {
-    var ta=document.createElement('textarea');
-    ta.value=text; ta.style.cssText='position:fixed;opacity:0';
-    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
-    document.body.removeChild(ta);
-    btn.innerHTML='✓ コピー完了'; btn.classList.add('copied');
-    setTimeout(function(){btn.innerHTML=orig;btn.classList.remove('copied');},1500);
+    for(var i=0;i<top.length;i++){
+      var item=top[i];
+      var div=document.createElement('div');
+      div.style.cssText='background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--danger);border-radius:9px;padding:9px 12px;display:flex;justify-content:space-between;align-items:center';
+      div.innerHTML=
+        '<div>'+
+          '<div style="font-size:13px;color:var(--text)">'+item.w.jp+'</div>'+
+          '<div style="font-size:11px;color:var(--text2);margin-top:2px">'+item.w.kr+'</div>'+
+        '</div>'+
+        '<div style="font-size:11px;font-family:var(--mono);text-align:right">'+
+          '<span style="color:var(--success)">✓'+item.s.ok+'</span> '+
+          '<span style="color:var(--danger)">✗'+item.s.ng+'</span>'+
+        '</div>';
+      weakEl.appendChild(div);
+    }
+  }
+
+  // --- 学習カレンダー ---
+  var calEl=document.getElementById('pg-cal');
+  calEl.innerHTML='';
+  var history=[];
+  try{history=JSON.parse(localStorage.getItem('so_history')||'[]');}catch(e){}
+  var today=new Date(); today.setHours(0,0,0,0);
+  for(var d=27;d>=0;d--){
+    var day=new Date(today.getTime()-d*86400000);
+    var key=day.getFullYear()+'-'+(day.getMonth()+1)+'-'+day.getDate();
+    var count=0;
+    for(var h=0;h<history.length;h++){if(history[h].date===key)count=history[h].count;}
+    var dot=document.createElement('div');
+    dot.style.cssText='width:15px;height:15px;border-radius:3px;';
+    dot.title=key+' ('+count+'問)';
+    if(count===0) dot.style.background='var(--bg3)';
+    else if(count<5) dot.style.background='rgba(79,142,247,0.4)';
+    else if(count<15) dot.style.background='rgba(79,142,247,0.7)';
+    else dot.style.background='var(--accent)';
+    calEl.appendChild(dot);
   }
 }
-function delPhrase(idx){
-  if(!confirm('削除しますか？')) return;
-  userPhrases.splice(idx,1); savePhrases(); renderPhrases();
+
+function pgCard(label,val,sub,color){
+  return '<div style="background:var(--bg3);border-radius:10px;padding:12px 14px">'+
+    '<div style="font-size:11px;color:var(--text2);margin-bottom:3px">'+label+'</div>'+
+    '<div style="font-size:22px;font-weight:700;font-family:var(--mono);color:'+color+'">'+val+'</div>'+
+    '<div style="font-size:10px;color:var(--text3);margin-top:2px">'+sub+'</div>'+
+  '</div>';
 }
-function selPcat(btn){
-  var btns=document.querySelectorAll('.pcat-btn');
-  for(var i=0;i<btns.length;i++) btns[i].classList.remove('active');
-  btn.classList.add('active');
-  selPcatVal=btn.getAttribute('data-pcat');
+
+function resetStats(){
+  if(!confirm('学習記録を全てリセットしますか？')) return;
+  stats={};saveStats();
+  localStorage.removeItem('so_history');
+  renderProgress();
+  startFlash(); startQuiz();
 }
-function addPhrase(){
-  var jp=document.getElementById('add-jp').value.trim();
-  var kr=document.getElementById('add-kr').value.trim();
-  var en=document.getElementById('add-en').value.trim();
-  var err=document.getElementById('add-err');
-  if(!jp||!kr){ err.textContent='日本語と韓国語は必須です'; return; }
-  err.textContent='';
-  userPhrases.push({jp:jp,kr:kr,en:en,cat:selPcatVal});
-  savePhrases();
-  document.getElementById('add-jp').value='';
-  document.getElementById('add-kr').value='';
-  document.getElementById('add-en').value='';
-  renderPhrases();
+
+// カレンダー用：問題を解くたびに記録
+function recordHistory(){
+  var today=new Date();today.setHours(0,0,0,0);
+  var key=today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+  var history=[];
+  try{history=JSON.parse(localStorage.getItem('so_history')||'[]');}catch(e){}
+  var found=false;
+  for(var i=0;i<history.length;i++){
+    if(history[i].date===key){history[i].count++;found=true;break;}
+  }
+  if(!found) history.push({date:key,count:1});
+  // 60日分だけ保持
+  if(history.length>60) history=history.slice(history.length-60);
+  try{localStorage.setItem('so_history',JSON.stringify(history));}catch(e){}
+}
+
+// ===================== PHRASE MODE =====================
+var phraseMode = 'build';
+function setPhraseMode(m){
+  phraseMode = m;
+  document.getElementById('ph-mode-build').classList.toggle('active', m==='build');
+  document.getElementById('ph-mode-list').classList.toggle('active', m==='list');
+  document.getElementById('ph-build').style.display = m==='build'?'block':'none';
+  document.getElementById('ph-list-mode').style.display = m==='list'?'block':'none';
+  if(m==='build') pbStart();
+  if(m==='list'){ buildPhraseCatBtns(); renderPhrases(); }
+}
+
+// ===================== BUILD MODE =====================
+var pbCats = {};
+for(var i=0;i<PCAT_ORDER.length;i++) pbCats[PCAT_ORDER[i]] = (i===0);
+var pbDeck=[], pbIdx=0, pbOk=0, pbNg=0;
+var pbCurrent=null, pbAnswered=false;
+var pbPlaced=[];   // 回答エリアに置いたチップの {text, poolIdx} 配列
+var pbPoolState=[]; // プールの各チップが使用済みかどうか
+
+function buildPbCatBtns(){
+  var el=document.getElementById('ph-build-cats'); el.innerHTML='';
+  for(var i=0;i<PCAT_ORDER.length;i++){
+    var cat=PCAT_ORDER[i];
+    var btn=document.createElement('button');
+    btn.className='cat-btn';
+    var active=pbCats[cat];
+    btn.style.borderColor=active?'var(--accent)':'';
+    btn.style.color=active?'var(--accent)':'';
+    btn.style.background=active?'rgba(79,142,247,0.12)':'';
+    btn.textContent=PCAT_LABELS[cat];
+    (function(c,b){b.onclick=function(){
+      // シングルセレクト
+      for(var k in pbCats) pbCats[k]=false;
+      pbCats[c]=true;
+      var all=document.getElementById('ph-build-cats').querySelectorAll('.cat-btn');
+      for(var j=0;j<all.length;j++){all[j].style.borderColor='';all[j].style.color='';all[j].style.background='';}
+      b.style.borderColor='var(--accent)';b.style.color='var(--accent)';b.style.background='rgba(79,142,247,0.12)';
+      pbStart();
+    };})(cat,btn);
+    el.appendChild(btn);
+  }
+}
+
+function getPbDeck(){
+  var pool=[];
+  var all=PHRASES.concat(userPhrases);
+  for(var i=0;i<all.length;i++){
+    if(pbCats[all[i].cat]) pool.push(all[i]);
+  }
+  return shuffle(pool);
+}
+
+function pbStart(){
+  pbDeck=getPbDeck(); pbIdx=0; pbOk=0; pbNg=0;
+  document.getElementById('pb-finish').style.display='none';
+  document.getElementById('pb-game').style.display='block';
+  pbShow();
+}
+
+// 韓国語を単語チップに分割する
+function splitKr(kr){
+  // スペースで分割し、句読点を分離
+  var parts = kr.split(' ');
+  var chips=[];
+  for(var i=0;i<parts.length;i++){
+    if(parts[i]) chips.push(parts[i]);
+  }
+  return chips;
+}
+
+// ダミーチップを生成（他のフレーズから拾う）
+function getDummies(correct, count){
+  var all=PHRASES.concat(userPhrases);
+  var pool=[];
+  for(var i=0;i<all.length;i++){
+    var chips=splitKr(all[i].kr);
+    for(var j=0;j<chips.length;j++){
+      if(correct.indexOf(chips[j])===-1) pool.push(chips[j]);
+    }
+  }
+  pool=shuffle(pool);
+  var dummies=[];
+  var seen={};
+  for(var k in correct) seen[correct[k]]=true;
+  for(var i=0;i<pool.length&&dummies.length<count;i++){
+    if(!seen[pool[i]]){dummies.push(pool[i]);seen[pool[i]]=true;}
+  }
+  return dummies;
+}
+
+function pbShow(){
+  pbUpdateProgress();
+  if(pbDeck.length===0){
+    document.getElementById('pb-jp').textContent='フレーズがありません';
+    document.getElementById('pb-en').textContent='カテゴリを選択してください';
+    document.getElementById('pb-pool').innerHTML='';
+    document.getElementById('pb-answer').innerHTML='<span style="font-size:13px;color:var(--text3)">↓ 単語をタップして並べよう</span>';
+    document.getElementById('pb-feedback').textContent='';
+    return;
+  }
+  if(pbIdx>=pbDeck.length){ pbShowFinish(); return; }
+
+  pbCurrent=pbDeck[pbIdx];
+  pbAnswered=false;
+  pbPlaced=[];
+
+  // 問題表示
+  document.getElementById('pb-jp').textContent=pbCurrent.jp;
+  document.getElementById('pb-en').textContent=pbCurrent.en;
+  document.getElementById('pb-feedback').textContent='';
+  document.getElementById('pb-feedback').style.color='';
+  document.getElementById('pb-check-btn').disabled=false;
+  document.getElementById('pb-check-btn').style.opacity='1';
+
+  // 回答エリアリセット
+  var ansEl=document.getElementById('pb-answer');
+  ansEl.innerHTML='<span id="pb-answer-placeholder" style="font-size:13px;color:var(--text3)">↓ 単語をタップして並べよう</span>';
+
+  // チップ生成
+  var correctChips=splitKr(pbCurrent.kr);
+  var dummies=getDummies(correctChips, Math.min(3, correctChips.length));
+  var allChips=shuffle(correctChips.concat(dummies));
+  pbPoolState=allChips.map(function(t){return {text:t, used:false};});
+
+  var poolEl=document.getElementById('pb-pool');
+  poolEl.innerHTML='';
+  for(var i=0;i<pbPoolState.length;i++){
+    var btn=document.createElement('button');
+    btn.className='ctrl-btn';
+    btn.style.cssText='padding:8px 14px;font-size:14px;border-radius:9px;border:1.5px solid var(--border2);background:var(--bg2);color:var(--text);cursor:pointer;font-family:var(--font);transition:all .15s';
+    btn.textContent=pbPoolState[i].text;
+    btn.id='pb-pool-'+i;
+    (function(idx){ btn.onclick=function(){ pbTapPool(idx); }; })(i);
+    poolEl.appendChild(btn);
+  }
+}
+
+function pbTapPool(idx){
+  if(pbAnswered) return;
+  if(pbPoolState[idx].used) return;
+  pbPoolState[idx].used=true;
+  var btn=document.getElementById('pb-pool-'+idx);
+  btn.style.opacity='0.35';
+  btn.style.borderStyle='dashed';
+  btn.disabled=true;
+
+  pbPlaced.push({text:pbPoolState[idx].text, poolIdx:idx});
+
+  // プレースホルダーを消す
+  var ph=document.getElementById('pb-answer-placeholder');
+  if(ph) ph.remove();
+
+  // 回答エリアにチップ追加
+  var ansEl=document.getElementById('pb-answer');
+  var chip=document.createElement('button');
+  chip.style.cssText='padding:7px 13px;border-radius:8px;border:1.5px solid var(--accent);background:rgba(79,142,247,0.12);font-size:14px;cursor:pointer;color:var(--accent);font-family:var(--font);transition:all .15s';
+  chip.textContent=pbPoolState[idx].text;
+  var placedIdx=pbPlaced.length-1;
+  (function(pi){ chip.onclick=function(){ pbTapAnswer(pi, chip); }; })(placedIdx);
+  chip.id='pb-ans-'+placedIdx;
+  ansEl.appendChild(chip);
+}
+
+function pbTapAnswer(placedIdx, chip){
+  if(pbAnswered) return;
+  var item=pbPlaced[placedIdx];
+  if(!item) return;
+  // プールに戻す
+  var poolBtn=document.getElementById('pb-pool-'+item.poolIdx);
+  if(poolBtn){ poolBtn.style.opacity='1'; poolBtn.style.borderStyle='solid'; poolBtn.disabled=false; }
+  pbPoolState[item.poolIdx].used=false;
+  // 回答エリアから削除
+  pbPlaced[placedIdx]=null;
+  chip.remove();
+  // 全部削除されたらプレースホルダー復活
+  var remaining=pbPlaced.filter(function(x){return x!==null;});
+  if(remaining.length===0){
+    var ansEl=document.getElementById('pb-answer');
+    ansEl.innerHTML='<span id="pb-answer-placeholder" style="font-size:13px;color:var(--text3)">↓ 単語をタップして並べよう</span>';
+  }
+}
+
+function pbCheck(){
+  if(pbAnswered) return;
+  var placed=pbPlaced.filter(function(x){return x!==null;});
+  if(placed.length===0){
+    document.getElementById('pb-feedback').textContent='単語を並べてから確認してください';
+    document.getElementById('pb-feedback').style.color='var(--accent3)';
+    return;
+  }
+  pbAnswered=true;
+  var answer=placed.map(function(x){return x.text;}).join(' ');
+  var correct=pbCurrent.kr;
+  var ok=(answer===correct);
+  var fb=document.getElementById('pb-feedback');
+  if(ok){
+    pbOk++;
+    fb.textContent='✓ 正解！';
+    fb.style.color='var(--success)';
+    // 全チップを緑に
+    document.querySelectorAll('#pb-answer button').forEach(function(c){
+      c.style.borderColor='var(--success)';c.style.background='rgba(79,209,138,0.12)';c.style.color='var(--success)';
+    });
+  } else {
+    pbNg++;
+    fb.innerHTML='✗ 不正解<br><span style="font-size:12px;color:var(--text2)">正解：'+correct+'</span>';
+    fb.style.color='var(--danger)';
+    document.querySelectorAll('#pb-answer button').forEach(function(c){
+      c.style.borderColor='var(--danger)';c.style.background='rgba(247,111,111,0.08)';c.style.color='var(--danger)';
+    });
+  }
+  document.getElementById('pb-check-btn').textContent='次へ →';
+  document.getElementById('pb-check-btn').onclick=function(){ pbNext(); };
+  pbUpdateProgress();
+}
+
+function pbReveal(){
+  pbAnswered=true;
+  pbNg++;
+  var correct=pbCurrent.kr;
+  var fb=document.getElementById('pb-feedback');
+  fb.innerHTML='💡 正解：<span style="color:var(--accent)">'+correct+'</span>';
+  fb.style.color='var(--text2)';
+  // 正解を回答エリアに表示
+  var ansEl=document.getElementById('pb-answer');
+  ansEl.innerHTML='';
+  var chips=splitKr(correct);
+  for(var i=0;i<chips.length;i++){
+    var c=document.createElement('span');
+    c.style.cssText='padding:7px 13px;border-radius:8px;border:1.5px solid var(--accent);background:rgba(79,142,247,0.12);font-size:14px;color:var(--accent);display:inline-block';
+    c.textContent=chips[i];
+    ansEl.appendChild(c);
+  }
+  document.getElementById('pb-check-btn').textContent='次へ →';
+  document.getElementById('pb-check-btn').onclick=function(){ pbNext(); };
+  pbUpdateProgress();
+}
+
+function pbSkip(){
+  pbIdx++;
+  document.getElementById('pb-check-btn').textContent='✓ 確認する';
+  document.getElementById('pb-check-btn').onclick=function(){ pbCheck(); };
+  pbShow();
+}
+
+function pbNext(){
+  pbIdx++;
+  document.getElementById('pb-check-btn').textContent='✓ 確認する';
+  document.getElementById('pb-check-btn').onclick=function(){ pbCheck(); };
+  pbShow();
+}
+
+function pbUpdateProgress(){
+  var total=pbDeck.length, done=Math.min(pbIdx,total);
+  document.getElementById('pb-prog').textContent=done+' / '+total;
+  document.getElementById('pb-pct').textContent=total?Math.round(done/total*100)+'%':'0%';
+  document.getElementById('pb-bar').style.width=total?(done/total*100)+'%':'0%';
+}
+
+function pbShowFinish(){
+  document.getElementById('pb-game').style.display='none';
+  document.getElementById('pb-finish').style.display='block';
+  var pct=(pbOk+pbNg)>0?Math.round(pbOk/(pbOk+pbNg)*100):0;
+  document.getElementById('pb-finish-sub').textContent='正答率 '+pct+'%';
+  document.getElementById('pb-finish-stats').innerHTML=
+    '<div class="finish-stat"><div class="n" style="color:var(--accent3)">'+pbDeck.length+'</div><div class="l">総問数</div></div>'+
+    '<div class="finish-stat"><div class="n" style="color:var(--success)">'+pbOk+'</div><div class="l">正解</div></div>'+
+    '<div class="finish-stat"><div class="n" style="color:var(--danger)">'+pbNg+'</div><div class="l">不正解</div></div>';
+}
+
+function pbRestart(){ pbStart(); }
+
+// ===================== LIST MODE =====================
+function buildPhraseCatBtns(){
+  var el=document.getElementById('ph-cats');el.innerHTML='';
+  for(var i=0;i<PCAT_ORDER.length;i++){
+    var cat=PCAT_ORDER[i];
+    var btn=document.createElement('button');btn.className='cat-btn';
+    btn.style.borderColor='var(--accent)';btn.style.color='var(--accent)';btn.style.background='rgba(79,142,247,0.12)';
+    btn.textContent=PCAT_LABELS[cat];
+    (function(c,b){b.onclick=function(){
+      var on=0;for(var k in phCats){if(phCats[k])on++;}
+      if(phCats[c]&&on>1){phCats[c]=false;b.style.borderColor='';b.style.color='';b.style.background='';}
+      else{phCats[c]=true;b.style.borderColor='var(--accent)';b.style.color='var(--accent)';b.style.background='rgba(79,142,247,0.12)';}
+      renderPhrases();
+    };})(cat,btn);
+    el.appendChild(btn);
+  }
 }
 
 // ===================== START =====================
 initTTS();
+buildCatFilter('f-cat-filter',fCats,makeToggle(fCats,'f-cat-filter',function(){startFlash();}));
+buildCatFilter('q-cat-filter',qCats,makeToggle(qCats,'q-cat-filter',function(){startQuiz();}));
+buildCatFilter('w-cat-filter',wCats,makeToggle(wCats,'w-cat-filter',function(){renderWords();}));
+buildPbCatBtns();
 buildPhraseCatBtns();
 startFlash();
 startQuiz();
 renderWords();
+pbStart();
 
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('sw.js').catch(function(){});
-}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
 </script>
 </body>
 </html>
