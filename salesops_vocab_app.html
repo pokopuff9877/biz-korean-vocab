@@ -137,6 +137,7 @@ main{flex:1;padding:16px;max-width:720px;margin:0 auto;width:100%}
   <div class="nav-tab" onclick="showTab('quiz')">🎯 4択クイズ</div>
   <div class="nav-tab" onclick="showTab('words')">📋 単語リスト</div>
   <div class="nav-tab" onclick="showTab('phrases')">💬 フレーズ集</div>
+  <div class="nav-tab" onclick="showTab('audio')">🎧 音声学習</div>
   <div class="nav-tab" onclick="showTab('progress')">📊 進捗</div>
 </div>
 <main>
@@ -230,7 +231,10 @@ main{flex:1;padding:16px;max-width:720px;margin:0 auto;width:100%}
       <div class="quiz-qlabel" id="q-label"></div>
       <div class="quiz-qword" id="q-word"></div>
       <div class="quiz-qen" id="q-en"></div>
-      <button class="tts-btn" id="tts-q" onclick="ttsPlay(currentQuizKr,'tts-q')" style="margin-top:6px">🔊</button>
+      <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
+        <button class="tts-btn" id="tts-q" onclick="ttsPlay(currentQuizKr,'tts-q')">🔊</button>
+        <button class="tts-btn" id="fav-q-btn" onclick="toggleFavQuiz()" title="お気に入り登録">☆</button>
+      </div>
     </div>
     <div class="quiz-opts" id="q-opts"></div>
     <div class="feedback" id="q-fb"></div>
@@ -353,6 +357,74 @@ main{flex:1;padding:16px;max-width:720px;margin:0 auto;width:100%}
     <button class="btn-sec" onclick="resetStats()">学習記録をリセット</button>
   </div>
 </div>
+<!-- AUDIO -->
+<div class="screen" id="tab-audio">
+  <!-- カテゴリ選択 -->
+  <div class="cat-filter" id="au-cat-filter"></div>
+
+  <!-- 設定 -->
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:16px">
+    <div style="font-size:11px;color:var(--text2);margin-bottom:10px;font-weight:500;letter-spacing:.05em">設定</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:13px;color:var(--text)">韓国語を繰り返す回数</span>
+        <div class="ctrl-group">
+          <button class="ctrl-btn" onclick="setAuRepeat(1)" id="au-rep-1">1回</button>
+          <button class="ctrl-btn" onclick="setAuRepeat(3)" id="au-rep-3">3回</button>
+          <button class="ctrl-btn active" onclick="setAuRepeat(5)" id="au-rep-5">5回</button>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:13px;color:var(--text)">単語間の間隔</span>
+        <div class="ctrl-group">
+          <button class="ctrl-btn" onclick="setAuPause(1)" id="au-pause-1">1秒</button>
+          <button class="ctrl-btn active" onclick="setAuPause(2)" id="au-pause-2">2秒</button>
+          <button class="ctrl-btn" onclick="setAuPause(3)" id="au-pause-3">3秒</button>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:13px;color:var(--text)">読み上げ速度</span>
+        <div class="ctrl-group">
+          <button class="ctrl-btn" onclick="setAuRate(0.7)" id="au-rate-slow">ゆっくり</button>
+          <button class="ctrl-btn active" onclick="setAuRate(0.9)" id="au-rate-normal">普通</button>
+          <button class="ctrl-btn" onclick="setAuRate(1.1)" id="au-rate-fast">速い</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 現在の単語表示カード -->
+  <div style="background:var(--bg2);border:1px solid var(--border2);border-radius:14px;padding:20px;margin-bottom:16px;text-align:center;min-height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
+    <div style="font-size:10px;color:var(--text3);font-family:var(--mono)" id="au-status">再生待機中</div>
+    <div style="font-size:26px;font-weight:500;color:var(--text)" id="au-jp">—</div>
+    <div style="font-size:18px;color:var(--text2)" id="au-kr">—</div>
+    <div style="font-size:11px;color:var(--text3);font-family:var(--mono)" id="au-en">—</div>
+    <div style="display:flex;gap:8px;margin-top:4px;align-items:center">
+      <div style="display:flex;gap:5px" id="au-dots"></div>
+      <button class="tts-btn" id="fav-au-btn" onclick="toggleFavAudio()" title="お気に入り登録" style="width:28px;height:28px;font-size:16px">☆</button>
+    </div>
+  </div>
+
+  <!-- 進捗 -->
+  <div class="prog-wrap">
+    <div class="prog-meta"><span id="au-prog">0 / 0</span><span id="au-pct">0%</span></div>
+    <div class="prog-bar"><div class="prog-fill" id="au-bar" style="width:0%"></div></div>
+  </div>
+
+  <!-- 操作ボタン -->
+  <div style="display:flex;gap:10px;margin-bottom:12px">
+    <button class="btn btn-next" style="flex:2;font-size:16px" id="au-play-btn" onclick="auToggle()">▶ 再生</button>
+    <button class="btn-sec" style="flex:1" onclick="auStop()">■ 停止</button>
+  </div>
+  <div style="display:flex;gap:10px">
+    <button class="btn-sec" style="flex:1" onclick="auPrev()">◀ 前へ</button>
+    <button class="btn-sec" style="flex:1" onclick="auNext()">次へ ▶</button>
+  </div>
+
+  <div style="font-size:11px;color:var(--text3);text-align:center;margin-top:14px">
+    💡 画面をオフにしても再生し続けます（iOSは除く）
+  </div>
+</div>
 
 </main>
 <script>
@@ -367,7 +439,8 @@ var CATS = [
   {id:'num',    label:'🔢 数字・単位',    color:'var(--c-num)'},
   {id:'greet',  label:'👋 挨拶・敬語',    color:'var(--c-greet)'},
   {id:'qw',     label:'❓ 疑問詞',        color:'var(--c-qw)'},
-  {id:'ptc',    label:'🔷 PTC・AI・AR',   color:'var(--c-ptc)'}
+  {id:'ptc',    label:'🔷 PTC・AI・AR',   color:'var(--c-ptc)'},
+  {id:'fav',    label:'⭐ お気に入り',    color:'var(--accent3)'}
 ];
 
 // ===================== WORDS =====================
@@ -956,7 +1029,14 @@ function catLabel(id){for(var i=0;i<CATS.length;i++){if(CATS[i].id===id)return C
 
 function getDeck(cats,weak){
   var pool=[];
-  for(var i=0;i<WORDS.length;i++){if(cats[WORDS[i].cat])pool.push(i);}
+  var favOnly = cats['fav'];
+  for(var i=0;i<WORDS.length;i++){
+    if(favOnly){
+      if(isFav(i)) pool.push(i);
+    } else {
+      if(cats[WORDS[i].cat]) pool.push(i);
+    }
+  }
   if(weak){var wp=[];for(var j=0;j<pool.length;j++){if(isWeak(pool[j]))wp.push(pool[j]);}if(wp.length>0)pool=wp;}
   return shuffle(pool);
 }
@@ -1009,11 +1089,12 @@ function showTab(name){
   var screens=document.querySelectorAll('.screen');
   for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');
   for(var i=0;i<screens.length;i++)screens[i].classList.remove('active');
-  var names=['flash','quiz','words','phrases','progress'];
+  var names=['flash','quiz','words','phrases','audio','progress'];
   for(var i=0;i<names.length;i++){if(names[i]===name){tabs[i].classList.add('active');break;}}
   document.getElementById('tab-'+name).classList.add('active');
   if(name==='words') renderWords();
   if(name==='phrases'){ setPhraseMode(phraseMode); }
+  if(name==='audio'){ auBuildDeck(); auUpdateDisplay(); }
   if(name==='progress') renderProgress();
 }
 
@@ -1110,6 +1191,7 @@ function showQuiz(){
   if(qDir==='jp2kr'){document.getElementById('q-label').textContent='日本語 → 韓国語';document.getElementById('q-word').textContent=w.jp;}
   else{document.getElementById('q-label').textContent='韓国語 → 日本語';document.getElementById('q-word').textContent=w.kr;if(window.speechSynthesis)setTimeout(function(){ttsPlay(w.kr,'tts-q');},300);}
   document.getElementById('q-en').textContent=w.en;
+  updateFavBtn('fav-q-btn', qDeck[qIdx]);
   var correct=qDir==='jp2kr'?w.kr:w.jp;
   var opts=getOpts(w,qDir);
   var container=document.getElementById('q-opts');container.innerHTML='';
@@ -1146,13 +1228,18 @@ function restartQuiz(weakOnly){if(weakOnly){qWeak=true;document.getElementById('
 function renderWords(){
   var body=document.getElementById('word-body');body.innerHTML='';
   var count=0;
+  var favOnly=wCats['fav'];
   for(var i=0;i<WORDS.length;i++){
-    var w=WORDS[i];if(!wCats[w.cat])continue;count++;
+    var w=WORDS[i];
+    if(favOnly){ if(!isFav(i)) continue; }
+    else { if(!wCats[w.cat]) continue; }
+    count++;
     var s=getStat(i);var weak=isWeak(i);
     var row=document.createElement('div');row.className='word-row'+(weak?' weak':'');
     var col=catColor(w.cat);
     var kr_safe=w.kr.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    row.innerHTML='<span><span class="dot" style="background:'+col+'"></span>'+w.jp+'</span>'+
+    var favIcon=isFav(i)?'⭐':'';
+    row.innerHTML='<span><span class="dot" style="background:'+col+'"></span>'+w.jp+(favIcon?' '+favIcon:'')+'</span>'+
       '<span style="display:flex;align-items:center;gap:4px">'+w.kr+
         '<button class="tts-btn" style="width:22px;height:22px;font-size:11px" onclick="ttsPlay(\''+kr_safe+'\',\'tw'+i+'\')" id="tw'+i+'">🔊</button></span>'+
       '<span style="font-size:10px;color:var(--text3);font-family:var(--mono)">'+w.en+'</span>'+
@@ -1626,17 +1713,236 @@ function buildPhraseCatBtns(){
   }
 }
 
+// ===================== FAVORITES =====================
+var favs = {};
+try{ favs=JSON.parse(localStorage.getItem('so_favs')||'{}'); }catch(e){}
+function saveFavs(){ try{localStorage.setItem('so_favs',JSON.stringify(favs));}catch(e){} }
+function isFav(i){ return !!favs[i]; }
+function toggleFav(i){
+  if(favs[i]) delete favs[i]; else favs[i]=true;
+  saveFavs();
+}
+function updateFavBtn(btnId, idx){
+  var btn=document.getElementById(btnId);
+  if(!btn) return;
+  btn.textContent = isFav(idx) ? '⭐' : '☆';
+  btn.style.color  = isFav(idx) ? 'var(--accent3)' : 'var(--text2)';
+  btn.style.borderColor = isFav(idx) ? 'var(--accent3)' : 'var(--border2)';
+}
+
+// クイズ：現在の単語をお気に入りトグル
+function toggleFavQuiz(){
+  if(qDeck.length===0||qIdx>=qDeck.length) return;
+  toggleFav(qDeck[qIdx]);
+  updateFavBtn('fav-q-btn', qDeck[qIdx]);
+}
+// 音声学習：現在の単語をお気に入りトグル
+function toggleFavAudio(){
+  if(auDeck.length===0||auIdx>=auDeck.length) return;
+  toggleFav(auDeck[auIdx]);
+  updateFavBtn('fav-au-btn', auDeck[auIdx]);
+}
+
+// ===================== AUDIO MODE =====================
+var auCats = {};
+for(var i=0;i<CATS.length;i++) auCats[CATS[i].id]=(i===0);
+var auRepeat  = 5;   // 韓国語繰り返し回数
+var auPause   = 2;   // 単語間の間隔（秒）
+var auRate    = 0.9; // 読み上げ速度
+var auDeck    = [];
+var auIdx     = 0;
+var auPlaying = false;
+var auTimer   = null;
+var auRepIdx  = 0;   // 現在の繰り返し回数
+
+function setAuRepeat(n){
+  auRepeat=n;
+  ['1','3','5'].forEach(function(v){
+    document.getElementById('au-rep-'+v).classList.toggle('active',String(n)===v);
+  });
+}
+function setAuPause(n){
+  auPause=n;
+  ['1','2','3'].forEach(function(v){
+    document.getElementById('au-pause-'+v).classList.toggle('active',String(n)===v);
+  });
+}
+function setAuRate(r){
+  auRate=r;
+  document.getElementById('au-rate-slow').classList.toggle('active',r===0.7);
+  document.getElementById('au-rate-normal').classList.toggle('active',r===0.9);
+  document.getElementById('au-rate-fast').classList.toggle('active',r===1.1);
+}
+
+function buildAuCatFilter(){
+  buildCatFilter('au-cat-filter', auCats, makeToggle(auCats,'au-cat-filter', function(){
+    auStop(); auBuildDeck(); auUpdateDisplay();
+  }));
+}
+
+function auBuildDeck(){
+  var pool=[];
+  var favOnly=auCats['fav'];
+  for(var i=0;i<WORDS.length;i++){
+    if(favOnly){ if(isFav(i)) pool.push(i); }
+    else { if(auCats[WORDS[i].cat]) pool.push(i); }
+  }
+  auDeck=shuffle(pool);
+  auIdx=0;
+}
+
+function auUpdateDisplay(){
+  var total=auDeck.length;
+  var done=Math.min(auIdx,total);
+  document.getElementById('au-prog').textContent=done+' / '+total;
+  document.getElementById('au-pct').textContent=total?Math.round(done/total*100)+'%':'0%';
+  document.getElementById('au-bar').style.width=total?(done/total*100)+'%':'0%';
+
+  if(auDeck.length===0||auIdx>=auDeck.length){
+    document.getElementById('au-jp').textContent='—';
+    document.getElementById('au-kr').textContent='—';
+    document.getElementById('au-en').textContent='—';
+    document.getElementById('au-dots').innerHTML='';
+    return;
+  }
+  var w=WORDS[auDeck[auIdx]];
+  document.getElementById('au-jp').textContent=w.jp;
+  document.getElementById('au-kr').textContent=w.kr;
+  document.getElementById('au-en').textContent=w.en;
+  updateFavBtn('fav-au-btn', auDeck[auIdx]);
+  // 繰り返しドット更新
+  var dots=document.getElementById('au-dots');
+  dots.innerHTML='';
+  for(var i=0;i<auRepeat;i++){
+    var d=document.createElement('div');
+    d.style.cssText='width:8px;height:8px;border-radius:50%;background:'+(i<auRepIdx?'var(--accent2)':'var(--bg3)');
+    dots.appendChild(d);
+  }
+}
+
+function auSetStatus(txt){
+  document.getElementById('au-status').textContent=txt;
+}
+
+// 1単語分の再生シーケンス（日本語1回→韓国語N回）
+function auPlayWord(idx, onDone){
+  if(!auPlaying){onDone&&onDone();return;}
+  var w=WORDS[auDeck[idx]];
+  auRepIdx=0;
+  auUpdateDisplay();
+
+  // 日本語1回読む
+  auSetStatus('🇯🇵 日本語を読み上げ中…');
+  var ujp=new SpeechSynthesisUtterance(w.jp);
+  ujp.lang='ja-JP'; ujp.rate=auRate;
+
+  // 日本語の後に韓国語をN回繰り返す
+  function playKrLoop(n){
+    if(!auPlaying){onDone&&onDone();return;}
+    if(n>=auRepeat){
+      // 全部終わったら間隔おいて次へ
+      auSetStatus('⏸ 次の単語まで待機中…');
+      auTimer=setTimeout(function(){onDone&&onDone();},auPause*1000);
+      return;
+    }
+    auRepIdx=n+1;
+    auUpdateDisplay();
+    auSetStatus('🇰🇷 韓国語 '+(n+1)+'/'+auRepeat+'回目…');
+    var ukr=new SpeechSynthesisUtterance(w.kr);
+    ukr.lang='ko-KR'; ukr.rate=auRate;
+    if(krVoice) ukr.voice=krVoice;
+    ukr.onend=function(){
+      auTimer=setTimeout(function(){playKrLoop(n+1);},400);
+    };
+    ukr.onerror=function(){playKrLoop(n+1);};
+    speechSynthesis.speak(ukr);
+  }
+
+  ujp.onend=function(){
+    auTimer=setTimeout(function(){playKrLoop(0);},500);
+  };
+  ujp.onerror=function(){playKrLoop(0);};
+  speechSynthesis.speak(ujp);
+}
+
+function auPlayNext(){
+  if(!auPlaying) return;
+  if(auIdx>=auDeck.length){
+    // 全単語完了
+    auSetStatus('✅ 全単語の再生が完了しました！');
+    document.getElementById('au-play-btn').textContent='▶ 再生';
+    auPlaying=false;
+    return;
+  }
+  auUpdateDisplay();
+  auPlayWord(auIdx, function(){
+    auIdx++;
+    auPlayNext();
+  });
+}
+
+function auToggle(){
+  if(auPlaying){
+    // 一時停止
+    auPlaying=false;
+    speechSynthesis.cancel();
+    clearTimeout(auTimer);
+    document.getElementById('au-play-btn').textContent='▶ 再生';
+    auSetStatus('⏸ 一時停止中');
+  } else {
+    // 再生開始 or 再開
+    if(auDeck.length===0) auBuildDeck();
+    if(auIdx>=auDeck.length){ auIdx=0; auBuildDeck(); }
+    auPlaying=true;
+    document.getElementById('au-play-btn').textContent='⏸ 一時停止';
+    auSetStatus('▶ 再生中…');
+    speechSynthesis.cancel();
+    auPlayNext();
+  }
+}
+
+function auStop(){
+  auPlaying=false;
+  speechSynthesis.cancel();
+  clearTimeout(auTimer);
+  auIdx=0; auRepIdx=0;
+  document.getElementById('au-play-btn').textContent='▶ 再生';
+  auSetStatus('■ 停止中');
+  auUpdateDisplay();
+}
+
+function auNext(){
+  speechSynthesis.cancel();
+  clearTimeout(auTimer);
+  auRepIdx=0;
+  if(auIdx<auDeck.length-1) auIdx++;
+  auUpdateDisplay();
+  if(auPlaying) auPlayNext();
+}
+
+function auPrev(){
+  speechSynthesis.cancel();
+  clearTimeout(auTimer);
+  auRepIdx=0;
+  if(auIdx>0) auIdx--;
+  auUpdateDisplay();
+  if(auPlaying) auPlayNext();
+}
+
 // ===================== START =====================
 initTTS();
 buildCatFilter('f-cat-filter',fCats,makeToggle(fCats,'f-cat-filter',function(){startFlash();}));
 buildCatFilter('q-cat-filter',qCats,makeToggle(qCats,'q-cat-filter',function(){startQuiz();}));
 buildCatFilter('w-cat-filter',wCats,makeToggle(wCats,'w-cat-filter',function(){renderWords();}));
+buildAuCatFilter();
 buildPbCatBtns();
 buildPhraseCatBtns();
 startFlash();
 startQuiz();
 renderWords();
 pbStart();
+auBuildDeck();
+auUpdateDisplay();
 
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
 </script>
